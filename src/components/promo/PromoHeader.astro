@@ -1,0 +1,56 @@
+---
+/**
+ * MORCAT — Header reducido de landing de campaña.
+ * Solo logo + WhatsApp. Transparente al inicio, azul marino al
+ * hacer scroll. Sin navegación corporativa (cero puntos de fuga).
+ */
+import Logo from '../Logo.astro';
+import Icon from '../Icon.astro';
+import { promoWhatsAppLink } from '../../lib/promo/whatsapp';
+
+const wa = promoWhatsAppLink('hero');
+---
+
+<header
+  class="promo-header fixed inset-x-0 top-0 z-50 h-16 border-b border-transparent transition-all duration-300"
+  data-promo-header
+>
+  <div class="wrap flex h-full items-center justify-between">
+    <Logo markClass="h-9 w-9" />
+
+    <a
+      href={wa ?? '#promo-form'}
+      target={wa ? '_blank' : undefined}
+      rel={wa ? 'noopener noreferrer' : undefined}
+      data-track="hero_whatsapp_click"
+      class="btn btn-gold !min-h-0 !px-4 !py-2.5 !text-[11px]"
+    >
+      <Icon name={wa ? 'whatsapp' : 'mail'} class="h-4 w-4" />
+      {wa ? 'WhatsApp' : 'Escribinos'}
+    </a>
+  </div>
+</header>
+
+<script>
+  import { trackEvent } from '../../lib/analytics/track';
+
+  // Estado sólido al hacer scroll (fondo azul marino compacto)
+  const header = document.querySelector<HTMLElement>('[data-promo-header]');
+  const onScroll = () => {
+    const solid = window.scrollY > 40;
+    header?.classList.toggle('is-solid', solid);
+    if (header) {
+      header.style.backgroundColor = solid ? 'rgb(5 13 22 / 0.92)' : 'transparent';
+      header.style.backdropFilter = solid ? 'blur(12px)' : 'none';
+      header.style.borderColor = solid ? 'rgb(244 242 236 / 0.08)' : 'transparent';
+      header.style.boxShadow = solid ? '0 10px 40px -18px rgb(0 0 0 / 0.6)' : 'none';
+    }
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Evento de clic en WhatsApp del header
+  document.querySelector('[data-promo-header] a[data-track]')?.addEventListener('click', () => {
+    trackEvent('hero_whatsapp_click', { placement: 'header' });
+  });
+</script>

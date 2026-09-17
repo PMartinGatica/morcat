@@ -1,0 +1,58 @@
+---
+/**
+ * MORCAT — Sección de financiación (claro).
+ * Copy prudente: sin cuotas, tasas, anticipos ni montos.
+ * CTA abre WhatsApp con mensaje prearmado de financiación.
+ */
+import Icon from '../Icon.astro';
+import { promoWhatsAppLink } from '../../lib/promo/whatsapp';
+import type { Promo } from '../../data/promos';
+
+interface Props {
+  financing: Promo['financing'];
+}
+
+const { financing } = Astro.props;
+const wa = promoWhatsAppLink('financing');
+---
+
+<section class="relative bg-warm-50 py-20 text-navy-950 sm:py-28" aria-labelledby="financiacion-title">
+  <div class="wrap grid items-center gap-10 lg:grid-cols-[1.3fr_1fr] lg:gap-16">
+    <div data-reveal>
+      <div class="eyebrow">
+        <span>{financing.eyebrow}</span>
+      </div>
+      <h2 id="financiacion-title" class="display mt-5 text-3xl text-navy-950 sm:text-4xl">
+        {financing.title}
+        <span class="block"><span class="serif-accent text-gold-700">{financing.accentLine}</span></span>
+      </h2>
+      <p class="mt-5 max-w-xl text-[15px] leading-relaxed text-navy-700/80 sm:text-base">
+        {financing.copy}
+      </p>
+      <p class="mt-4 text-[12px] text-navy-700/60">
+        Cuotas, tasas y condiciones se informan según la propuesta vigente al momento de
+        la consulta.
+      </p>
+    </div>
+
+    <div class="flex justify-start lg:justify-end" data-reveal="right">
+      <a
+        href={wa ?? '#promo-form'}
+        target={wa ? '_blank' : undefined}
+        rel={wa ? 'noopener noreferrer' : undefined}
+        data-financing-cta
+        class="btn btn-gold"
+      >
+        <Icon name={wa ? 'whatsapp' : 'mail'} class="h-4 w-4" />
+        {financing.cta}
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { trackEvent } from '../../lib/analytics/track';
+  document.querySelector('[data-financing-cta]')?.addEventListener('click', () => {
+    trackEvent('financing_click', {});
+  });
+</script>

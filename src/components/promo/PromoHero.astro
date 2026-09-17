@@ -1,0 +1,99 @@
+---
+/**
+ * MORCAT — Hero de la landing de campaña.
+ * Comunica en menos de 5 segundos: viviendas industrializadas /
+ * modulares en Tierra del Fuego. Sin precios ni plazos.
+ */
+import Icon from '../Icon.astro';
+import DemoBadge from '../DemoBadge.astro';
+import MediaImage from '../MediaImage.astro';
+import { promoWhatsAppLink } from '../../lib/promo/whatsapp';
+import type { Promo } from '../../data/promos';
+
+interface Props {
+  promo: Promo;
+}
+
+const { promo } = Astro.props;
+const wa = promoWhatsAppLink('hero');
+const { hero } = promo;
+---
+
+<section class="relative flex min-h-[100svh] items-end overflow-hidden bg-navy-950" data-promo-hero>
+  <!-- Imagen: asset real de MORCAT cuando exista; hoy placeholder DEMO -->
+  <div class="absolute inset-0">
+    <MediaImage src={hero.image} alt="Vivienda modular MORCAT en Tierra del Fuego" class="h-full w-full object-cover" eager />
+  </div>
+  <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/55 to-navy-950/40" aria-hidden="true" />
+  <div class="absolute inset-x-0 top-24 flex justify-center sm:top-28" data-reveal="fade">
+    <DemoBadge demo label="IMAGEN DEMO" />
+  </div>
+
+  <div class="wrap relative z-10 pb-24 pt-40 sm:pb-28">
+    <p class="eyebrow intro-item" style="animation-delay: .05s">{hero.eyebrow}</p>
+
+    <h1 class="display-xl mt-5 text-warm-50">
+      {hero.titleLines.map((line, i) => (
+        <span class="block intro-item" style={`animation-delay: ${0.12 + i * 0.09}s`}>
+          {line}
+        </span>
+      ))}
+      {hero.accentLine && (
+        <span class="block intro-item" style={`animation-delay: ${0.12 + hero.titleLines.length * 0.09}s`}>
+          <span class="serif-accent text-gold-500">{hero.accentLine}</span>
+        </span>
+      )}
+    </h1>
+
+    <p class="intro-item mt-6 max-w-xl text-[15px] leading-relaxed text-mist-300 sm:text-base" style="animation-delay: .5s">
+      {hero.subtitle}
+    </p>
+
+    <div class="intro-item mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center" style="animation-delay: .6s">
+      <a href="#promo-modelos" class="btn btn-gold">
+        {hero.cta}
+        <Icon name="arrow-down" class="btn-arrow h-4 w-4" />
+      </a>
+      <a
+        href={wa ?? '#promo-form'}
+        target={wa ? '_blank' : undefined}
+        rel={wa ? 'noopener noreferrer' : undefined}
+        data-track="hero_whatsapp_click"
+        class="btn btn-ghost"
+      >
+        <Icon name={wa ? 'whatsapp' : 'mail'} class="h-4 w-4" />
+        {hero.secondaryCta}
+      </a>
+    </div>
+
+    {hero.note && (
+      <p class="intro-item mt-6 text-[13px] font-semibold uppercase tracking-[0.14em] text-gold-400" style="animation-delay: .7s">
+        {hero.note}
+      </p>
+    )}
+    {hero.footnote && (
+      <p class="intro-item mt-1 text-[11px] text-mist-500" style="animation-delay: .75s">
+        {hero.footnote}
+      </p>
+    )}
+  </div>
+
+  <div class="absolute bottom-5 right-6 z-10 hidden items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-mist-500 lg:flex">
+    <span class="h-10 w-px bg-gradient-to-b from-gold-500/60 to-transparent" aria-hidden="true" />
+    Scroll
+  </div>
+</section>
+
+<script>
+  import { trackEvent } from '../../lib/analytics/track';
+  import { persistUtm } from '../../lib/utils/utm';
+
+  // Persistir UTM apenas entra (sobreviven a navegaciones internas)
+  persistUtm();
+
+  // Evento de clic en WhatsApp del hero
+  document
+    .querySelector('[data-promo-hero] a[data-track]')?.addEventListener('click', () => {
+      trackEvent('hero_whatsapp_click', { placement: 'hero' });
+    });
+</script>

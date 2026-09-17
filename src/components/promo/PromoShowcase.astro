@@ -1,0 +1,63 @@
+---
+/**
+ * MORCAT — Showcase de la landing (video + fotos reales).
+ * Videos silenciosos que se cargan solo al entrar en viewport,
+ * con póster optimizado. Sin librerías externas.
+ */
+import VideoPlayer from '../VideoPlayer.astro';
+import MediaImage from '../MediaImage.astro';
+import type { Promo } from '../../data/promos';
+
+interface Props {
+  showcase: Promo['showcase'];
+}
+
+const { showcase } = Astro.props;
+---
+
+<section class="relative bg-navy-900 py-24 sm:py-32" aria-labelledby="showcase-title">
+  <div class="grid-lines absolute inset-0 opacity-50" aria-hidden="true" />
+
+  <div class="wrap relative">
+    <div class="max-w-3xl" data-reveal>
+      <div class="eyebrow">
+        <span>{showcase.eyebrow}</span>
+      </div>
+      <h2 id="showcase-title" class="display mt-5 text-4xl text-warm-50 sm:text-5xl">
+        {showcase.title}
+        <span class="block"><span class="serif-accent text-gold-500">{showcase.accentLine}</span></span>
+      </h2>
+      <p class="mt-5 text-[15px] leading-relaxed text-mist-400 sm:text-base">
+        {showcase.subtitle}
+      </p>
+    </div>
+
+    <!-- Videos -->
+    <div class="mt-12 grid gap-6 lg:grid-cols-2">
+      {showcase.videos.map((v, i) => (
+        <div data-reveal style={`--reveal-delay: ${i * 100}ms`}>
+          <VideoPlayer
+            video={v.video}
+            poster={v.poster}
+            alt={v.alt}
+            caption={v.caption}
+            aspect="aspect-video"
+          />
+        </div>
+      ))}
+    </div>
+
+    <!-- Fotos -->
+    <div class="mt-6 grid gap-4 sm:grid-cols-3">
+      {showcase.images.map((src, i) => (
+        <figure
+          class={`relative overflow-hidden bg-navy-800 ${i === 0 ? 'sm:col-span-2 sm:row-span-2 aspect-[16/10]' : 'aspect-[4/3]'}`}
+          data-reveal
+          style={`--reveal-delay: ${i * 80}ms`}
+        >
+          <MediaImage src={src} alt="Vivienda modular MORCAT" class="h-full w-full object-cover" sizes="(min-width: 640px) 33vw, 100vw" />
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>

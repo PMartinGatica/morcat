@@ -1,0 +1,87 @@
+---
+/**
+ * MORCAT — WhatsApp flotante.
+ *
+ * - Fijo abajo a la derecha, respetando env(safe-area-inset-bottom).
+ * - Se oculta cuando hay un modal/lightbox abierto (evento
+ *   `morcat:modal`) y cuando el formulario está en pantalla, para
+ *   no tapar contenido ni duplicar CTAs.
+ * - En la landing de campaña se muestra solo en desktop
+ *   (`mobile={false}`) porque en celular ya existe la barra sticky.
+ */
+import Icon from './Icon.astro';
+import { whatsappLink } from '../config/site';
+
+interface Props {
+  /** Mostrar también en celular (default true). */
+  mobile?: boolean;
+  message?: string;
+}
+
+const {
+  mobile = true,
+  message = 'Hola MORCAT, quiero hacer una consulta sobre sus servicios.',
+} = Astro.props;
+
+const wa = whatsappLink(message);
+---
+
+{
+  wa && (
+    <a
+      href={wa}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-wa-float
+      aria-label="Escribinos por WhatsApp"
+      class={`group fixed right-4 z-[65] items-center gap-2 border border-gold-500/60 bg-gold-500 px-3 py-3 text-navy-950 shadow-[0_18px_40px_-16px_rgb(0_0_0/0.75)] transition-all duration-300 hover:bg-gold-400 sm:right-5 sm:px-4 ${
+        mobile ? 'flex' : 'hidden lg:flex'
+      }`}
+      style="bottom: calc(1rem + env(safe-area-inset-bottom))"
+    >
+      <Icon name="whatsapp" class="h-6 w-6" />
+      <span class="max-w-0 overflow-hidden whitespace-nowrap text-[12px] font-bold uppercase tracking-[0.16em] opacity-0 transition-all duration-300 group-hover:max-w-[12rem] group-hover:opacity-100 group-focus-visible:max-w-[12rem] group-focus-visible:opacity-100 sm:max-w-[12rem] sm:opacity-100">
+        WhatsApp
+      </span>
+    </a>
+  )
+}
+
+<script>
+  import { trackEvent } from '../lib/analytics/track';
+
+  const float = document.querySelector<HTMLElement>('[data-wa-float]');
+
+  if (float) {
+    float.addEventListener('click', () => {
+      trackEvent('hero_whatsapp_click', { placement: 'float' });
+    });
+
+    // Ocultar mientras hay un modal/lightbox abierto
+    window.addEventListener('morcat:modal', (e) => {
+      const open = Boolean((e as CustomEvent<{ open: boolean }>).detail?.open);
+      float.style.opacity = open ? '0' : '1';
+      float.style.pointerEvents = open ? 'none' : 'auto';
+    });
+
+    // Ocultar cuando el formulario está en pantalla
+    const form = document.querySelector<HTMLElement>('#promo-form, #contacto');
+    if (form && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              float.style.opacity = '0';
+              float.style.pointerEvents = 'none';
+            } else {
+              float.style.opacity = '1';
+              float.style.pointerEvents = 'auto';
+            }
+          }
+        },
+        { threshold: 0.2 },
+      );
+      io.observe(form);
+    }
+  }
+</script>

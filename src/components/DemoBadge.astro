@@ -1,0 +1,26 @@
+---
+/**
+ * MORCAT — Indicador "DEMO CONTENT".
+ * Solo visible si isDemoVisible() (dev siempre; prod según
+ * FEATURES.showDemoBadges).
+ */
+import { isDemoVisible } from '../lib/utils/demo';
+
+interface Props {
+  demo?: boolean;
+  label?: string;
+  class?: string;
+}
+
+const { demo = false, label = 'DEMO CONTENT', class: className = '' } = Astro.props;
+const visible = demo && isDemoVisible();
+---
+
+{
+  visible && (
+    <span class={`demo-tag ${className}`} title="Dato de demostración, pendiente de confirmación">
+      <span class="h-1.5 w-1.5 rounded-full bg-gold-500" aria-hidden="true" />
+      {label}
+    </span>
+  )
+}

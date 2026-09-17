@@ -1,0 +1,60 @@
+---
+/**
+ * MORCAT — Sección Tierra del Fuego (fullscreen visual).
+ * "PENSADAS DESDE EL SUR." CTA con mensaje de terreno (WhatsApp).
+ */
+import Icon from '../Icon.astro';
+import MediaImage from '../MediaImage.astro';
+import { promoWhatsAppLink } from '../../lib/promo/whatsapp';
+import type { Promo } from '../../data/promos';
+
+interface Props {
+  south: Promo['south'];
+}
+
+const { south } = Astro.props;
+const wa = promoWhatsAppLink('terrain');
+---
+
+<section class="relative flex min-h-[80svh] items-end overflow-hidden bg-navy-950" aria-labelledby="sur-title">
+  <div class="absolute inset-0">
+    <MediaImage src={south.image} alt="Ushuaia: montañas, bosque y Canal Beagle" class="h-full w-full object-cover" />
+  </div>
+  <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/45 to-navy-950/30" aria-hidden="true" />
+
+  <div class="wrap relative z-10 pb-20 pt-48">
+    <div class="max-w-3xl" data-reveal>
+      <div class="eyebrow">
+        <span>{south.eyebrow}</span>
+      </div>
+      <h2 id="sur-title" class="display mt-5 text-4xl text-warm-50 sm:text-6xl">
+        {south.title}
+        <span class="block"><span class="serif-accent text-gold-500">{south.accentLine}</span></span>
+      </h2>
+    </div>
+
+    <div class="mt-6 max-w-xl space-y-4 text-[15px] leading-relaxed text-warm-100/90 sm:text-base" data-reveal>
+      {south.body.map((p) => <p>{p}</p>)}
+    </div>
+
+    <div class="mt-9" data-reveal>
+      <a
+        href={wa ?? '#promo-form'}
+        target={wa ? '_blank' : undefined}
+        rel={wa ? 'noopener noreferrer' : undefined}
+        data-track="terrain"
+        class="btn btn-gold"
+      >
+        <Icon name={wa ? 'whatsapp' : 'mail'} class="h-4 w-4" />
+        {south.cta}
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { trackEvent } from '../../lib/analytics/track';
+  document.querySelector('[data-track="terrain"]')?.addEventListener('click', () => {
+    trackEvent('terrain_whatsapp_click', { placement: 'south' });
+  });
+</script>

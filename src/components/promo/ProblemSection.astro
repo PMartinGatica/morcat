@@ -1,0 +1,129 @@
+---
+/**
+ * MORCAT — Sección PROBLEMA / PROPUESTA (claro).
+ * "MENOS METROS. MÁS INTENCIÓN."
+ * Composición editorial + animación ligera PLANO → VOLUMEN →
+ * VIVIENDA (CSS, sin Three.js; respeta prefers-reduced-motion).
+ */
+import Icon from '../Icon.astro';
+import MediaImage from '../MediaImage.astro';
+import type { Promo } from '../../data/promos';
+
+interface Props {
+  problem: Promo['problem'];
+}
+
+const { problem } = Astro.props;
+const labels = ['PLANO', 'VOLUMEN', 'VIVIENDA'];
+---
+
+<section class="relative bg-warm-50 py-24 text-navy-950 sm:py-32" aria-labelledby="problema">
+  <div class="grid-lines absolute inset-0 opacity-[0.5]" aria-hidden="true" />
+
+  <div class="wrap relative grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+    <!-- Texto -->
+    <div data-reveal>
+      <div class="eyebrow">
+        <span>{problem.eyebrow}</span>
+      </div>
+      <h2 class="display mt-5 text-4xl text-navy-950 sm:text-6xl">
+        {problem.title}
+        <span class="block"><span class="serif-accent text-gold-700">{problem.accentLine}</span></span>
+      </h2>
+
+      <div class="mt-8 space-y-4 text-[15px] leading-relaxed text-navy-700/85 sm:text-base">
+        {problem.body.map((p) => (
+          <p>{p}</p>
+        ))}
+      </div>
+
+      <p class="mt-6 flex items-start gap-2 text-[12px] leading-relaxed text-navy-700/60">
+        <Icon name="info" class="mt-0.5 h-4 w-4 shrink-0" />
+        {problem.note}
+      </p>
+    </div>
+
+    <!-- Visual animado: plano → volumen → vivienda -->
+    <div class="relative" data-reveal="left">
+      <div class="relative overflow-hidden border border-navy-950/10 bg-navy-950 shadow-card">
+        <div class="relative aspect-[4/3]" data-problem-visual>
+          {problem.visuals.map((src, i) => (
+            <div
+              class={`absolute inset-0 transition-opacity duration-1000 ${i === problem.visuals.length - 1 ? 'opacity-0' : 'opacity-0'}`}
+              data-visual-layer
+              style={`animation-delay: ${i * 4}s`}
+            >
+              <MediaImage
+                src={src}
+                alt={labels[i]}
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                class={
+                  src.includes('plano')
+                    ? 'h-full w-full bg-warm-50 object-contain p-6'
+                    : 'h-full w-full object-cover'
+                }
+              />
+            </div>
+          ))}
+        </div>
+
+        <div class="flex items-center justify-between border-t border-warm-50/10 px-5 py-3">
+          <span class="text-[10px] font-bold uppercase tracking-[0.24em] text-gold-400" data-visual-label>
+            {labels[0]}
+          </span>
+          <span class="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-mist-500">
+            <span class="h-1 w-1 rounded-full bg-gold-500" aria-hidden="true" />
+            Referencia esquemática
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Ciclo ligero: cada capa aparece en su turno (12s total). */
+  [data-problem-visual] [data-visual-layer] {
+    animation: promoVisualCycle 12s var(--ease-arch) infinite;
+  }
+  [data-problem-visual] [data-visual-layer]:nth-child(1) {
+    animation-delay: 0s;
+  }
+  [data-problem-visual] [data-visual-layer]:nth-child(2) {
+    animation-delay: 4s;
+  }
+  [data-problem-visual] [data-visual-layer]:nth-child(3) {
+    animation-delay: 8s;
+  }
+  @keyframes promoVisualCycle {
+    0% { opacity: 0; transform: scale(1.02); }
+    6% { opacity: 1; transform: scale(1); }
+    33% { opacity: 1; }
+    39% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-problem-visual] [data-visual-layer] {
+      animation: none;
+      opacity: 0;
+    }
+    [data-problem-visual] [data-visual-layer]:last-child {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  // Sincroniza la etiqueta con la capa visible.
+  const visual = document.querySelector<HTMLElement>('[data-problem-visual]');
+  const label = document.querySelector<HTMLElement>('[data-visual-label]');
+  const labels = ['PLANO', 'VOLUMEN', 'VIVIENDA'];
+  if (visual && label && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const apply = () => {
+      const sec = Math.floor((Date.now() / 1000) % 12 / 4);
+      label.textContent = labels[sec] ?? labels[0];
+    };
+    apply();
+    window.setInterval(apply, 500);
+  }
+</script>

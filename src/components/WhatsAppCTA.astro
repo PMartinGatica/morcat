@@ -1,0 +1,40 @@
+---
+/**
+ * MORCAT — CTA de WhatsApp (con fallback honesto).
+ * Si no hay número configurado (src/config/site.ts), deriva al
+ * formulario de contacto en lugar de mostrar un botón roto.
+ */
+import { whatsappLink } from '../config/site';
+import Icon from './Icon.astro';
+
+interface Props {
+  label?: string;
+  message?: string;
+  variant?: 'gold' | 'ghost';
+  class?: string;
+}
+
+const {
+  label = 'HABLAR CON MORCAT',
+  message = 'Hola MORCAT, quiero información sobre un proyecto.',
+  variant = 'gold',
+  class: className = '',
+} = Astro.props;
+
+const wa = whatsappLink(message);
+const href = wa ?? '/contacto';
+const target = wa ? '_blank' : undefined;
+const rel = wa ? 'noopener noreferrer' : undefined;
+const icon = wa ? 'whatsapp' : 'mail';
+---
+
+<a
+  href={href}
+  target={target}
+  rel={rel}
+  class={`${variant === 'gold' ? 'btn btn-gold' : 'btn btn-ghost'} ${className}`}
+>
+  <Icon name={icon} class="h-4 w-4" />
+  {label}
+  <Icon name="arrow-up-right" class="btn-arrow h-4 w-4" />
+</a>

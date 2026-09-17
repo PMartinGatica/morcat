@@ -1,0 +1,73 @@
+---
+/**
+ * MORCAT — Tarjeta de modelo (HOME y catálogo).
+ * Imagen grande, superficie destacada, specs y CTA.
+ */
+import type { HomeModel } from '../data/homes';
+import { HOME_STATUS_LABEL } from '../data/homes';
+import MediaImage from './MediaImage.astro';
+import DemoBadge from './DemoBadge.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  model: HomeModel;
+  /** Retardo del reveal. */
+  delay?: number;
+  class?: string;
+}
+
+const { model, delay = 0, class: className = '' } = Astro.props;
+
+const specs = [
+  { icon: 'home', label: `${model.bedrooms} dorm.` },
+  { icon: 'bath', label: `${model.bathrooms} baño${model.bathrooms > 1 ? 's' : ''}` },
+  { icon: 'module', label: model.line },
+];
+---
+
+<article
+  class={`card group ${className}`}
+  data-reveal
+  data-surface={model.surface}
+  style={`--reveal-delay: ${delay}ms`}
+>
+  <a href={`/viviendas-modulares/${model.slug}`} class="block" aria-label={`Ver modelo ${model.name}`}>
+    <div class="card-media aspect-[4/3]">
+      <MediaImage src={model.coverImage} alt={`Vivienda modular ${model.name} — ${model.shortDescription}`} class="h-full w-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-transparent to-transparent" aria-hidden="true" />
+
+      <div class="absolute left-4 top-4 flex flex-wrap items-center gap-2">
+        <DemoBadge demo={model.demo} />
+        <span class="chip !border-gold-500/40 !bg-navy-950/70 !py-1 !text-[10px] uppercase tracking-[0.2em] text-gold-400">
+          {HOME_STATUS_LABEL[model.status]}
+        </span>
+      </div>
+
+      <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
+        <div>
+          <p class="text-[11px] uppercase tracking-[0.24em] text-gold-400">{model.line}</p>
+          <h3 class="display mt-1 text-2xl text-warm-50 sm:text-3xl">{model.name}</h3>
+        </div>
+        <p class="display shrink-0 text-3xl text-warm-50 sm:text-4xl">
+          {model.surface}
+          <span class="text-sm text-gold-400"> m²</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-4 flex items-center justify-between gap-4 border-t border-warm-50/10 pt-4">
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-1">
+        {specs.map((s) => (
+          <span class="flex items-center gap-2 text-[13px] text-mist-400">
+            <Icon name={s.icon} class="h-4 w-4 text-gold-500" />
+            {s.label}
+          </span>
+        ))}
+      </div>
+      <span class="flex shrink-0 items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-gold-400 transition-colors duration-300 group-hover:text-gold-300">
+        Ver modelo
+        <Icon name="arrow-up-right" class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+      </span>
+    </div>
+  </a>
+</article>

@@ -1,0 +1,55 @@
+---
+/**
+ * MORCAT — Layout base (chrome completo).
+ * Head + Navbar + contenido + Footer + reveal al scroll.
+ */
+import '../styles/global.css';
+import HeadMeta from '../components/HeadMeta.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import type { Crumb } from '../lib/seo/structuredData';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  ogImage?: string;
+  noindex?: boolean;
+  breadcrumbs?: Crumb[];
+  jsonLd?: Record<string, unknown>[];
+  bodyClass?: string;
+}
+
+const { bodyClass = '' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <HeadMeta
+      title={Astro.props.title}
+      description={Astro.props.description}
+      canonicalPath={Astro.props.canonicalPath}
+      ogImage={Astro.props.ogImage}
+      noindex={Astro.props.noindex}
+      breadcrumbs={Astro.props.breadcrumbs}
+      jsonLd={Astro.props.jsonLd}
+    />
+  </head>
+  <body class={bodyClass}>
+    <a href="#main" class="skip-link">Saltar al contenido</a>
+    <Navbar />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppFloat />
+    <script>
+      import { initReveal } from '../lib/utils/reveal';
+      initReveal();
+    </script>
+  </body>
+</html>

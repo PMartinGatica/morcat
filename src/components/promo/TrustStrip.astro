@@ -1,0 +1,26 @@
+---
+/**
+ * MORCAT — Barra de confianza inmediata (compacta).
+ * Diseño + Construcción + Proyecto + Acompañamiento.
+ * Ocupa poco espacio: reduce la sensación de "publicidad de
+ * casa prefabricada cualquiera".
+ */
+interface Props {
+  items: string[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="border-t border-warm-50/10 bg-navy-900">
+  <div class="wrap flex flex-wrap items-center justify-center gap-x-3 gap-y-2 py-5 sm:gap-x-4" data-reveal="fade">
+    {items.map((item, i) => (
+      <span class="flex items-center gap-x-3 sm:gap-x-4">
+        {i > 0 && <span class="text-gold-500" aria-hidden="true">+</span>}
+        <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-warm-100 sm:text-[12px]">
+          {item}
+        </span>
+      </span>
+    ))}
+  </div>
+</div>

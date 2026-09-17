@@ -1,0 +1,90 @@
+---
+/**
+ * MORCAT — /contacto
+ * Contacto general + formulario centralizado.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Icon from '../components/Icon.astro';
+import { SITE } from '../config/site';
+
+const TITLE = 'Contacto | Cotizá tu proyecto — MORCAT Constructora Ushuaia';
+const DESCRIPTION =
+  'Contactate con MORCAT Constructora en Ushuaia: viviendas modulares, construcción a medida y desarrollos. Envianos tu consulta por el formulario, email o Instagram.';
+---
+
+<BaseLayout
+  title={TITLE}
+  description={DESCRIPTION}
+  breadcrumbs={[
+    { name: 'Inicio', path: '/' },
+    { name: 'Contacto', path: '/contacto' },
+  ]}
+>
+  <!-- HERO -->
+  <section class="relative flex min-h-[52svh] items-end overflow-hidden bg-navy-950 pt-36">
+    <div class="grid-lines absolute inset-0" aria-hidden="true" />
+    <div class="absolute inset-0 bg-gradient-to-b from-navy-950/40 to-navy-950" aria-hidden="true" />
+
+    <div class="wrap relative z-10 pb-16">
+      <p class="eyebrow intro-item" style="animation-delay: .1s">Contacto</p>
+      <h1 class="display-xl mt-6 text-warm-50">
+        <span class="block intro-item" style="animation-delay: .2s">Hablemos de</span>
+        <span class="block intro-item" style="animation-delay: .3s">
+          <span class="serif-accent text-gold-500">tu proyecto.</span>
+        </span>
+      </h1>
+      <p class="intro-item mt-6 max-w-xl text-[15px] leading-relaxed text-mist-300" style="animation-delay: .4s">
+        Respondemos consultas sobre viviendas modulares, construcción a medida,
+        ampliaciones y desarrollos en Ushuaia y Tierra del Fuego.
+      </p>
+    </div>
+  </section>
+
+  <!-- FORMULARIO -->
+  <section class="bg-navy-950 pb-24 pt-6 sm:pb-32">
+    <div class="wrap">
+      <ContactForm source="contacto" title="ENVIANOS TU CONSULTA" />
+    </div>
+  </section>
+
+  <!-- DATOS -->
+  <section class="border-t border-warm-50/10 bg-navy-900 py-16">
+    <div class="wrap grid gap-6 md:grid-cols-3">
+      <div class="border border-warm-50/12 bg-navy-800/50 p-7" data-reveal>
+        <Icon name="map-pin" class="h-6 w-6 text-gold-500" />
+        <h2 class="display mt-5 text-lg text-warm-50">Oficina</h2>
+        <p class="mt-3 text-[14px] leading-relaxed text-mist-400">
+          {SITE.address}
+          <br />
+          {SITE.city}, {SITE.province}, {SITE.country}
+        </p>
+      </div>
+      <div class="border border-warm-50/12 bg-navy-800/50 p-7" data-reveal style="--reveal-delay: 90ms">
+        <Icon name="clock" class="h-6 w-6 text-gold-500" />
+        <h2 class="display mt-5 text-lg text-warm-50">Horario</h2>
+        <p class="mt-3 text-[14px] leading-relaxed text-mist-400">
+          Lunes a viernes
+          <br />
+          {SITE.openingHours}
+          <span class="block text-[12px] text-mist-500">Horario publicado</span>
+        </p>
+      </div>
+      <div class="border border-warm-50/12 bg-navy-800/50 p-7" data-reveal style="--reveal-delay: 180ms">
+        <Icon name="instagram" class="h-6 w-6 text-gold-500" />
+        <h2 class="display mt-5 text-lg text-warm-50">Seguinos</h2>
+        <p class="mt-3 text-[14px] leading-relaxed text-mist-400">
+          Novedades de obra y proyectos en
+          <a
+            href={SITE.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-1 block font-semibold text-gold-400 hover:text-gold-300"
+          >
+            {SITE.instagramHandle}
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

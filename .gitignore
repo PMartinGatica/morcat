@@ -1,0 +1,27 @@
+# build output
+dist/
+# generated types
+.astro/
+# dependencies
+node_modules/
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+# environment variables
+.env
+.env.production
+# macOS
+.DS_Store
+# editor
+.vscode/
+.idea/
+
+# multimedia original del cliente (fuente sin procesar, ~480 MB).
+# Las versiones optimizadas viven en src/assets/media y public/media/videos.
+mulmedia-cliente/
+
+# reportes y hojas de contacto temporales del análisis de medios
+.tmp-media/
+test/.promo-logic.test.mjs

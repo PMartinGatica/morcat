@@ -1,0 +1,94 @@
+---
+/**
+ * MORCAT — Galería de imágenes (scroll snap + flechas).
+ * Sin dependencias externas; accesible por teclado y táctil.
+ */
+import Icon from './Icon.astro';
+import MediaImage from './MediaImage.astro';
+
+interface Props {
+  images: string[];
+  altPrefix?: string;
+  class?: string;
+}
+
+const { images, altPrefix = 'Imagen', class: className = '' } = Astro.props;
+---
+
+{
+  images.length > 0 && (
+    <div class={className} data-gallery>
+      <div
+        class="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth"
+        data-gallery-track
+        tabindex="0"
+        aria-label="Galería de imágenes"
+      >
+        {images.map((src, i) => (
+          <figure
+            class="relative aspect-[4/3] w-[82%] shrink-0 snap-center overflow-hidden bg-navy-800 sm:w-[62%] lg:w-[46%]"
+          >
+            <MediaImage
+              src={src}
+              alt={`${altPrefix} — imagen ${i + 1}`}
+              class="h-full w-full object-cover"
+            />
+            <figcaption class="absolute bottom-3 left-3 bg-navy-950/70 px-3 py-1 text-[11px] tracking-[0.18em] text-warm-100">
+              {String(i + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <div class="mt-4 flex items-center justify-end gap-3">
+        <button
+          type="button"
+          data-gallery-prev
+          aria-label="Imagen anterior"
+          class="flex h-11 w-11 items-center justify-center border border-warm-50/20 text-warm-50 transition-colors hover:border-gold-500 hover:text-gold-400"
+        >
+          <Icon name="chevron-left" class="h-5 w-5" />
+        </button>
+        <button
+          type="button"
+          data-gallery-next
+          aria-label="Imagen siguiente"
+          class="flex h-11 w-11 items-center justify-center border border-warm-50/20 text-warm-50 transition-colors hover:border-gold-500 hover:text-gold-400"
+        >
+          <Icon name="chevron-right" class="h-5 w-5" />
+        </button>
+      </div>
+    </div>
+  )
+}
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-gallery]');
+  const track = root?.querySelector<HTMLElement>('[data-gallery-track]');
+
+  if (root && track) {
+    const scrollByCard = () => {
+      const card = track.querySelector('figure');
+      return card ? card.getBoundingClientRect().width + 12 : track.clientWidth * 0.8;
+    };
+
+    root.querySelector('[data-gallery-prev]')?.addEventListener('click', () => {
+      track.scrollBy({ left: -scrollByCard(), behavior: 'smooth' });
+    });
+    root.querySelector('[data-gallery-next]')?.addEventListener('click', () => {
+      track.scrollBy({ left: scrollByCard(), behavior: 'smooth' });
+    });
+
+    // Teclado
+    track.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        track.scrollBy({ left: -scrollByCard(), behavior: 'smooth' });
+      }
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        track.scrollBy({ left: scrollByCard(), behavior: 'smooth' });
+      }
+    });
+  }
+</script>

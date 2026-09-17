@@ -1,0 +1,164 @@
+---
+/**
+ * MORCAT — Video de obra/vivienda (liviano).
+ *
+ * - Póster optimizado con astro:assets (se muestra antes de
+ *   reproducir; evita cargar el video si no se usa).
+ * - `preload="none"`: el video solo se descarga al entrar en
+ *   viewport o al tocar play.
+ * - Autoplay silencioso en viewport si `autoplayInView` y el
+ *   usuario no pidió movimiento reducido.
+ * - Respeta prefers-reduced-motion y libera el video al salir.
+ */
+import { getImage } from 'astro:assets';
+import Icon from './Icon.astro';
+import { getMedia } from '../lib/media/manifest';
+
+interface Props {
+  /** Clave del video en public/media/videos (sin .mp4). */
+  video: string;
+  /** Clave del póster en src/assets/media (sin extensión). */
+  poster: string;
+  alt: string;
+  class?: string;
+  aspect?: string;
+  autoplayInView?: boolean;
+  controls?: boolean;
+  caption?: string;
+}
+
+const {
+  video,
+  poster,
+  alt,
+  class: className = '',
+  aspect = 'aspect-video',
+  autoplayInView = true,
+  controls = false,
+  caption,
+} = Astro.props;
+
+const posterAsset = getMedia(poster);
+const posterUrl = posterAsset
+  ? (await getImage({ src: posterAsset, format: 'webp', width: 1280, quality: 76 })).src
+  : undefined;
+
+const videoUrl = `/media/videos/${video}.mp4`;
+---
+
+<figure class={`relative ${className}`} data-video-figure>
+  <div class={`relative overflow-hidden bg-navy-900 ${aspect}`}>
+    <video
+      class="h-full w-full object-cover"
+      poster={posterUrl}
+      preload="none"
+      muted
+      loop
+      playsinline
+      controls={controls}
+      aria-label={alt}
+      data-video
+      data-src={videoUrl}
+      data-autoplay={autoplayInView ? 'true' : 'false'}
+    ></video>
+
+    <button
+      type="button"
+      data-video-toggle
+      class="group absolute inset-0 flex items-center justify-center transition-opacity duration-300"
+      aria-label={`Reproducir video: ${alt}`}
+    >
+      <span class="absolute inset-0 bg-gradient-to-t from-navy-950/60 via-transparent to-transparent" aria-hidden="true" />
+      <span class="relative flex h-16 w-16 items-center justify-center rounded-full border border-gold-500/60 bg-navy-950/70 text-gold-400 backdrop-blur-sm transition-all duration-300 group-hover:scale-105 group-hover:bg-gold-500 group-hover:text-navy-950">
+        <svg viewBox="0 0 24 24" class="ml-0.5 h-6 w-6" fill="currentColor" aria-hidden="true">
+          <path d="M8 5.14v13.72L19 12z" />
+        </svg>
+      </span>
+    </button>
+  </div>
+
+  {caption && (
+    <figcaption class="mt-3 flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-mist-500">
+      <Icon name="video" class="h-4 w-4 text-gold-500" />
+      {caption}
+    </figcaption>
+  )}
+</figure>
+
+<script>
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLElement>('[data-video-figure]').forEach((figure) => {
+    const video = figure.querySelector<HTMLVideoElement>('[data-video]');
+    const toggle = figure.querySelector<HTMLButtonElement>('[data-video-toggle]');
+    if (!video || !toggle) return;
+
+    let loaded = false;
+    let playing = false;
+
+    const load = () => {
+      if (loaded) return;
+      const src = video.dataset.src;
+      if (src) {
+        video.src = src;
+        loaded = true;
+      }
+    };
+
+    const setUi = (isPlaying: boolean) => {
+      playing = isPlaying;
+      toggle.style.opacity = isPlaying ? '0' : '1';
+      toggle.style.pointerEvents = isPlaying ? 'none' : 'auto';
+    };
+
+    const play = async () => {
+      load();
+      try {
+        await video.play();
+        setUi(true);
+      } catch {
+        setUi(false);
+      }
+    };
+
+    const pause = () => {
+      video.pause();
+      setUi(false);
+    };
+
+    toggle.addEventListener('click', () => (playing ? pause() : play()));
+
+    // Autoplay silencioso solo en viewport, sin movimiento reducido
+    const canAutoplay = video.dataset.autoplay === 'true' && !prefersReduced;
+    if (canAutoplay && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) play();
+            else pause();
+          }
+        },
+        { threshold: 0.4 },
+      );
+      io.observe(figure);
+    } else if (!prefersReduced) {
+      // sin autoplay: solo cargar al acercarse
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                load();
+                io.disconnect();
+              }
+            }
+          },
+          { rootMargin: '200px' },
+        );
+        io.observe(figure);
+      }
+    }
+
+    setUi(false);
+  });
+</script>

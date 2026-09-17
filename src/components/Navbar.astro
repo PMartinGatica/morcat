@@ -1,0 +1,110 @@
+---
+/**
+ * MORCAT — Navbar.
+ * Transparente sobre el hero; sólido con blur al hacer scroll.
+ * Desktop: barra horizontal. Mobile: menú fullscreen.
+ */
+import Logo from './Logo.astro';
+import MobileMenu from './MobileMenu.astro';
+import Icon from './Icon.astro';
+
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+const NAV_ITEMS: NavItem[] = [
+  { label: 'Viviendas', href: '/viviendas-modulares' },
+  { label: 'Construcción', href: '/construccion' },
+  { label: 'Desarrollos', href: '/desarrollos' },
+  { label: 'Proyectos', href: '/proyectos' },
+  { label: 'Nosotros', href: '/nosotros' },
+  { label: 'Contacto', href: '/contacto' },
+];
+
+const current = Astro.url.pathname;
+---
+
+<header class="navbar fixed inset-x-0 top-0 z-50 border-b border-transparent" data-navbar>
+  <div class="wrap flex h-[72px] items-center justify-between gap-6 sm:h-20">
+    <Logo />
+
+    <!-- Navegación desktop -->
+    <nav class="hidden items-center gap-7 lg:flex" aria-label="Navegación principal">
+      {NAV_ITEMS.map((item) => {
+        const active = current === item.href;
+        return (
+          <a
+            href={item.href}
+            class={`relative py-2 text-[12px] font-semibold uppercase tracking-[0.16em] transition-colors duration-300 hover:text-gold-400 ${
+              active ? 'text-gold-400' : 'text-warm-50/85'
+            }`}
+          >
+            {item.label}
+            <span
+              class={`absolute inset-x-0 -bottom-0.5 h-px bg-gold-500 transition-transform duration-300 ${
+                active ? 'scale-x-100' : 'scale-x-0'
+              }`}
+              aria-hidden="true"
+            />
+          </a>
+        );
+      })}
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a href="/contacto" class="btn btn-gold hidden !px-6 !py-3 sm:inline-flex">
+        Cotizar proyecto
+        <Icon name="arrow-up-right" class="h-4 w-4" />
+      </a>
+
+      <!-- Toggle mobile -->
+      <button
+        type="button"
+        data-menu-toggle
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Abrir menú"
+        class="flex h-11 w-11 items-center justify-center border border-warm-50/15 text-warm-50 transition-colors hover:border-gold-500 hover:text-gold-400 lg:hidden"
+      >
+        <span class="menu-icon relative block h-4 w-5" aria-hidden="true">
+          <span class="absolute left-0 top-0 h-px w-full bg-current transition-all duration-300" data-bar-1 />
+          <span class="absolute left-0 top-1/2 h-px w-full bg-current transition-all duration-300" data-bar-2 />
+          <span class="absolute left-0 bottom-0 h-px w-full bg-current transition-all duration-300" data-bar-3 />
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<MobileMenu items={NAV_ITEMS} />
+
+<script>
+  const navbar = document.querySelector<HTMLElement>('[data-navbar]');
+  const menu = document.querySelector<HTMLElement>('[data-mobile-menu]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+
+  // Estado sólido al hacer scroll
+  const onScroll = () => {
+    navbar?.classList.toggle('is-solid', window.scrollY > 32);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Menú fullscreen
+  let open = false;
+  const setOpen = (value: boolean) => {
+    open = value;
+    menu?.classList.toggle('is-open', value);
+    menu?.setAttribute('aria-hidden', String(!value));
+    toggle?.setAttribute('aria-expanded', String(value));
+    document.body.classList.toggle('overflow-hidden', value);
+    toggle?.setAttribute('aria-label', value ? 'Cerrar menú' : 'Abrir menú');
+  };
+
+  toggle?.addEventListener('click', () => setOpen(!open));
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setOpen(false);
+  });
+</script>

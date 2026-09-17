@@ -1,0 +1,54 @@
+---
+/**
+ * MORCAT — CTA final de la landing (oscuro).
+ * "EL PRÓXIMO PROYECTO PUEDE SER EL TUYO."
+ */
+import Icon from '../Icon.astro';
+import { promoWhatsAppLink } from '../../lib/promo/whatsapp';
+import type { Promo } from '../../data/promos';
+
+interface Props {
+  finalCta: Promo['finalCta'];
+}
+
+const { finalCta } = Astro.props;
+const wa = promoWhatsAppLink('hero');
+---
+
+<section class="relative overflow-hidden bg-navy-900 py-24 sm:py-32" aria-labelledby="final-cta-title">
+  <div class="grid-lines absolute inset-0 opacity-60" aria-hidden="true" />
+
+  <div class="wrap relative text-center">
+    <div class="hairline mx-auto max-w-md" data-reveal="fade" />
+    <h2 id="final-cta-title" class="display mx-auto mt-10 max-w-3xl text-4xl text-warm-50 sm:text-6xl" data-reveal>
+      {finalCta.title}
+      <span class="block"><span class="serif-accent text-gold-500">{finalCta.accentLine}</span></span>
+    </h2>
+    <p class="mx-auto mt-6 max-w-xl text-[15px] leading-relaxed text-mist-400 sm:text-base" data-reveal>
+      {finalCta.text}
+    </p>
+    <div class="mt-10 flex flex-wrap justify-center gap-4" data-reveal>
+      <a
+        href={wa ?? '#promo-form'}
+        target={wa ? '_blank' : undefined}
+        rel={wa ? 'noopener noreferrer' : undefined}
+        data-final-wa
+        class="btn btn-gold"
+      >
+        <Icon name={wa ? 'whatsapp' : 'mail'} class="h-4 w-4" />
+        {finalCta.primaryCta}
+      </a>
+      <a href="#promo-form" class="btn btn-ghost">
+        {finalCta.secondaryCta}
+        <Icon name="arrow-right" class="btn-arrow h-4 w-4" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { trackEvent } from '../../lib/analytics/track';
+  document.querySelector('[data-final-wa]')?.addEventListener('click', () => {
+    trackEvent('hero_whatsapp_click', { placement: 'final' });
+  });
+</script>

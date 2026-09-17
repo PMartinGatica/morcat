@@ -1,0 +1,216 @@
+---
+/**
+ * MORCAT — /desarrollos
+ * Desarrollos inmobiliarios. Sin afirmaciones financieras hasta
+ * que exista información legal y comercial validada.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import DemoBadge from '../components/DemoBadge.astro';
+import Icon from '../components/Icon.astro';
+import MediaImage from '../components/MediaImage.astro';
+import VideoPlayer from '../components/VideoPlayer.astro';
+import { PROJECTS } from '../data/projects';
+import { FEATURES } from '../config/features';
+
+const developments = PROJECTS.filter((p) => p.type === 'Desarrollo inmobiliario');
+
+const TITLE = 'Desarrollos Inmobiliarios en Ushuaia | Proyectos inmobiliarios — MORCAT';
+const DESCRIPTION =
+  'Desarrollos inmobiliarios en Ushuaia y Tierra del Fuego: proyectos actuales, futuros y terminados. Conocé los desarrollos de MORCAT Constructora.';
+---
+
+<BaseLayout
+  title={TITLE}
+  description={DESCRIPTION}
+  breadcrumbs={[
+    { name: 'Inicio', path: '/' },
+    { name: 'Desarrollos', path: '/desarrollos' },
+  ]}
+>
+  <!-- HERO -->
+  <section class="relative flex min-h-[72svh] items-end overflow-hidden bg-navy-950 pt-36">
+    <div class="absolute inset-0">
+      <MediaImage
+        src="desarrollo/render-01"
+        alt="Desarrollos inmobiliarios MORCAT en Ushuaia"
+        class="h-full w-full object-cover"
+        eager
+        sizes="100vw"
+        widths={[768, 1200, 1600, 2400]}
+      />
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/55 to-navy-950/40" aria-hidden="true" />
+
+    <div class="wrap relative z-10 pb-20">
+      <p class="eyebrow intro-item" style="animation-delay: .1s">Desarrollos inmobiliarios</p>
+      <h1 class="display-xl mt-6 text-warm-50">
+        <span class="block intro-item" style="animation-delay: .2s">Desarrollos</span>
+        <span class="block intro-item" style="animation-delay: .3s">
+          <span class="serif-accent text-gold-500">inmobiliarios.</span>
+        </span>
+      </h1>
+      <p class="intro-item mt-6 max-w-xl text-[15px] leading-relaxed text-mist-300 sm:text-base" style="animation-delay: .5s">
+        Proyectos inmobiliarios en Ushuaia y Tierra del Fuego: actuales, futuros y
+        terminados.
+      </p>
+      <div class="intro-item mt-9 flex flex-wrap gap-4" style="animation-delay: .6s">
+        <a href="#desarrollos" class="btn btn-gold">
+          Conocer desarrollos
+          <Icon name="arrow-down" class="btn-arrow h-4 w-4" />
+        </a>
+        <a href="/contacto" class="btn btn-ghost">
+          Contactar
+          <Icon name="arrow-up-right" class="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="relative bg-navy-900 py-20 sm:py-24">
+    <div class="wrap grid gap-12 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-7" data-reveal>
+        <SectionHeader
+          index="01"
+          eyebrow="La mirada"
+          title="Pensar la ciudad"
+          accent="del sur."
+          description="Un desarrollo inmobiliario es mucho más que construir unidades: es pensar el barrio, los espacios comunes, la relación con el paisaje y cómo se va a vivir ahí."
+        />
+      </div>
+      <div class="lg:col-span-5" data-reveal>
+        <div class="border border-warm-50/12 bg-navy-800/60 p-7">
+          <h3 class="display text-lg text-warm-50">Compromiso de información</h3>
+          <p class="mt-4 text-[14px] leading-relaxed text-mist-400">
+            Las condiciones comerciales y financieras de cada desarrollo se publicarán
+            recién cuando exista información legal y comercial validada. Mientras tanto,
+            no prometemos rentabilidades, retornos ni estructuras de inversión.
+          </p>
+          <p class="mt-4 text-[13px] leading-relaxed text-mist-500">
+            Para consultas sobre un desarrollo puntual, escribinos y te orientamos con la
+            información disponible.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROYECTOS DE DESARROLLO -->
+  <section id="desarrollos" class="border-t border-warm-50/10 bg-navy-950 py-20 sm:py-28">
+    <div class="wrap">
+      <SectionHeader
+        index="02"
+        eyebrow="Proyectos"
+        title="En etapas de"
+        accent="definición."
+        description="Los desarrollos de MORCAT se publican a medida que avanzan. Estados: proyecto, en obra y finalizado."
+      />
+
+      <div class="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        {developments.map((project, i) => (
+          <ProjectCard project={project} delay={i * 100} />
+        ))}
+      </div>
+
+      <div class="mt-10 flex items-center gap-3" data-reveal>
+        <DemoBadge demo label="DESARROLLOS EN DEMO" />
+        <span class="text-[13px] text-mist-500">
+          Nombres, ubicaciones y estados provisorios hasta confirmar el portfolio real.
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MATERIAL DEL PROYECTO (video + imágenes) -->
+  <section class="border-t border-warm-50/10 bg-navy-900 py-20 sm:py-28">
+    <div class="wrap">
+      <SectionHeader
+        index="03"
+        eyebrow="Material del proyecto"
+        title="El desarrollo"
+        accent="en imágenes."
+        description="Video e imágenes de referencia del proyecto en desarrollo. Material provisto por MORCAT."
+      />
+
+      <div class="mt-14 grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:items-start">
+        <div data-reveal>
+          <VideoPlayer
+            video="desarrollo-obra"
+            poster="posters/desarrollo-obra"
+            alt="Video del desarrollo inmobiliario en Ushuaia"
+            caption="Desarrollo · video de referencia"
+            aspect="aspect-[9/16]"
+          />
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+          {['desarrollo/render-02', 'desarrollo/render-03', 'desarrollo/volumetria', 'desarrollo/render-01'].map(
+            (src, i) => (
+              <figure
+                class={`relative overflow-hidden bg-navy-800 ${i === 0 ? 'sm:col-span-2 aspect-[16/10]' : 'aspect-[4/3]'}`}
+                data-reveal
+                style={`--reveal-delay: ${i * 80}ms`}
+              >
+                <MediaImage
+                  src={src}
+                  alt="Desarrollo inmobiliario MORCAT"
+                  class="h-full w-full object-cover"
+                  sizes="(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
+                />
+              </figure>
+            ),
+          )}
+        </div>
+      </div>
+
+      <p class="mt-8 flex items-center gap-3 text-[12px] text-mist-500" data-reveal>
+        <DemoBadge demo label="MATERIAL DE REFERENCIA" />
+        Imágenes y videos ilustrativos. No representan obras entregadas.
+      </p>
+    </div>
+  </section>
+
+  <!-- CAPITAL (desactivado) -->
+  {FEATURES.capitalEnabled && (
+    <section class="border-t border-warm-50/10 bg-navy-900 py-20">
+      <div class="wrap grid gap-10 lg:grid-cols-2 lg:gap-16">
+        <div data-reveal>
+          <div class="eyebrow">
+            <span>MORCAT Capital System</span>
+          </div>
+          <h2 class="display mt-5 text-3xl text-warm-50">
+            Estructuras de <span class="serif-accent text-gold-500">inversión.</span>
+          </h2>
+          <p class="mt-5 max-w-xl text-[15px] leading-relaxed text-mist-400">
+            Información sobre fideicomisos y estructuras de inversión, cuando esté
+            validada legal y comercialmente.
+          </p>
+        </div>
+        <div class="flex items-center" data-reveal>
+          <a href="/capital" class="btn btn-gold">
+            Conocer MORCAT Capital
+            <Icon name="arrow-up-right" class="h-4 w-4" />
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA -->
+  <section class="border-t border-warm-50/10 bg-navy-900 py-16">
+    <div class="wrap flex flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-left">
+      <div data-reveal>
+        <h2 class="display text-2xl text-warm-50 sm:text-3xl">¿Querés conocer un desarrollo?</h2>
+        <p class="mt-2 text-[14px] text-mist-400">
+          Consultanos por los proyectos vigentes y sus etapas.
+        </p>
+      </div>
+      <a href="/contacto" class="btn btn-gold shrink-0" data-reveal>
+        Hacer una consulta
+        <Icon name="arrow-up-right" class="h-4 w-4" />
+      </a>
+    </div>
+  </section>
+</BaseLayout>

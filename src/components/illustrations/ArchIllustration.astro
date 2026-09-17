@@ -1,0 +1,526 @@
+---
+/**
+ * MORCAT — Ilustraciones arquitectónicas (line art) DEMO.
+ *
+ * Mientras no existan fotografías o renders reales, estas
+ * ilustraciones vectoriales funcionan como imágenes de los
+ * modelos, proyectos y secciones. Son placeholders claramente
+ * identificados: cuando lleguen las imágenes reales, se
+ * reemplaza la clave por una ruta '/images/...' en los datos.
+ *
+ * Variantes: front, side, duo, interior, night, construction,
+ * ushuaia, wire.
+ */
+interface Props {
+  variant: string;
+  alt?: string;
+  class?: string;
+}
+
+const { variant, alt = 'Ilustración arquitectónica de MORCAT', class: className = '' } =
+  Astro.props;
+
+const COMMON = {
+  stroke: '#f4f2ec',
+  gold: '#d39a29',
+  dim: '#163450',
+  line: 2,
+};
+---
+
+{
+  variant === 'front' && (
+    <svg
+      viewBox="0 0 800 500"
+      class={className}
+      role="img"
+      aria-label={alt}
+      fill="none"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <!-- cielo -->
+      <g stroke="none">
+        <rect x="0" y="0" width="800" height="410" fill="rgba(244,242,236,0.028)" />
+      </g>
+      <!-- piso / terreno -->
+      <line x1="70" y1="412" x2="730" y2="412" stroke={COMMON.dim} stroke-width="1.5" />
+      <line x1="70" y1="452" x2="730" y2="452" stroke={COMMON.dim} stroke-width="1" stroke-opacity="0.6" />
+      <!-- pino izquierdo -->
+      <g stroke={COMMON.dim} stroke-width="2">
+        <path d="M118 380 L94 318 L106 318 L84 262 L98 262 L72 196 L126 196 L100 262 L114 262 L92 318 L104 318 Z" fill="rgba(22,52,80,0.25)" />
+        <line x1="96" y1="412" x2="96" y2="380" />
+      </g>
+      <!-- pino derecho -->
+      <g stroke={COMMON.dim} stroke-width="2">
+        <path d="M688 380 L664 316 L676 316 L654 258 L668 258 L642 192 L698 192 L672 258 L686 258 L664 316 L676 316 Z" fill="rgba(22,52,80,0.25)" />
+        <line x1="668" y1="412" x2="668" y2="380" />
+      </g>
+      <!-- zócalo / plinto -->
+      <rect x="158" y="380" width="484" height="32" stroke={COMMON.stroke} stroke-opacity="0.55" stroke-width="1.5" fill="rgba(244,242,236,0.04)" />
+      <!-- muros -->
+      <rect x="180" y="208" width="440" height="172" stroke={COMMON.stroke} stroke-opacity="0.88" stroke-width="2.2" fill="rgba(244,242,236,0.05)" />
+      <!-- cubierta a dos aguas -->
+      <path d="M158 212 L400 124 L642 212" stroke={COMMON.stroke} stroke-width="2.6" />
+      <line x1="400" y1="124" x2="400" y2="208" stroke={COMMON.stroke} stroke-opacity="0.4" stroke-width="1.5" />
+      <!-- línea de alero dorada -->
+      <line x1="186" y1="212" x2="614" y2="212" stroke={COMMON.gold} stroke-width="1.4" stroke-opacity="0.7" />
+      <!-- aberturas doradas: puerta -->
+      <g stroke={COMMON.gold} stroke-width="2">
+        <rect x="356" y="272" width="88" height="108" />
+        <circle cx="428" cy="328" r="3" fill={COMMON.gold} stroke="none" />
+      </g>
+      <!-- ventanas -->
+      <g stroke={COMMON.gold} stroke-width="1.8">
+        <rect x="212" y="246" width="92" height="70" />
+        <line x1="258" y1="246" x2="258" y2="316" />
+        <line x1="212" y1="281" x2="304" y2="281" />
+        <rect x="496" y="246" width="92" height="70" />
+        <line x1="542" y1="246" x2="542" y2="316" />
+        <line x1="496" y1="281" x2="588" y2="281" />
+      </g>
+      <!-- detalles de panel (juntas) -->
+      <g stroke={COMMON.stroke} stroke-opacity="0.22" stroke-width="1">
+        <line x1="180" y1="296" x2="620" y2="296" />
+        <line x1="260" y1="208" x2="260" y2="380" />
+        <line x1="420" y1="208" x2="420" y2="272" />
+        <line x1="540" y1="208" x2="540" y2="380" />
+      </g>
+      <!-- suelo: líneas de apoyo -->
+      <g stroke={COMMON.stroke} stroke-opacity="0.35" stroke-width="1.2">
+        <line x1="200" y1="412" x2="200" y2="440" />
+        <line x1="300" y1="412" x2="300" y2="440" />
+        <line x1="400" y1="412" x2="400" y2="440" />
+        <line x1="500" y1="412" x2="500" y2="440" />
+        <line x1="600" y1="412" x2="600" y2="440" />
+      </g>
+    </svg>
+  )
+}
+
+{
+  variant === 'side' && (
+    <svg
+      viewBox="0 0 800 500"
+      class={className}
+      role="img"
+      aria-label={alt}
+      fill="none"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <g stroke="none">
+        <rect x="0" y="0" width="800" height="410" fill="rgba(244,242,236,0.028)" />
+      </g>
+      <!-- terreno -->
+      <line x1="60" y1="420" x2="740" y2="420" stroke={COMMON.dim} stroke-width="1.5" />
+      <!-- volumen principal (vista lateral con profundidad) -->
+      <g>
+        <!-- cara lateral -->
+        <rect x="190" y="216" width="430" height="172" stroke={COMMON.stroke} stroke-opacity="0.88" stroke-width="2.2" fill="rgba(244,242,236,0.05)" />
+        <!-- frente en profundidad (líneas de fuga) -->
+        <g stroke={COMMON.stroke} stroke-opacity="0.35" stroke-width="1.4">
+          <line x1="190" y1="216" x2="146" y2="196" />
+          <line x1="190" y1="388" x2="146" y2="368" />
+          <line x1="620" y1="216" x2="664" y2="196" />
+          <line x1="620" y1="388" x2="664" y2="368" />
+        </g>
+        <rect x="146" y="196" width="24" height="172" stroke={COMMON.stroke} stroke-opacity="0.5" stroke-width="1.6" />
+        <rect x="630" y="196" width="24" height="172" stroke={COMMON.stroke} stroke-opacity="0.5" stroke-width="1.6" />
+        <!-- cumbrera y cubierta -->
+        <path d="M190 216 L405 122 L620 216" stroke={COMMON.stroke} stroke-width="2.6" />
+        <line x1="405" y1="122" x2="405" y2="216" stroke={COMMON.stroke} stroke-opacity="0.4" stroke-width="1.4" />
+        <line x1="146" y1="196" x2="361" y2="104" stroke={COMMON.stroke} stroke-opacity="0.35" stroke-width="1.4" />
+        <line x1="664" y1="196" x2="449" y2="104" stroke={COMMON.stroke} stroke-opacity="0.35" stroke-width="1.4" />
+        <!-- alero dorado -->
+        <line x1="196" y1="216" x2="614" y2="216" stroke={COMMON.gold} stroke-width="1.4" stroke-opacity="0.7" />
+      </g>
+      <!-- puerta y ventanas sobre cara lateral -->
+      <g stroke={COMMON.gold} stroke-width="1.8">
+        <rect x="250" y="272" width="84" height="116" />
+        <rect x="420" y="244" width="92" height="72" />
+        <line x1="466" y1="244" x2="466" y2="316" />
+        <rect x="528" y="244" width="70" height="72" />
+        <line x1="563" y1="244" x2="563" y2="316" />
+      </g>
+      <!-- paneles -->
+      <g stroke={COMMON.stroke} stroke-opacity="0.2" stroke-width="1">
+        <line x1="190" y1="300" x2="620" y2="300" />
+        <line x1="360" y1="216" x2="360" y2="388" />
+      </g>
+      <!-- pino -->
+      <g stroke={COMMON.dim} stroke-width="2">
+        <path d="M720 388 L698 330 L709 330 L690 274 L702 274 L680 212 L734 212 L712 274 L724 274 L705 330 L716 330 Z" fill="rgba(22,52,80,0.25)" />
+        <line x1="707" y1="420" x2="707" y2="388" />
+      </g>
+    </svg>
+  )
+}
+
+{
+  variant === 'duo' && (
+    <svg
+      viewBox="0 0 800 500"
+      class={className}
+      role="img"
+      aria-label={alt}
+      fill="none"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <g stroke="none">
+        <rect x="0" y="0" width="800" height="410" fill="rgba(244,242,236,0.028)" />
+      </g>
+      <line x1="70" y1="420" x2="730" y2="420" stroke={COMMON.dim} stroke-width="1.5" />
+      <!-- módulo chico -->
+      <g>
+        <rect x="120" y="250" width="240" height="170" stroke={COMMON.stroke} stroke-opacity="0.85" stroke-width="2.2" fill="rgba(244,242,236,0.05)" />
+        <path d="M104 254 L240 184 L376 254" stroke={COMMON.stroke} stroke-width="2.5" />
+        <line x1="240" y1="184" x2="240" y2="250" stroke={COMMON.stroke} stroke-opacity="0.4" stroke-width="1.4" />
+        <line x1="126" y1="254" x2="354" y2="254" stroke={COMMON.gold} stroke-width="1.4" stroke-opacity="0.7" />
+        <g stroke={COMMON.gold} stroke-width="1.8">
+          <rect x="300" y="310" width="46" height="110" />
+          <rect x="150" y="300" width="60" height="46" />
+        </g>
+      </g>
+      <!-- conexión / terraza -->
+      <rect x="360" y="360" width="90" height="60" stroke={COMMON.stroke} stroke-opacity="0.5" stroke-width="1.6" fill="rgba(244,242,236,0.03)" />
+      <line x1="405" y1="360" x2="405" y2="330" stroke={COMMON.stroke} stroke-opacity="0.35" stroke-width="1.4" />
+      <!-- módulo grande -->
+      <g>
+        <rect x="450" y="208" width="250" height="212" stroke={COMMON.stroke} stroke-opacity="0.88" stroke-width="2.2" fill="rgba(244,242,236,0.05)" />
+        <path d="M434 212 L575 130 L716 212" stroke={COMMON.stroke} stroke-width="2.6" />
+        <line x1="575" y1="130" x2="575" y2="208" stroke={COMMON.stroke} stroke-opacity="0.4" stroke-width="1.4" />
+        <line x1="456" y1="212" x2="694" y2="212" stroke={COMMON.gold} stroke-width="1.4" stroke-opacity="0.7" />
+        <g stroke={COMMON.gold} stroke-width="1.8">
+          <rect x="480" y="300" width="88" height="120" />
+          <rect x="590" y="252" width="84" height="66" />
+          <line x1="632" y1="252" x2="632" y2="318" />
+        </g>
+        <g stroke={COMMON.stroke} stroke-opacity="0.2" stroke-width="1">
+          <line x1="450" y1="314" x2="700" y2="314" />
+          <line x1="560" y1="208" x2="560" y2="420" />
+        </g>
+      </g>
+      <!-- pino -->
+      <g stroke={COMMON.dim} stroke-width="2">
+        <path d="M80 392 L60 336 L71 336 L53 282 L65 282 L44 216 L98 216 L77 282 L89 282 L71 336 L82 336 Z" fill="rgba(22,52,80,0.25)" />
+      </g>
+      <!-- apoyo de módulos -->
+      <g stroke={COMMON.stroke} stroke-opacity="0.3" stroke-width="1.2">
+        <line x1="140" y1="420" x2="140" y2="444" />
+        <line x1="340" y1="420" x2="340" y2="444" />
+        <line x1="470" y1="420" x2="470" y2="444" />
+        <line x1="680" y1="420" x2="680" y2="444" />
+      </g>
+    </svg>
+  )
+}
+
+{
+  variant === 'interior' && (
+    <svg
+      viewBox="0 0 800 500"
+      class={className}
+      role="img"
+      aria-label={alt}
+      fill="none"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <g stroke="none">
+        <rect x="0" y="0" width="800" height="500" fill="rgba(244,242,236,0.03)" />
+      </g>
+      <!-- perspectiva: suelo y techo -->
+      <path d="M80 430 L720 430 L640 120 L160 120 Z" stroke={COMMON.stroke} stroke-opacity="0.4" stroke-width="1.4" fill="rgba(244,242,236,0.02)" />
+      <path d="M80 430 L400 470 L720 430" stroke={COMMON.stroke} stroke-opacity="0.25" stroke-width="1.4" />
+      <!-- ventana al fondo con montañas -->
+      <g>
+        <rect x="300" y="180" width="200" height="170" stroke={COMMON.gold} stroke-width="2" fill="rgba(211,154,41,0.06)" />
+        <line x1="400" y1="180" x2="400" y2="350" stroke={COMMON.gold} stroke-width="1.2" />
+        <line x1="300" y1="265" x2="500" y2="265" stroke={COMMON.gold} stroke-width="1.2" />
+        <!-- vista del exterior -->
+        <g stroke={COMMON.dim} stroke-width="1.6" fill="none">
+          <path d="M312 350 L360 240 L392 292 L424 224 L488 350" />
+          <line x1="300" y1="350" x2="500" y2="350" />
+        </g>
+      </g>
+      <!-- cama -->
+      <g stroke={COMMON.stroke} stroke-opacity="0.8" stroke-width="1.8">
+        <rect x="120" y="300" width="140" height="120" />
+        <line x1="120" y1="332" x2="260" y2="332" />
+        <rect x="128" y="280" width="124" height="24" fill="rgba(244,242,236,0.06)" />
+        <circle cx="226" cy="252" r="16" />
+      </g>
+      <!-- mesa y silla -->
+      <g stroke={COMMON.stroke} stroke-opacity="0.75" stroke-width="1.8">
+        <rect x="540" y="340" width="120" height="10" />
+        <line x1="556" y1="350" x2="556" y2="408" />
+        <line x1="644" y1="350" x2="644" y2="408" />
+        <path d="M600 350 L600 300 L560 290" />
+        <line x1="600" y1="300" x2="600" y2="350" />
+      </g>
+      <!-- lámpara colgante -->
+      <g stroke={COMMON.gold} stroke-width="1.6">
+        <line x1="400" y1="120" x2="400" y2="150" />
+        <path d="M382 150 L418 150 L410 170 L390 170 Z" />
+        <circle cx="400" cy="182" r="10" stroke-opacity="0.6" />
+      </g>
+      <!-- alfombra -->
+      <rect x="330" y="392" width="140" height="22" stroke={COMMON.dim} stroke-width="1.4" />
+    </svg>
+  )
+}
+
+{
+  variant === 'night' && (
+    <svg
+      viewBox="0 0 800 500"
+      class={className}
+      role="img"
+      aria-label={alt}
+      fill="none"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <rect x="0" y="0" width="800" height="500" fill="#081522" />
+      <!-- montañas y canal -->
+      <g stroke={COMMON.dim} stroke-width="1.6" fill="rgba(22,52,80,0.35)">
+        <path d="M0 300 L120 180 L210 260 L330 130 L470 290 L560 210 L680 300 L800 220 L800 500 L0 500 Z" />
+      </g>
+      <g stroke={COMMON.dim} stroke-width="1.2" fill="rgba(22,52,80,0.22)">
+        <path d="M0 360 L140 260 L260 340 L420 220 L560 360 L800 280 L800 500 L0 500 Z" />
+      </g>
+      <line x1="0" y1="380" x2="800" y2="380" stroke={COMMON.dim} stroke-width="1.4" />
+      <!-- estrellas -->
+      <g stroke="none" fill="#f4f2ec">
+        <circle cx="120" cy="80" r="1.6" opacity="0.8" />
+        <circle cx="240" cy="140" r="1.2" opacity="0.6" />
+        <circle cx="380" cy="60" r="1.6" opacity="0.75" />
+        <circle cx="520" cy="110" r="1.2" opacity="0.55" />
+        <circle cx="660" cy="70" r="1.5" opacity="0.7" />
+        <circle cx="720" cy="160" r="1.2" opacity="0.5" />
+        <circle cx="60" cy="180" r="1.2" opacity="0.5" />
+        <circle cx="300" cy="200" r="1.3" opacity="0.6" />
+        <circle cx="600" cy="180" r="1.1" opacity="0.45" />
+        <circle cx="470" cy="40" r="1.2" opacity="0.5" />
+      </g>
+      <!-- nieve en el terreno -->
+      <path d="M0 396 Q100 388 200 396 T400 396 T600 396 T800 396 L800 500 L0 500 Z" fill="rgba(244,242,236,0.05)" stroke="none" />
+      <!-- cabaña con ventanas encendidas -->
+      <g>
+        <rect x="280" y="300" width="240" height="100" stroke={COMMON.stroke} stroke-opacity="0.9" stroke-width="2" fill="rgba(244,242,236,0.05)" />
+        <path d="M264 304 L400 236 L536 304" stroke={COMMON.stroke} stroke-width="2.2" />
+        <g stroke="none" fill={COMMON.gold}>
+          <rect x="310" y="330" width="50" height="40" opacity="0.9" />
+          <rect x="440" y="330" width="50" height="40" opacity="0.9" />
+        </g>
+        <g stroke={COMMON.gold} stroke-width="1.8">
+          <rect x="310" y="330" width="50" height="40" />
+          <rect x="440" y="330" width="50" height="40" />
+        </g>
+        <line x1="335" y1="330" x2="335" y2="370" stroke={COMMON.gold} stroke-opacity="0.5" stroke-width="1" />
+        <line x1="465" y1="330" x2="465" y2="370" stroke={COMMON.gold} stroke-opacity="0.5" stroke-width="1" />
+        <rect x="385" y="360" width="30" height="40" stroke={COMMON.stroke} stroke-opacity="0.7" stroke-width="1.6" />
+        <!-- humo -->
+        <path d="M424 236 C430 210 418 196 428 174 C436 156 424 148 432 128" stroke={COMMON.stroke} stroke-opacity="0.3" stroke-width="1.6" />
+      </g>
+      <!-- pino -->
+      <g stroke={COMMON.dim} stroke-width="2">
+        <path d="M620 400 L598 344 L609 344 L590 288 L602 288 L580 222 L636 222 L614 288 L626 288 L607 344 L618 344 Z" fill="rgba(22,52,80,0.3)" />
+        <line x1="608" y1="420" x2="608" y2="396" />
+      </g>
+      <!-- reflejos en el agua -->
+      <g stroke={COMMON.gold} stroke-opacity="0.25" stroke-width="1">
+        <line x1="330" y1="400" x2="330" y2="430" />
+        <line x1="345" y1="406" x2="345" y2="440" />
+        <line x1="360" y1="400" x2="360" y2="424" />
+      </g>
+    </svg>
+  )
+}
+
+{
+  variant === 'construction' && (
+    <svg
+      viewBox="0 0 800 500"
+      class={className}
+      role="img"
+      aria-label={alt}
+      fill="none"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <g stroke="none">
+        <rect x="0" y="0" width="800" height="410" fill="rgba(244,242,236,0.028)" />
+      </g>
+      <line x1="60" y1="420" x2="740" y2="420" stroke={COMMON.dim} stroke-width="1.5" />
+      <!-- estructura del módulo (esqueleto) -->
+      <g stroke={COMMON.stroke} stroke-width="2" stroke-opacity="0.85">
+        <rect x="220" y="170" width="360" height="250" />
+        <line x1="220" y1="170" x2="220" y2="420" />
+        <line x1="580" y1="170" x2="580" y2="420" />
+        <line x1="220" y1="420" x2="580" y2="420" />
+        <!-- cumbrera -->
+        <line x1="220" y1="170" x2="400" y2="92" />
+        <line x1="580" y1="170" x2="400" y2="92" />
+        <line x1="220" y1="170" x2="580" y2="170" />
+      </g>
+      <!-- montantes internos -->
+      <g stroke={COMMON.stroke} stroke-opacity="0.35" stroke-width="1.4">
+        <line x1="300" y1="170" x2="300" y2="420" />
+        <line x1="380" y1="170" x2="380" y2="420" />
+        <line x1="460" y1="170" x2="460" y2="420" />
+        <line x1="520" y1="170" x2="520" y2="420" />
+        <line x1="220" y1="300" x2="580" y2="300" />
+      </g>
+      <!-- andamio -->
+      <g stroke={COMMON.gold} stroke-width="1.6" stroke-opacity="0.8">
+        <line x1="140" y1="420" x2="140" y2="120" />
+        <line x1="190" y1="420" x2="190" y2="120" />
+        <line x1="140" y1="360" x2="190" y2="360" />
+        <line x1="140" y1="280" x2="190" y2="280" />
+        <line x1="140" y1="200" x2="190" y2="200" />
+        <line x1="140" y1="120" x2="190" y2="120" />
+        <path d="M140 360 L190 320 M140 320 L190 360 M140 280 L190 240 M140 240 L190 280 M140 200 L190 160 M140 160 L190 200" stroke-opacity="0.5" />
+      </g>
+      <!-- herramientas / elementos -->
+      <g stroke={COMMON.gold} stroke-width="1.8">
+        <rect x="620" y="300" width="80" height="40" />
+        <line x1="660" y1="300" x2="660" y2="420" />
+        <circle cx="660" cy="432" r="12" />
+        <path d="M646 420 L674 420" />
+      </g>
+      <!-- línea de nivel -->
+      <g stroke={COMMON.stroke} stroke-opacity="0.5" stroke-width="1.2">
+        <line x1="260" y1="140" x2="540" y2="140" />
+        <path d="M260 140 l8 -8 M260 140 l-8 -8 M540 140 l8 -8 M540 140 l-8 -8" />
+      </g>
+      <g stroke="none" fill={COMMON.stroke} opacity="0.5">
+        <circle cx="100" cy="120" r="3" />
+        <circle cx="700" cy="180" r="3" />
+        <circle cx="80" cy="260" r="3" />
+      </g>
+    </svg>
+  )
+}
+
+{
+  variant === 'ushuaia' && (
+    <svg
+      viewBox="0 0 1600 700"
+      class={className}
+      role="img"
+      aria-label={alt}
+      fill="none"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      preserveAspectRatio="xMidYMid slice"
+    >
+      <!-- fondo -->
+      <rect x="0" y="0" width="1600" height="700" fill="#0b1b2c" />
+      <!-- montañas lejanas -->
+      <g stroke={COMMON.dim} stroke-width="2" fill="rgba(22,52,80,0.3)">
+        <path d="M0 430 L180 250 L300 380 L470 180 L640 380 L780 240 L960 400 L1120 260 L1300 410 L1450 300 L1600 400 L1600 700 L0 700 Z" />
+      </g>
+      <g stroke={COMMON.dim} stroke-width="1.6" fill="rgba(22,52,80,0.5)">
+        <path d="M0 520 L220 340 L380 480 L560 300 L740 480 L920 340 L1120 500 L1300 380 L1600 520 L1600 700 L0 700 Z" />
+      </g>
+      <!-- nieve en cumbres -->
+      <g stroke="none" fill="rgba(244,242,236,0.55)">
+        <path d="M470 180 L500 240 L440 250 Z" />
+        <path d="M1120 260 L1150 320 L1090 330 Z" />
+        <path d="M560 300 L590 350 L530 360 Z" />
+      </g>
+      <!-- canal beagle -->
+      <line x1="0" y1="560" x2="1600" y2="560" stroke={COMMON.dim} stroke-width="2" />
+      <g stroke={COMMON.stroke} stroke-opacity="0.25" stroke-width="1.4">
+        <path d="M0 600 Q400 590 800 600 T1600 600" />
+        <path d="M0 640 Q400 632 800 640 T1600 640" />
+      </g>
+      <!-- barco en el canal -->
+      <g stroke={COMMON.stroke} stroke-opacity="0.6" stroke-width="1.6">
+        <path d="M1180 556 L1210 546 L1260 546 L1290 556" />
+        <line x1="1235" y1="546" x2="1235" y2="530" />
+        <path d="M1235 530 L1268 542 L1235 540 Z" />
+      </g>
+      <!-- cabaña frente al canal -->
+      <g>
+        <rect x="180" y="470" width="220" height="110" stroke={COMMON.stroke} stroke-opacity="0.9" stroke-width="2.4" fill="rgba(244,242,236,0.06)" />
+        <path d="M164 474 L290 408 L416 474" stroke={COMMON.stroke} stroke-width="2.6" />
+        <g stroke={COMMON.gold} stroke-width="2">
+          <rect x="206" y="500" width="52" height="44" />
+          <rect x="322" y="500" width="52" height="44" />
+        </g>
+        <rect x="276" y="540" width="28" height="40" stroke={COMMON.stroke} stroke-opacity="0.7" stroke-width="1.6" />
+        <line x1="290" y1="474" x2="290" y2="408" stroke={COMMON.stroke} stroke-opacity="0.35" stroke-width="1.4" />
+        <!-- humo -->
+        <path d="M304 410 C312 380 296 364 306 332" stroke={COMMON.stroke} stroke-opacity="0.35" stroke-width="1.8" />
+      </g>
+      <!-- pinos -->
+      <g stroke={COMMON.dim} stroke-width="2">
+        <path d="M560 566 L536 502 L548 502 L528 440 L540 440 L518 372 L578 372 L556 440 L568 440 L548 502 L560 502 Z" fill="rgba(22,52,80,0.35)" />
+        <path d="M640 566 L622 514 L632 514 L616 464 L626 464 L608 408 L658 408 L640 464 L650 464 L634 514 L644 514 Z" fill="rgba(22,52,80,0.35)" />
+        <line x1="548" y1="566" x2="548" y2="536" />
+        <line x1="633" y1="566" x2="633" y2="540" />
+      </g>
+      <!-- aves -->
+      <g stroke={COMMON.stroke} stroke-opacity="0.5" stroke-width="1.6">
+        <path d="M980 420 q10 -8 20 0 q10 -8 20 0" />
+        <path d="M1040 460 q8 -7 16 0 q8 -7 16 0" />
+      </g>
+    </svg>
+  )
+}
+
+{
+  variant === 'wire' && (
+    <svg
+      viewBox="0 0 800 500"
+      class={className}
+      role="img"
+      aria-label={alt}
+      fill="none"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <!-- wireframe de vivienda para fallback estático del hero -->
+      <g stroke={COMMON.stroke} stroke-opacity="0.75" stroke-width="1.6">
+        <rect x="210" y="200" width="380" height="170" />
+        <line x1="210" y1="200" x2="210" y2="370" />
+        <line x1="590" y1="200" x2="590" y2="370" />
+        <line x1="210" y1="370" x2="590" y2="370" />
+        <line x1="210" y1="200" x2="400" y2="112" />
+        <line x1="590" y1="200" x2="400" y2="112" />
+      </g>
+      <g stroke={COMMON.stroke} stroke-opacity="0.3" stroke-width="1.2">
+        <line x1="300" y1="200" x2="300" y2="370" />
+        <line x1="390" y1="200" x2="390" y2="370" />
+        <line x1="480" y1="200" x2="480" y2="370" />
+        <line x1="210" y1="285" x2="590" y2="285" />
+        <line x1="210" y1="370" x2="590" y2="370" />
+      </g>
+      <g stroke={COMMON.gold} stroke-width="1.6">
+        <rect x="356" y="250" width="88" height="120" />
+        <rect x="238" y="236" width="70" height="52" />
+        <rect x="492" y="236" width="70" height="52" />
+      </g>
+      <g stroke={COMMON.dim} stroke-width="1.4">
+        <line x1="90" y1="410" x2="710" y2="410" />
+        <line x1="90" y1="440" x2="710" y2="440" />
+      </g>
+      <g stroke={COMMON.stroke} stroke-opacity="0.4" stroke-width="1">
+        <line x1="110" y1="410" x2="110" y2="440" />
+        <line x1="230" y1="410" x2="230" y2="440" />
+        <line x1="350" y1="410" x2="350" y2="440" />
+        <line x1="470" y1="410" x2="470" y2="440" />
+        <line x1="590" y1="410" x2="590" y2="440" />
+        <line x1="690" y1="410" x2="690" y2="440" />
+      </g>
+      <g stroke={COMMON.stroke} stroke-opacity="0.25" stroke-width="1">
+        <path d="M0 60 H800 M0 80 H800 M0 100 H800 M0 120 H800 M0 140 H800 M0 160 H800 M0 180 H800 M0 200 H800" />
+        <path d="M0 60 V200 M40 60 V200 M80 60 V200 M120 60 V200 M160 60 V200 M200 60 V200" stroke-opacity="0.15" />
+      </g>
+    </svg>
+  )
+}

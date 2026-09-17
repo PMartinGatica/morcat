@@ -1,0 +1,147 @@
+---
+/**
+ * MORCAT — Footer.
+ * Datos centralizados en src/config/site.ts.
+ */
+import { SITE, whatsappLink } from '../config/site';
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+
+const wa = whatsappLink('Hola MORCAT, quiero información sobre un proyecto.');
+
+const NAV = [
+  { label: 'Viviendas modulares', href: '/viviendas-modulares' },
+  { label: 'Construcción', href: '/construccion' },
+  { label: 'Desarrollos', href: '/desarrollos' },
+  { label: 'Proyectos', href: '/proyectos' },
+  { label: 'Nosotros', href: '/nosotros' },
+  { label: 'Contacto', href: '/contacto' },
+];
+
+const BUSINESS = [
+  { label: 'Modelos de vivienda', href: '/viviendas-modulares' },
+  { label: 'Casas y dúplex', href: '/construccion' },
+  { label: 'Proyectos a medida', href: '/construccion' },
+  { label: 'Ampliaciones', href: '/construccion' },
+  { label: 'Desarrollos inmobiliarios', href: '/desarrollos' },
+];
+---
+
+<footer class="relative border-t border-warm-50/10 bg-navy-900">
+  <div class="grid-lines absolute inset-0 opacity-60" aria-hidden="true" />
+
+  <div class="wrap relative grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] lg:gap-8">
+    <!-- Marca -->
+    <div>
+      <Logo />
+      <p class="mt-6 max-w-xs text-[14px] leading-relaxed text-mist-400">
+        Viviendas industrializadas, construcción y desarrollos inmobiliarios desde
+        Ushuaia, Tierra del Fuego.
+      </p>
+
+      <div class="mt-6 flex items-center gap-3">
+        <a
+          href={SITE.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Instagram ${SITE.instagramHandle}`}
+          class="flex h-11 w-11 items-center justify-center border border-warm-50/15 text-warm-50 transition-all duration-300 hover:border-gold-500 hover:text-gold-400"
+        >
+          <Icon name="instagram" class="h-5 w-5" />
+        </a>
+        {wa && (
+          <a
+            href={wa}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp de MORCAT"
+            class="flex h-11 w-11 items-center justify-center border border-warm-50/15 text-warm-50 transition-all duration-300 hover:border-gold-500 hover:text-gold-400"
+          >
+            <Icon name="whatsapp" class="h-5 w-5" />
+          </a>
+        )}
+      </div>
+    </div>
+
+    <!-- Navegación -->
+    <nav aria-label="Navegación del footer">
+      <h2 class="text-[11px] font-bold uppercase tracking-[0.28em] text-gold-500">Navegación</h2>
+      <ul class="mt-6 space-y-3">
+        {NAV.map((item) => (
+          <li>
+            <a href={item.href} class="text-[14px] text-warm-100/85 transition-colors hover:text-gold-400">
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- Unidades de negocio -->
+    <nav aria-label="Unidades de negocio">
+      <h2 class="text-[11px] font-bold uppercase tracking-[0.28em] text-gold-500">
+        Unidades de negocio
+      </h2>
+      <ul class="mt-6 space-y-3">
+        {BUSINESS.map((item) => (
+          <li>
+            <a href={item.href} class="text-[14px] text-warm-100/85 transition-colors hover:text-gold-400">
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- Contacto -->
+    <div>
+      <h2 class="text-[11px] font-bold uppercase tracking-[0.28em] text-gold-500">Contacto</h2>
+      <ul class="mt-6 space-y-4 text-[14px] text-warm-100/85">
+        <li class="flex items-start gap-3">
+          <Icon name="map-pin" class="mt-0.5 h-4 w-4 shrink-0 text-gold-500" />
+          <span>
+            {SITE.address}
+            <br />
+            {SITE.city}, {SITE.province}
+          </span>
+        </li>
+        <li class="flex items-start gap-3">
+          <Icon name="clock" class="mt-0.5 h-4 w-4 shrink-0 text-gold-500" />
+          <span>
+            Lun a Vie · {SITE.openingHours}
+            <span class="block text-[12px] text-mist-500">Horario publicado</span>
+          </span>
+        </li>
+        <li class="flex items-start gap-3">
+          <Icon name="mail" class="mt-0.5 h-4 w-4 shrink-0 text-gold-500" />
+          <a href={`mailto:${SITE.email}`} class="transition-colors hover:text-gold-400">
+            {SITE.email}
+          </a>
+        </li>
+        <li class="flex items-start gap-3">
+          <Icon name="whatsapp" class="mt-0.5 h-4 w-4 shrink-0 text-gold-500" />
+          <span>
+            <a
+              href={wa ?? SITE.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="transition-colors hover:text-gold-400"
+            >
+              WhatsApp
+            </a>
+            <span class="block text-[12px] text-mist-500">{SITE.city}</span>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="relative border-t border-warm-50/10">
+    <div class="wrap flex flex-col items-start justify-between gap-3 py-6 text-[12px] text-mist-500 sm:flex-row sm:items-center">
+      <p>
+        © {SITE.year} {SITE.legalName} — {SITE.city}, {SITE.province}, {SITE.country}.
+      </p>
+      <p class="uppercase tracking-[0.18em]">Construimos otra forma de habitar el sur.</p>
+    </div>
+  </div>
+</footer>

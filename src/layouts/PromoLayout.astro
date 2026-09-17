@@ -1,0 +1,65 @@
+---
+/**
+ * MORCAT — Layout de landing de campaña (/promo/[slug]).
+ * Chrome reducido: header con logo + WhatsApp, pie mínimo y
+ * sticky CTA mobile. Cero navegación corporativa.
+ */
+import '../styles/global.css';
+import HeadMeta from '../components/HeadMeta.astro';
+import PromoHeader from '../components/promo/PromoHeader.astro';
+import PromoFooter from '../components/promo/PromoFooter.astro';
+import PromoStickyCTA from '../components/promo/PromoStickyCTA.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import { FEATURES } from '../config/features';
+
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>[];
+}
+
+const noindex = Astro.props.noindex ?? !FEATURES.promoIndexable;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <HeadMeta
+      title={Astro.props.title}
+      description={Astro.props.description}
+      noindex={noindex}
+      jsonLd={Astro.props.jsonLd}
+    />
+  </head>
+  <body class="bg-navy-950">
+    <a href="#promo-main" class="skip-link">Saltar al contenido</a>
+
+    <PromoHeader />
+
+    <main id="promo-main">
+      <slot />
+      <!-- Espacio para la barra sticky en mobile -->
+      <div class="h-16 lg:hidden" aria-hidden="true"></div>
+    </main>
+
+    <PromoFooter />
+    <PromoStickyCTA />
+    <WhatsAppFloat mobile={false} />
+
+    <script>
+      import { initReveal } from '../lib/utils/reveal';
+      import { trackEvent } from '../lib/analytics/track';
+      import { persistUtm } from '../lib/utils/utm';
+
+      initReveal();
+      persistUtm();
+      trackEvent('promo_view', {
+        path: window.location.pathname,
+        utm_source: new URLSearchParams(window.location.search).get('utm_source') ?? '',
+      });
+    </script>
+  </body>
+</html>

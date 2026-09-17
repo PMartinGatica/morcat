@@ -1,0 +1,379 @@
+---
+/**
+ * MORCAT — Página principal.
+ * Presentación general de la empresa; cada unidad de negocio se
+ * desarrolla en su propia página con su propio SEO.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ThreeHero from '../components/ThreeHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import HomeModelCard from '../components/HomeModelCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ConstructionProcess from '../components/ConstructionProcess.astro';
+import ContactForm from '../components/ContactForm.astro';
+import WhatsAppCTA from '../components/WhatsAppCTA.astro';
+import Icon from '../components/Icon.astro';
+import MediaImage from '../components/MediaImage.astro';
+import MetricsStrip from '../components/MetricsStrip.astro';
+import { HOMES } from '../data/homes';
+import { PROJECTS } from '../data/projects';
+import { CONSTRUCTION_SYSTEMS } from '../data/construction';
+
+const featuredHomes = HOMES.filter((h) => h.featured).slice(0, 3);
+const featuredProjects = PROJECTS.filter((p) => p.featured).slice(0, 3);
+
+const AREAS = [
+  {
+    index: '01',
+    title: 'Viviendas modulares',
+    description:
+      'Modelos industrializados diseñados para construcción eficiente, adaptados al clima del sur.',
+    cta: 'Conocer modelos',
+    href: '/viviendas-modulares',
+    image: 'modulares/cabana-andina',
+  },
+  {
+    index: '02',
+    title: 'Construcción',
+    description: 'Casas, dúplex y proyectos personalizados, del plano a la obra terminada.',
+    cta: 'Ver construcción',
+    href: '/construccion',
+    image: 'duplex/semi-rural',
+  },
+  {
+    index: '03',
+    title: 'Desarrollos',
+    description: 'Proyectos inmobiliarios y desarrollos en Tierra del Fuego.',
+    cta: 'Conocer desarrollos',
+    href: '/desarrollos',
+    image: 'desarrollo/render-01',
+  },
+] as const;
+
+const WHY = [
+  { icon: 'mountain', title: 'Conocimiento del clima fueguino', text: 'Proyectamos sabiendo cómo se comporta el viento, la lluvia y la nieve en la región.' },
+  { icon: 'compass', title: 'Diseño adaptado al entorno', text: 'Cada proyecto se piensa para su terreno, su orientación y su paisaje.' },
+  { icon: 'shield-check', title: 'Experiencia en construcción', text: 'Equipo local que conoce la logística, los proveedores y la realidad de construir en Ushuaia.' },
+  { icon: 'module', title: 'Soluciones industrializadas', text: 'Viviendas fabricadas en taller y montadas en terreno, con mayor control del proceso.' },
+  { icon: 'users', title: 'Acompañamiento durante el proyecto', text: 'Un único interlocutor desde la primera consulta hasta la entrega de la obra.' },
+] as const;
+
+const FACTORS = ['Clima', 'Aislación', 'Viento', 'Orientación', 'Materiales', 'Logística'];
+
+const TITLE = 'MORCAT Constructora en Ushuaia | Viviendas industrializadas, construcción y desarrollos';
+const DESCRIPTION =
+  'Constructora y desarrolladora inmobiliaria en Ushuaia, Tierra del Fuego. Viviendas modulares, casas a medida, dúplex y desarrollos. Conocé cómo construimos otra forma de habitar el sur.';
+---
+
+<BaseLayout title={TITLE} description={DESCRIPTION}>
+  <!-- ============ 01 · HERO ============ -->
+  <section class="relative flex min-h-[100svh] items-end overflow-hidden bg-navy-950">
+    <ThreeHero />
+
+    <div class="wrap relative z-10 pb-28 pt-40 sm:pb-32">
+      <p class="eyebrow intro-item" style="animation-delay: .1s">
+        Constructora · Ushuaia, Tierra del Fuego
+      </p>
+
+      <h1 class="display-xl mt-6 text-warm-50">
+        <span class="block intro-item" style="animation-delay: .2s">Construimos</span>
+        <span class="block intro-item" style="animation-delay: .3s">
+          <span class="serif-accent text-gold-500">otra forma</span>
+        </span>
+        <span class="block intro-item" style="animation-delay: .4s">de habitar el sur.</span>
+      </h1>
+
+      <p class="intro-item mt-7 max-w-xl text-[15px] leading-relaxed text-mist-300 sm:text-base" style="animation-delay: .5s">
+        Viviendas industrializadas, construcción y desarrollos inmobiliarios desde Ushuaia.
+      </p>
+
+      <div class="intro-item mt-10 flex flex-wrap items-center gap-4" style="animation-delay: .6s">
+        <a href="/viviendas-modulares" class="btn btn-gold">
+          Conocer viviendas
+          <Icon name="arrow-right" class="btn-arrow h-4 w-4" />
+        </a>
+        <a href="/contacto" class="btn btn-ghost">
+          Cotizar proyecto
+          <Icon name="arrow-up-right" class="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+
+    <div class="absolute bottom-6 right-6 z-10 hidden items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-mist-500 lg:flex">
+      <span class="h-10 w-px bg-gradient-to-b from-gold-500/60 to-transparent" aria-hidden="true" />
+      Scroll
+    </div>
+  </section>
+
+  <!-- ============ 02 · QUÉ HACEMOS ============ -->
+  <section class="relative bg-navy-900 py-24 sm:py-32" aria-labelledby="que-hacemos">
+    <div class="grid-lines absolute inset-0 opacity-60" aria-hidden="true" />
+    <div class="wrap relative">
+      <SectionHeader
+        index="01"
+        eyebrow="Qué hacemos"
+        title="Tres formas de"
+        accent="construir."
+        description="Unidades de negocio con contenido y equipo propio. Elegí el camino que mejor se adapta a tu proyecto."
+      />
+
+      <div class="mt-16 space-y-16 sm:mt-24 sm:space-y-24">
+        {AREAS.map((area, i) => {
+          const flip = i % 2 === 1;
+          return (
+            <article
+              class="grid items-center gap-8 lg:grid-cols-12 lg:gap-12"
+              data-reveal
+            >
+              <div class={`lg:col-span-7 ${flip ? 'lg:order-2' : ''}`}>
+                <a href={area.href} class="card-media block aspect-[16/10]" aria-label={area.title}>
+                  <MediaImage
+                    src={area.image}
+                    alt={`Área ${area.title} — MORCAT`}
+                    class="h-full w-full object-cover"
+                    sizes="(min-width: 1024px) 58vw, 100vw"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-navy-950/50 via-transparent to-transparent" aria-hidden="true" />
+                  <span class="absolute left-5 top-5 font-mono text-lg font-bold text-gold-400">
+                    / {area.index}
+                  </span>
+                  <span class="absolute bottom-5 right-5 flex h-12 w-12 items-center justify-center border border-gold-500/50 bg-navy-950/60 text-gold-400 transition-all duration-300 group-hover:bg-gold-500 group-hover:text-navy-950">
+                    <Icon name="arrow-up-right" class="h-5 w-5" />
+                  </span>
+                </a>
+              </div>
+
+              <div class={`lg:col-span-5 ${flip ? 'lg:order-1' : ''}`}>
+                <p class="font-mono text-[13px] font-bold tracking-[0.2em] text-gold-500">
+                  {area.index}
+                </p>
+                <h3 class="display mt-4 text-3xl text-warm-50 sm:text-4xl">{area.title}</h3>
+                <p class="mt-5 max-w-md text-[15px] leading-relaxed text-mist-400">
+                  {area.description}
+                </p>
+                <a href={area.href} class="group mt-7 inline-flex items-center gap-3 text-[12px] font-bold uppercase tracking-[0.2em] text-gold-400 transition-colors hover:text-gold-300">
+                  {area.cta}
+                  <span class="h-px w-10 bg-gold-500/60 transition-all duration-300 group-hover:w-16" aria-hidden="true" />
+                </a>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 · MODELOS DESTACADOS ============ -->
+  <section class="relative bg-navy-950 py-24 sm:py-32" aria-labelledby="modelos-destacados">
+    <div class="wrap">
+      <div class="flex flex-wrap items-end justify-between gap-6">
+        <SectionHeader
+          index="02"
+          eyebrow="Viviendas modulares"
+          title="Modelos para"
+          accent="vivir el sur."
+          description="Modelos compactos y medianos de producción industrializada. Referencias iniciales — catálogo definitivo en carga."
+          class="max-w-2xl"
+        />
+        <a href="/viviendas-modulares" class="btn btn-ghost mb-1" data-reveal>
+          Ver todos los modelos
+          <Icon name="arrow-right" class="btn-arrow h-4 w-4" />
+        </a>
+      </div>
+
+      <div class="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        {featuredHomes.map((model, i) => (
+          <HomeModelCard model={model} delay={i * 100} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 · DEL PLANO A LA OBRA ============ -->
+  <section class="relative border-y border-warm-50/10 bg-navy-900 py-24 sm:py-32" aria-labelledby="proceso">
+    <div class="wrap">
+      <SectionHeader
+        index="03"
+        eyebrow="Nuestro proceso"
+        title="Del plano"
+        accent="a la obra."
+        description="MORCAT puede trabajar desde la definición inicial del proyecto hasta la construcción y entrega. Un proceso ordenado, con comunicación constante."
+        align="center"
+      />
+
+      <div class="mt-16 sm:mt-20">
+        <ConstructionProcess />
+      </div>
+
+      <div class="mt-14 text-center" data-reveal>
+        <a href="/construccion" class="btn btn-gold">
+          Ver construcción
+          <Icon name="arrow-right" class="btn-arrow h-4 w-4" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 05 · SISTEMAS CONSTRUCTIVOS ============ -->
+  <section class="relative bg-navy-950 py-24 sm:py-32" aria-labelledby="sistemas">
+    <div class="wrap">
+      <SectionHeader
+        index="04"
+        eyebrow="Sistemas constructivos"
+        title="El sistema justo para"
+        accent="cada proyecto."
+        description="Trabajamos con diferentes sistemas según el proyecto, el terreno y el presupuesto. Te asesoramos sobre la mejor alternativa."
+      />
+
+      <div class="mt-14 grid gap-px border border-warm-50/10 bg-warm-50/10 sm:grid-cols-2 lg:grid-cols-4">
+        {CONSTRUCTION_SYSTEMS.map((sys, i) => (
+          <article class="group bg-navy-900 p-7 transition-colors duration-300 hover:bg-navy-800" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
+            <Icon name={sys.icon} class="h-8 w-8 text-gold-500" />
+            <h3 class="display mt-6 text-lg text-warm-50">{sys.name}</h3>
+            <p class="mt-4 text-[13px] leading-relaxed text-mist-400">{sys.description}</p>
+          </article>
+        ))}
+      </div>
+
+      <p class="mt-6 flex items-center gap-2 text-[13px] text-mist-500" data-reveal>
+        <Icon name="info" class="h-4 w-4 shrink-0" />
+        Las especificaciones técnicas de cada sistema (aislación, estructura, revestimientos,
+        fundaciones) se publicarán cuando MORCAT confirme los datos.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 06 · PROYECTOS ============ -->
+  <section class="relative bg-navy-900 py-24 sm:py-32" aria-labelledby="proyectos">
+    <div class="wrap">
+      <div class="flex flex-wrap items-end justify-between gap-6">
+        <SectionHeader
+          index="05"
+          eyebrow="Portfolio"
+          title="Proyectos que"
+          accent="toman forma."
+          description="Obras terminadas, en ejecución y proyectos futuros en Tierra del Fuego."
+          class="max-w-2xl"
+        />
+        <a href="/proyectos" class="btn btn-ghost mb-1" data-reveal>
+          Ver proyectos
+          <Icon name="arrow-right" class="btn-arrow h-4 w-4" />
+        </a>
+      </div>
+
+      <div class="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        {featuredProjects.map((project, i) => (
+          <ProjectCard project={project} delay={i * 100} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 07 · POR QUÉ MORCAT ============ -->
+  <section class="relative overflow-hidden bg-warm-50 py-24 text-navy-950 sm:py-32" aria-labelledby="por-que">
+    <div class="grid-lines absolute inset-0 opacity-[0.5]" aria-hidden="true" />
+    <div class="wrap relative">
+      <div class="grid gap-14 lg:grid-cols-2 lg:gap-20">
+        <div data-reveal>
+          <div class="eyebrow">
+            <span>Por qué MORCAT</span>
+          </div>
+          <h2 class="display mt-5 text-4xl text-navy-950 sm:text-5xl">
+            Construir es más que
+            <span class="serif-accent text-gold-700">levantar paredes.</span>
+          </h2>
+          <p class="mt-6 max-w-lg text-[15px] leading-relaxed text-navy-700/80">
+            Es pensar cómo se vive en el lugar más austral del mundo. Es entender el clima,
+            el terreno y la logística, y convertir todo eso en un espacio bien resuelto.
+          </p>
+
+          <!-- Métricas de trayectoria (datos confirmados por MORCAT) -->
+          <MetricsStrip variant="light" columns={2} class="mt-12" />
+        </div>
+
+        <ul class="space-y-0">
+          {WHY.map((item, i) => (
+            <li
+              class="group flex gap-6 border-b border-navy-950/10 py-6 first:pt-0"
+              data-reveal
+              style={`--reveal-delay: ${i * 70}ms`}
+            >
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center border border-gold-600/40 text-gold-700 transition-colors duration-300 group-hover:bg-gold-600 group-hover:text-warm-50">
+                <Icon name={item.icon} class="h-5 w-5" />
+              </span>
+              <div>
+                <h3 class="display text-lg text-navy-950">{item.title}</h3>
+                <p class="mt-2 max-w-md text-[14px] leading-relaxed text-navy-700/75">{item.text}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 08 · USHUAIA ============ -->
+  <section class="relative flex min-h-[80svh] items-end overflow-hidden bg-navy-950" aria-labelledby="ushuaia">
+    <div class="absolute inset-0">
+      <MediaImage
+        src="modulares/neblinoso"
+        alt="Vivienda modular MORCAT en el bosque fueguino"
+        class="h-full w-full object-cover"
+        sizes="100vw"
+      />
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/40 to-navy-950/30" aria-hidden="true" />
+
+    <div class="wrap relative z-10 pb-20 pt-48">
+      <SectionHeader
+        eyebrow="Construir en Tierra del Fuego"
+        title="Diseñado"
+        accent="para el sur."
+        description="Proyectar en Ushuaia requiere pensar el clima, la aislación, el viento, la orientación, los materiales y la logística antes de empezar. Ese conocimiento es parte del proyecto."
+      />
+
+      <ul class="mt-10 flex flex-wrap gap-3" data-reveal>
+        {FACTORS.map((f) => (
+          <li class="chip">
+            <span class="h-1 w-1 rounded-full bg-gold-500" aria-hidden="true" />
+            {f}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 09 · CTA FINAL ============ -->
+  <section class="relative bg-navy-900 py-24 sm:py-32" aria-labelledby="cta-final">
+    <div class="wrap text-center">
+      <div class="hairline mx-auto max-w-md" data-reveal="fade" />
+      <h2 class="display mt-10 text-4xl text-warm-50 sm:text-6xl" data-reveal>
+        ¿Tenés un terreno
+        <span class="block"><span class="serif-accent text-gold-500">o una idea?</span></span>
+      </h2>
+      <p class="mx-auto mt-6 max-w-xl text-[15px] leading-relaxed text-mist-400 sm:text-base" data-reveal>
+        Contanos qué querés construir y evaluamos juntos la mejor alternativa para tu
+        proyecto en el sur.
+      </p>
+      <div class="mt-10 flex justify-center" data-reveal>
+        <WhatsAppCTA label="HABLAR CON MORCAT" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 10 · CONTACTO ============ -->
+  <section class="relative border-t border-warm-50/10 bg-navy-950 py-24 sm:py-32" aria-labelledby="contacto">
+    <div class="wrap">
+      <SectionHeader
+        index="06"
+        eyebrow="Contacto"
+        title="Empecemos a"
+        accent="conversar."
+        description="Contanos sobre tu proyecto: te respondemos con información concreta y sin vueltas."
+      />
+      <div class="mt-14">
+        <ContactForm source="home" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

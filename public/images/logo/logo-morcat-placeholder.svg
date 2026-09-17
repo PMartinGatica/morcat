@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- LOGO PROVISIONAL DE MORCAT — placeholder identificado.
+       Reemplazar por el SVG oficial cuando MORCAT lo provea.
+       No es el logo real de la empresa. -->
+  <rect width="512" height="512" fill="#081522"/>
+  <circle cx="256" cy="240" r="150" fill="none" stroke="#d39a29" stroke-width="4"/>
+  <circle cx="256" cy="240" r="120" fill="none" stroke="#f4f2ec" stroke-opacity="0.2" stroke-width="2" stroke-dasharray="6 14"/>
+  <path d="M196 300 V180 L256 240 L316 180 V300" fill="none" stroke="#f4f2ec" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="256" cy="330" r="8" fill="#d39a29"/>
+  <text x="256" y="452" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="800" letter-spacing="10" fill="#f4f2ec">MORCAT</text>
+  <text x="256" y="486" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="600" letter-spacing="6" fill="#d39a29">CONSTRUCTORA SRL</text>
+</svg>

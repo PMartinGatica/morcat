@@ -1,0 +1,9 @@
+# MORCAT CONSTRUCTORA SRL — robots.txt
+# Dominio provisional: actualizar cuando se confirme el dominio real.
+
+User-agent: *
+Allow: /
+
+# Landing de campaña: noindex configurado por página (ver /promo).
+
+Sitemap: https://www.morcat.com.ar/sitemap-index.xml

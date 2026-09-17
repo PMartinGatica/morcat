@@ -1,0 +1,79 @@
+---
+/**
+ * MORCAT — Sección de confianza (oscuro, antes del formulario).
+ * "QUIÉN ESTÁ DETRÁS DEL PROYECTO." + trayectoria real
+ * (métricas confirmadas en src/config/features.ts).
+ */
+import Icon from '../Icon.astro';
+import MetricsStrip from '../MetricsStrip.astro';
+import { SITE } from '../../config/site';
+import type { Promo } from '../../data/promos';
+
+interface Props {
+  trustSection: Promo['trustSection'];
+}
+
+const { trustSection } = Astro.props;
+---
+
+<section class="relative bg-navy-950 py-20 sm:py-28" aria-labelledby="confianza-title">
+  <div class="wrap grid items-center gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-20">
+    <div data-reveal>
+      <div class="eyebrow">
+        <span>{trustSection.eyebrow}</span>
+      </div>
+      <h2 id="confianza-title" class="display mt-5 text-3xl text-warm-50 sm:text-4xl">
+        {trustSection.title}
+        <span class="block"><span class="serif-accent text-gold-500">{trustSection.accentLine}</span></span>
+      </h2>
+      <p class="mt-6 max-w-xl text-[15px] leading-relaxed text-mist-300 sm:text-base">
+        {trustSection.body}
+      </p>
+    </div>
+
+    <div class="border border-warm-50/12 bg-navy-900 p-8" data-reveal="right">
+      <p class="display text-xl text-warm-50">{SITE.legalName}</p>
+      <p class="mt-2 text-[12px] font-semibold uppercase tracking-[0.22em] text-gold-400">
+        {SITE.city} · {SITE.province}
+      </p>
+
+      <ul class="mt-6 space-y-3 text-[13px] text-mist-400">
+        <li class="flex items-center gap-3">
+          <Icon name="map-pin" class="h-4 w-4 shrink-0 text-gold-500" />
+          {SITE.address}
+        </li>
+        <li class="flex items-center gap-3">
+          <Icon name="clock" class="h-4 w-4 shrink-0 text-gold-500" />
+          Lun a Vie · {SITE.openingHours}
+        </li>
+        <li class="flex items-center gap-3">
+          <Icon name="instagram" class="h-4 w-4 shrink-0 text-gold-500" />
+          <a href={SITE.instagram} target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-gold-300">
+            {SITE.instagramHandle}
+          </a>
+        </li>
+      </ul>
+
+      <a
+        href="/"
+        data-corporate-link
+        class="group mt-7 inline-flex items-center gap-3 text-[12px] font-bold uppercase tracking-[0.2em] text-gold-400 transition-colors hover:text-gold-300"
+      >
+        {trustSection.corporateLinkLabel}
+        <span class="h-px w-10 bg-gold-500/60 transition-all duration-300 group-hover:w-16" aria-hidden="true" />
+      </a>
+    </div>
+  </div>
+
+  <!-- Trayectoria real (datos confirmados por MORCAT) -->
+  <div class="wrap mt-12">
+    <MetricsStrip variant="dark" />
+  </div>
+</section>
+
+<script>
+  import { trackEvent } from '../../lib/analytics/track';
+  document.querySelector('[data-corporate-link]')?.addEventListener('click', () => {
+    trackEvent('corporate_site_click', { placement: 'promo-trust' });
+  });
+</script>

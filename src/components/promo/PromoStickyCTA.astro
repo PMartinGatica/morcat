@@ -1,0 +1,116 @@
+---
+/**
+ * MORCAT — Barra CTA sticky (solo mobile).
+ * Aparece después de salir del hero; se oculta con modales
+ * abiertos o cuando el formulario está visible. Respeta
+ * env(safe-area-inset-bottom).
+ */
+import Icon from '../Icon.astro';
+import { promoWhatsAppLink } from '../../lib/promo/whatsapp';
+
+const wa = promoWhatsAppLink('hero');
+---
+
+<div
+  data-promo-sticky
+  class="fixed inset-x-0 bottom-0 z-[60] translate-y-full transition-transform duration-500 lg:hidden"
+  aria-hidden="true"
+>
+  <div class="grid grid-cols-2 gap-px border-t border-gold-500/30 bg-navy-950/95 backdrop-blur-md" style="padding-bottom: env(safe-area-inset-bottom)">
+    <a
+      href={wa ?? '#promo-form'}
+      target={wa ? '_blank' : undefined}
+      rel={wa ? 'noopener noreferrer' : undefined}
+      data-sticky-wa
+      class="flex min-h-[60px] items-center justify-center gap-2 bg-gold-500 text-[12px] font-bold uppercase tracking-[0.16em] text-navy-950"
+    >
+      <Icon name={wa ? 'whatsapp' : 'mail'} class="h-4 w-4" />
+      WhatsApp
+    </a>
+    <a
+      href="#promo-modelos"
+      data-sticky-models
+      class="flex min-h-[60px] items-center justify-center gap-2 bg-navy-900 text-[12px] font-bold uppercase tracking-[0.16em] text-warm-50"
+    >
+      Ver modelos
+      <Icon name="arrow-down" class="h-4 w-4 text-gold-400" />
+    </a>
+  </div>
+</div>
+
+<script>
+  import { trackEvent } from '../../lib/analytics/track';
+
+  const bar = document.querySelector<HTMLElement>('[data-promo-sticky]');
+  if (!bar) throw new Error('PromoStickyCTA: barra no encontrada');
+
+  let modalOpen = false;
+  let formVisible = false;
+
+  const show = () => {
+    if (modalOpen || formVisible) return;
+    bar.classList.remove('translate-y-full');
+    bar.setAttribute('aria-hidden', 'false');
+  };
+  const hide = () => {
+    bar.classList.add('translate-y-full');
+    bar.setAttribute('aria-hidden', 'true');
+  };
+
+  // Aparecer tras abandonar el hero
+  const hero = document.querySelector<HTMLElement>('[data-promo-hero]');
+  if (hero && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) show();
+          else hide();
+        }
+      },
+      { threshold: 0.1 },
+    );
+    io.observe(hero);
+  } else {
+    const onScroll = () => {
+      if (window.scrollY > window.innerHeight * 0.75) show();
+      else hide();
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // Ocultar con modales abiertos
+  window.addEventListener('morcat:modal', (e) => {
+    modalOpen = Boolean((e as CustomEvent<{ open: boolean }>).detail?.open);
+    if (modalOpen) hide();
+    else show();
+  });
+
+  // Ocultar cuando el formulario está en pantalla
+  const formSection = document.querySelector<HTMLElement>('#promo-form');
+  if (formSection && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            formVisible = true;
+            hide();
+          } else {
+            formVisible = false;
+            show();
+          }
+        }
+      },
+      { threshold: 0.15 },
+    );
+    io.observe(formSection);
+  }
+
+  // Eventos de los botones
+  bar.querySelector('[data-sticky-wa]')?.addEventListener('click', () => {
+    trackEvent('hero_whatsapp_click', { placement: 'sticky' });
+  });
+  bar.querySelector('[data-sticky-models]')?.addEventListener('click', () => {
+    trackEvent('models_view', { placement: 'sticky' });
+  });
+</script>

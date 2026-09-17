@@ -1,0 +1,60 @@
+---
+/**
+ * MORCAT — Franja de métricas de trayectoria.
+ * Fuente única: FEATURES.metrics (src/config/features.ts).
+ *
+ * Alineación: la franja entra como un bloque (un solo reveal) y
+ * cada tarjeta reserva la misma altura de etiqueta, así los
+ * números y los textos quedan siempre en la misma línea.
+ */
+import DemoBadge from './DemoBadge.astro';
+import { FEATURES } from '../config/features';
+
+interface Props {
+  /** Tema visual de la sección donde se inserta. */
+  variant?: 'light' | 'dark';
+  /**
+   * Columnas en desktop: 2 (bloques angostos, ej. columna de la
+   * Home) o 4 (ancho completo). En mobile siempre son 2.
+   */
+  columns?: 2 | 4;
+  class?: string;
+}
+
+const { variant = 'light', columns = 4, class: className = '' } = Astro.props;
+const light = variant === 'light';
+
+function format(m: (typeof FEATURES.metrics)[number]): string {
+  if (m.value == null) return '—';
+  return `${m.prefix ?? ''}${m.value}${m.suffix ?? ''}`;
+}
+
+const valueSize = columns === 2 ? 'text-4xl sm:text-5xl' : 'text-3xl sm:text-4xl';
+---
+
+<div
+  class={`grid grid-cols-2 gap-px ${
+    light ? 'border border-navy-950/10 bg-navy-950/10' : 'border border-warm-50/10 bg-warm-50/10'
+  } ${columns === 4 ? 'lg:grid-cols-4' : ''} ${className}`}
+  data-reveal
+>
+  {FEATURES.metrics.map((m) => (
+    <div
+      class={`flex h-full flex-col justify-start ${light ? 'bg-warm-50 p-5 sm:p-6' : 'bg-navy-900 p-6 sm:p-8'}`}
+    >
+      <p
+        class={`display tabular-nums leading-none ${valueSize} ${light ? 'text-navy-950' : 'text-warm-50'}`}
+      >
+        {format(m)}
+      </p>
+      <p
+        class={`mt-3 min-h-[2.6em] text-[11px] font-semibold uppercase leading-snug tracking-[0.16em] ${
+          light ? 'text-navy-700/70' : 'text-mist-400'
+        }`}
+      >
+        {m.label}
+      </p>
+      <DemoBadge demo={m.demo} label="DATO" class="mt-auto pt-2" />
+    </div>
+  ))}
+</div>

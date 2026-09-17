@@ -1,0 +1,95 @@
+---
+/**
+ * MORCAT — /promo/[slug]
+ * Landings independientes para campañas (Meta Ads, Instagram
+ * Ads, Facebook Ads, Google Ads).
+ *
+ * OBJETIVO: convertir tráfico pago en consultas comerciales.
+ * WhatsApp = conversión principal · Formulario = secundaria.
+ * Sin navegación corporativa: cero puntos de fuga.
+ */
+import PromoLayout from '../../layouts/PromoLayout.astro';
+import PromoHero from '../../components/promo/PromoHero.astro';
+import TrustStrip from '../../components/promo/TrustStrip.astro';
+import ProblemSection from '../../components/promo/ProblemSection.astro';
+import PromoModels from '../../components/promo/PromoModels.astro';
+import FloorPlanViewer from '../../components/promo/FloorPlanViewer.astro';
+import PromoShowcase from '../../components/promo/PromoShowcase.astro';
+import UseCases from '../../components/promo/UseCases.astro';
+import Personalization from '../../components/promo/Personalization.astro';
+import PromoProcess from '../../components/promo/PromoProcess.astro';
+import SouthSection from '../../components/promo/SouthSection.astro';
+import FinancingCTA from '../../components/promo/FinancingCTA.astro';
+import PromoTrust from '../../components/promo/PromoTrust.astro';
+import PromoFAQ from '../../components/promo/PromoFAQ.astro';
+import PromoLeadForm from '../../components/promo/PromoLeadForm.astro';
+import PromoFinalCta from '../../components/promo/PromoFinalCta.astro';
+import { PROMOS } from '../../data/promos';
+
+export function getStaticPaths() {
+  return PROMOS.map((promo) => ({
+    params: { slug: promo.slug },
+    props: { promo },
+  }));
+}
+
+interface Props {
+  promo: (typeof PROMOS)[number];
+}
+
+const { promo } = Astro.props;
+---
+
+<PromoLayout
+  title={promo.seoTitle}
+  description={promo.seoDescription}
+>
+  <!-- 01 · HERO -->
+  <PromoHero promo={promo} />
+
+  <!-- 02 · CONFIANZA INMEDIATA -->
+  <TrustStrip items={promo.trustItems} />
+
+  <!-- 03 · PROBLEMA / PROPUESTA -->
+  <ProblemSection problem={promo.problem} />
+
+  <!-- 04 · CATÁLOGO DE MODELOS + QUICK VIEW -->
+  <PromoModels
+    modelsHeading={promo.modelsHeading}
+    modelsCta={promo.modelsCta}
+    modelsSecondaryCta={promo.modelsSecondaryCta}
+  />
+
+  <!-- 05 · PLANOS -->
+  <FloorPlanViewer floorPlans={promo.floorPlans} />
+
+  <!-- 05b · SHOWCASE (video + fotos reales) -->
+  <PromoShowcase showcase={promo.showcase} />
+
+  <!-- 06 · CASOS DE USO -->
+  <UseCases useCases={promo.useCases} />
+
+  <!-- 07 · PERSONALIZACIÓN -->
+  <Personalization personalization={promo.personalization} />
+
+  <!-- 08 · PROCESO -->
+  <PromoProcess process={promo.process} />
+
+  <!-- 09 · TIERRA DEL FUEGO -->
+  <SouthSection south={promo.south} />
+
+  <!-- 10 · FINANCIACIÓN -->
+  <FinancingCTA financing={promo.financing} />
+
+  <!-- 11 · QUIÉN ESTÁ DETRÁS DEL PROYECTO -->
+  <PromoTrust trustSection={promo.trustSection} />
+
+  <!-- 12 · FAQ -->
+  <PromoFAQ faqs={promo.faqs} />
+
+  <!-- 13 · FORMULARIO DE LEAD -->
+  <PromoLeadForm form={promo.form} source={`promo-${promo.slug}`} />
+
+  <!-- 14 · CTA FINAL -->
+  <PromoFinalCta finalCta={promo.finalCta} />
+</PromoLayout>

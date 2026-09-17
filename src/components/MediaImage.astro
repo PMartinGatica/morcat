@@ -1,0 +1,72 @@
+---
+/**
+ * MORCAT — Imagen de medio.
+ *
+ * Resolución en 3 niveles:
+ *  1. Imagen real del cliente (clave del manifiesto, ej.
+ *     'modulares/cabana-andina') → astro:assets <Image> con
+ *     AVIF + WebP, srcset y sizes (sin CLS).
+ *  2. Ruta pública ('/images/...') → <img> con lazy/eager.
+ *  3. Clave de ilustración (line art) → SVG inline.
+ *
+ * Para cambiar una foto: reemplazar el archivo en
+ * src/assets/media/... o actualizar la clave en src/data/*.ts.
+ */
+import { Picture } from 'astro:assets';
+import ArchIllustration from './illustrations/ArchIllustration.astro';
+import PlanIllustration from './illustrations/PlanIllustration.astro';
+import { getMedia } from '../lib/media/manifest';
+
+interface Props {
+  src: string;
+  alt?: string;
+  class?: string;
+  eager?: boolean;
+  /** sizes del srcset (ajustar según el layout real). */
+  sizes?: string;
+  widths?: number[];
+  quality?: number;
+}
+
+const {
+  src,
+  alt = '',
+  class: className = '',
+  eager = false,
+  sizes = '100vw',
+  widths = [480, 768, 1200, 1600, 2400],
+  quality = 78,
+} = Astro.props;
+
+const asset = getMedia(src);
+const isPath = src.startsWith('/');
+---
+
+{
+  asset ? (
+    <Picture
+      src={asset}
+      alt={alt}
+      class={className}
+      widths={widths}
+      sizes={sizes}
+      formats={['avif', 'webp']}
+      quality={quality}
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+    />
+  ) : isPath ? (
+    <img
+      src={src}
+      alt={alt}
+      class={className}
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+      fetchpriority={eager ? 'high' : 'auto'}
+    />
+  ) : src.startsWith('plan-') ? (
+    <PlanIllustration variant={src} alt={alt} class={className} />
+  ) : (
+    <ArchIllustration variant={src} alt={alt} class={className} />
+  )
+}

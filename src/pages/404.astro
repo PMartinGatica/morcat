@@ -1,0 +1,38 @@
+---
+/**
+ * MORCAT — 404
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<BaseLayout
+  title="Página no encontrada"
+  description="La página que buscás no existe. Volvé al inicio de MORCAT Constructora."
+  noindex
+>
+  <section class="relative flex min-h-[85svh] items-center overflow-hidden bg-navy-950 pt-36">
+    <div class="grid-lines absolute inset-0" aria-hidden="true" />
+
+    <div class="wrap relative z-10 py-24 text-center">
+      <p class="font-mono text-[13px] font-bold tracking-[0.3em] text-gold-500" data-reveal>
+        Error 404
+      </p>
+      <h1 class="display-xl mt-6 text-warm-50" data-reveal>
+        Esta obra
+        <span class="serif-accent block text-gold-500">no existe.</span>
+      </h1>
+      <p class="mx-auto mt-6 max-w-md text-[15px] leading-relaxed text-mist-400" data-reveal>
+        La página que buscás no está o fue movida. Volvé al inicio o navegá por
+        nuestras áreas.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4" data-reveal>
+        <a href="/" class="btn btn-gold">
+          Volver al inicio
+          <Icon name="arrow-right" class="btn-arrow h-4 w-4" />
+        </a>
+        <a href="/viviendas-modulares" class="btn btn-ghost">Ver viviendas</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

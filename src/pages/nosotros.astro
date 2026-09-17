@@ -1,0 +1,199 @@
+---
+/**
+ * MORCAT — /nosotros
+ * Empresa, trayectoria, equipo, filosofía y experiencia.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import DemoBadge from '../components/DemoBadge.astro';
+import Icon from '../components/Icon.astro';
+import MediaImage from '../components/MediaImage.astro';
+import MetricsStrip from '../components/MetricsStrip.astro';
+import { SITE } from '../config/site';
+
+const VALUES = [
+  { icon: 'ruler', title: 'Oficio', text: 'Construimos con método: medición, control y orden en cada etapa de la obra.' },
+  { icon: 'mountain', title: 'Territorio', text: 'Somos del sur y proyectamos para el sur: clima, paisaje y logística son parte del diseño.' },
+  { icon: 'users', title: 'Cercanía', text: 'Un único interlocutor, comunicación clara y respuestas concretas durante todo el proyecto.' },
+  { icon: 'shield-check', title: 'Compromiso', text: 'Lo que prometemos, lo escribimos. Y lo que escribimos, lo construimos.' },
+] as const;
+
+const ROLES = [
+  { role: 'Dirección de obra', note: 'Coordinación técnica y ejecución en terreno.' },
+  { role: 'Arquitectura y diseño', note: 'Proyecto, planos y definición estética.' },
+  { role: 'Administración', note: 'Presupuestos, compras y gestión del proyecto.' },
+] as const;
+
+const TITLE = 'Nosotros | MORCAT Constructora SRL — Empresa constructora en Ushuaia';
+const DESCRIPTION =
+  'MORCAT CONSTRUCTORA SRL es una empresa constructora y desarrolladora inmobiliaria de Ushuaia, Tierra del Fuego. Conocé nuestra filosofía, equipo y experiencia.';
+---
+
+<BaseLayout
+  title={TITLE}
+  description={DESCRIPTION}
+  breadcrumbs={[
+    { name: 'Inicio', path: '/' },
+    { name: 'Nosotros', path: '/nosotros' },
+  ]}
+>
+  <!-- HERO -->
+  <section class="relative flex min-h-[62svh] items-end overflow-hidden bg-navy-950 pt-36">
+    <div class="absolute inset-0">
+      <MediaImage
+        src="nordicas/bosque"
+        alt="Bosque y montañas de Tierra del Fuego"
+        class="h-full w-full object-cover"
+        eager
+        sizes="100vw"
+        widths={[768, 1200, 1600, 2400]}
+      />
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/60 to-navy-950/45" aria-hidden="true" />
+
+    <div class="wrap relative z-10 pb-16">
+      <p class="eyebrow intro-item" style="animation-delay: .1s">Nosotros</p>
+      <h1 class="display-xl mt-6 text-warm-50">
+        <span class="block intro-item" style="animation-delay: .2s">{SITE.legalName}</span>
+        <span class="block intro-item" style="animation-delay: .3s">
+          <span class="serif-accent text-gold-500">desde Ushuaia.</span>
+        </span>
+      </h1>
+      <p class="intro-item mt-6 max-w-xl text-[15px] leading-relaxed text-mist-300" style="animation-delay: .4s">
+        Empresa constructora y desarrolladora inmobiliaria de Tierra del Fuego. Nuestra
+        experiencia se construye obra a obra, en el lugar más austral del mundo.
+      </p>
+    </div>
+  </section>
+
+  <!-- EMPRESA -->
+  <section class="relative bg-navy-900 py-20 sm:py-28">
+    <div class="wrap grid gap-12 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-6" data-reveal>
+        <SectionHeader
+          index="01"
+          eyebrow="La empresa"
+          title="Construir el sur"
+          accent="con responsabilidad."
+          description="MORCAT CONSTRUCTORA SRL desarrolla viviendas industrializadas, construcción tradicional y proyectos inmobiliarios en Ushuaia y Tierra del Fuego."
+        />
+        <div class="mt-8 space-y-4 text-[15px] leading-relaxed text-mist-300">
+          <p>
+            Nacimos para responder a una necesidad concreta: construir bien en un lugar
+            donde el clima impone condiciones. Eso nos llevó a trabajar con sistemas
+            industrializados —viviendas fabricadas en taller y montadas en terreno— y a
+            combinar esa eficiencia con el oficio de la construcción tradicional.
+          </p>
+          <p>
+            Hoy trabajamos en tres frentes: viviendas modulares, construcción a medida y
+            desarrollos inmobiliarios. Cada uno con su equipo, su proceso y su forma de
+            acompañar al cliente.
+          </p>
+          <p class="text-[13px] text-mist-500">
+            Quince años de trayectoria en Ushuaia, con más de 50 obras entregadas y más
+            de 1000 m² construidos en Tierra del Fuego.
+          </p>
+        </div>
+      </div>
+
+      <div class="lg:col-span-6" data-reveal>
+        <figure class="border border-warm-50/12 bg-navy-950 p-4">
+          <MediaImage
+            src="modulares/cabana-andina"
+            alt="Vivienda modular MORCAT en el bosque fueguino"
+            class="w-full"
+            sizes="(min-width: 1024px) 50vw, 100vw"
+          />
+          <figcaption class="mt-3 flex items-center justify-between px-1">
+            <span class="text-[11px] uppercase tracking-[0.2em] text-mist-400">
+              Nuestra forma de construir
+            </span>
+            <DemoBadge demo label="RENDER" />
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALORES -->
+  <section class="border-t border-warm-50/10 bg-navy-950 py-20 sm:py-28">
+    <div class="wrap">
+      <SectionHeader
+        index="02"
+        eyebrow="Filosofía"
+        title="Cómo"
+        accent="trabajamos."
+        align="center"
+      />
+      <div class="mt-14 grid gap-px border border-warm-50/10 bg-warm-50/10 sm:grid-cols-2 lg:grid-cols-4">
+        {VALUES.map((v, i) => (
+          <article class="bg-navy-900 p-7" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
+            <Icon name={v.icon} class="h-8 w-8 text-gold-500" />
+            <h3 class="display mt-6 text-lg text-warm-50">{v.title}</h3>
+            <p class="mt-3 text-[13px] leading-relaxed text-mist-400">{v.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- EQUIPO -->
+  <section class="border-t border-warm-50/10 bg-navy-900 py-20 sm:py-28">
+    <div class="wrap">
+      <SectionHeader
+        index="03"
+        eyebrow="Equipo"
+        title="Gente del"
+        accent="lugar."
+        description="Un equipo local que conoce la realidad de construir en Ushuaia. Los nombres se publicarán cuando MORCAT los confirme."
+      />
+
+      <div class="mt-14 grid gap-6 md:grid-cols-3">
+        {ROLES.map((r, i) => (
+          <article class="border border-warm-50/12 bg-navy-800/50 p-7" data-reveal style={`--reveal-delay: ${i * 90}ms`}>
+            <div class="flex h-14 w-14 items-center justify-center border border-gold-500/40 text-gold-500">
+              <Icon name="users" class="h-6 w-6" />
+            </div>
+            <h3 class="display mt-6 text-lg text-warm-50">{r.role}</h3>
+            <p class="mt-2 text-[13px] text-mist-400">{r.note}</p>
+            <p class="mt-4 flex items-center gap-2 text-[12px] uppercase tracking-[0.18em] text-mist-500">
+              Nombre a confirmar
+              <DemoBadge demo label="DEMO" />
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCIA / MÉTRICAS -->
+  <section class="border-t border-warm-50/10 bg-navy-950 py-20 sm:py-28">
+    <div class="wrap">
+      <SectionHeader
+        index="04"
+        eyebrow="Experiencia"
+        title="Nuestra"
+        accent="trayectoria."
+        description="Quince años construyendo en Tierra del Fuego, con más de 50 obras entregadas y más de 1000 m² construidos."
+      />
+
+      <MetricsStrip variant="dark" class="mt-14" />
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="border-t border-warm-50/10 bg-navy-900 py-16">
+    <div class="wrap flex flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-left">
+      <div data-reveal>
+        <h2 class="display text-2xl text-warm-50 sm:text-3xl">¿Querés trabajar con nosotros?</h2>
+        <p class="mt-2 text-[14px] text-mist-400">
+          Contanos tu proyecto y empecemos a conversar.
+        </p>
+      </div>
+      <a href="/contacto" class="btn btn-gold shrink-0" data-reveal>
+        Contactar
+        <Icon name="arrow-up-right" class="h-4 w-4" />
+      </a>
+    </div>
+  </section>
+</BaseLayout>

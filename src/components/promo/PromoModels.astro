@@ -1,0 +1,155 @@
+---
+/**
+ * MORCAT — Catálogo de modelos de la landing (claro).
+ * Cards fotográficas grandes: imagen, nombre, superficie,
+ * dormitorios/baños y CTAs. Los datos salen ÚNICAMENTE de
+ * src/data/homes.ts (sin duplicación ni nombres inventados).
+ */
+import Icon from '../Icon.astro';
+import DemoBadge from '../DemoBadge.astro';
+import MediaImage from '../MediaImage.astro';
+import ModelQuickView from './ModelQuickView.astro';
+import { HOMES, HOME_STATUS_LABEL } from '../../data/homes';
+import { modelWhatsAppLink } from '../../lib/promo/whatsapp';
+import type { Promo } from '../../data/promos';
+
+interface Props {
+  modelsHeading: Promo['modelsHeading'];
+  modelsCta: string;
+  modelsSecondaryCta: string;
+}
+
+const { modelsHeading, modelsCta, modelsSecondaryCta } = Astro.props;
+---
+
+<section id="promo-modelos" class="relative bg-warm-100 py-24 text-navy-950 sm:py-32" aria-labelledby="promo-modelos-title">
+  <div class="wrap">
+    <div class="max-w-3xl" data-reveal>
+      <div class="eyebrow">
+        <span>Modelos</span>
+      </div>
+      <h2 id="promo-modelos-title" class="display mt-5 text-4xl text-navy-950 sm:text-5xl">
+        {modelsHeading.title}
+        <span class="block"><span class="serif-accent text-gold-700">{modelsHeading.accentLine}</span></span>
+      </h2>
+      <p class="mt-5 text-[15px] leading-relaxed text-navy-700/80 sm:text-base">
+        {modelsHeading.subtitle}
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3" data-promo-models>
+      {HOMES.map((m, i) => {
+        const wa = modelWhatsAppLink(m.name, m.surface);
+        return (
+          <article class="group" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
+            <!-- Imagen → abre quick view -->
+            <button
+              type="button"
+              data-quickview-open={m.slug}
+              class="relative block w-full overflow-hidden bg-navy-800 text-left"
+              aria-label={`Ver modelo ${m.name}`}
+            >
+              <span class="block aspect-[4/5] overflow-hidden">
+                <MediaImage src={m.coverImage} alt={`Vivienda modular ${m.name}`} class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
+              </span>
+              <span class="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-transparent to-transparent" aria-hidden="true" />
+
+              <span class="absolute left-3 top-3 flex flex-wrap items-center gap-2">
+                <DemoBadge demo={m.demo} />
+                <span class="chip !border-gold-500/40 !bg-navy-950/70 !py-0.5 !text-[9px] uppercase tracking-[0.18em] text-gold-400">
+                  {HOME_STATUS_LABEL[m.status]}
+                </span>
+              </span>
+
+              <span class="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-3">
+                <span class="display text-4xl text-warm-50 sm:text-5xl">
+                  {m.surface}
+                  <span class="align-top text-sm text-gold-400"> m²</span>
+                </span>
+                <span class="flex h-10 w-10 items-center justify-center border border-gold-500/50 bg-navy-950/60 text-gold-400 transition-colors duration-300 group-hover:bg-gold-500 group-hover:text-navy-950">
+                  <Icon name="arrow-up-right" class="h-4 w-4" />
+                </span>
+              </span>
+            </button>
+
+            <!-- Info -->
+            <div class="mt-4 flex items-start justify-between gap-4">
+              <div>
+                <p class="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-700">{m.line}</p>
+                <h3 class="display mt-1 text-2xl text-navy-950">{m.name}</h3>
+                <p class="mt-1 text-[13px] text-navy-700/70">
+                  {m.bedrooms} dorm. · {m.bathrooms} baño{m.bathrooms > 1 ? 's' : ''}
+                </p>
+              </div>
+            </div>
+
+            <p class="mt-2 line-clamp-2 text-[13px] leading-relaxed text-navy-700/70">
+              {m.shortDescription}
+            </p>
+
+            <!-- CTAs -->
+            <div class="mt-4 flex flex-wrap gap-3">
+              <button
+                type="button"
+                data-quickview-open={m.slug}
+                class="btn btn-dark !min-h-0 !px-5 !py-3 !text-[11px]"
+              >
+                {modelsCta}
+                <Icon name="arrow-right" class="h-3.5 w-3.5" />
+              </button>
+              <a
+                href={wa ?? '#promo-form'}
+                target={wa ? '_blank' : undefined}
+                rel={wa ? 'noopener noreferrer' : undefined}
+                data-model-wa
+                class="btn btn-light-gold !min-h-0 !px-5 !py-3 !text-[11px]"
+              >
+                <Icon name={wa ? 'whatsapp' : 'mail'} class="h-3.5 w-3.5" />
+                {modelsSecondaryCta}
+              </a>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+    <p class="mt-10 flex items-center gap-2 text-[12px] text-navy-700/60" data-reveal="fade">
+      <Icon name="info" class="h-4 w-4 shrink-0" />
+      Modelos y superficies de referencia cargados en el catálogo. Tocá un modelo para ver
+      distribución y consultar sin salir de esta página.
+    </p>
+  </div>
+
+  <ModelQuickView models={HOMES} />
+</section>
+
+<script>
+  import { trackEvent } from '../../lib/analytics/track';
+
+  // models_view: cuando el catálogo entra en viewport
+  const grid = document.querySelector<HTMLElement>('[data-promo-models]');
+  if (grid && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            trackEvent('models_view', { models: String(document.querySelectorAll('[data-promo-models] article').length) });
+            io.disconnect();
+            break;
+          }
+        }
+      },
+      { threshold: 0.25 },
+    );
+    io.observe(grid);
+  }
+
+  // model_whatsapp_click en las tarjetas
+  document.querySelectorAll<HTMLElement>('[data-model-wa]').forEach((el) => {
+    el.addEventListener('click', () => {
+      const card = el.closest('article');
+      const name = card?.querySelector('h3')?.textContent ?? '';
+      trackEvent('model_whatsapp_click', { model: name, placement: 'card' });
+    });
+  });
+</script>

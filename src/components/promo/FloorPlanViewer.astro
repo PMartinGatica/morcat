@@ -1,0 +1,241 @@
+---
+/**
+ * MORCAT — Sección de planos + lightbox fullscreen.
+ * Cambiar entre modelos, ampliar y hacer zoom. Los planos son
+ * los cargados en src/data/homes.ts (placeholder DEMO hasta que
+ * existan planos reales).
+ */
+import Icon from '../Icon.astro';
+import DemoBadge from '../DemoBadge.astro';
+import MediaImage from '../MediaImage.astro';
+import { HOMES } from '../../data/homes';
+import { formatSurface } from '../../lib/utils/format';
+import type { Promo } from '../../data/promos';
+
+interface Props {
+  floorPlans: Promo['floorPlans'];
+}
+
+const { floorPlans } = Astro.props;
+---
+
+<section id="promo-planos" class="relative bg-navy-950 py-24 sm:py-32" aria-labelledby="planos-title">
+  <div class="grid-lines absolute inset-0 opacity-60" aria-hidden="true" />
+
+  <div class="wrap relative">
+    <div class="max-w-3xl" data-reveal>
+      <div class="eyebrow">
+        <span>{floorPlans.eyebrow}</span>
+      </div>
+      <h2 id="planos-title" class="display mt-5 text-4xl text-warm-50 sm:text-5xl">
+        {floorPlans.title}
+        <span class="block"><span class="serif-accent text-gold-500">{floorPlans.accentLine}</span></span>
+      </h2>
+      <p class="mt-5 text-[15px] leading-relaxed text-mist-400 sm:text-base">
+        {floorPlans.subtitle}
+      </p>
+    </div>
+
+    <!-- Selector de modelo -->
+    <div class="mt-10 flex flex-wrap gap-2" role="group" aria-label="Elegir modelo" data-plan-chips>
+      {HOMES.map((m, i) => (
+        <button
+          type="button"
+          data-plan-chip={m.slug}
+          aria-pressed={i === 0}
+          class={`px-4 py-2 text-[11px] font-bold uppercase tracking-[0.14em] transition-all duration-300 ${
+            i === 0
+              ? 'bg-gold-500 text-navy-950'
+              : 'border border-warm-50/15 text-warm-100 hover:border-gold-500/60 hover:text-gold-300'
+          }`}
+        >
+          {m.name} · {m.surface} m²
+        </button>
+      ))}
+    </div>
+
+    <!-- Marco de plano (un figure por modelo) -->
+    <div class="mt-8 border border-warm-50/12 bg-navy-900 p-4 sm:p-6" data-plan-frame>
+      {HOMES.map((m, i) => (
+        <figure class={i === 0 ? 'block' : 'hidden'} data-plan-figure={m.slug}>
+          <div class="relative overflow-hidden bg-navy-950">
+            <MediaImage src={m.floorPlans[0] ?? 'plan-21'} alt={`Plano del modelo ${m.name}`} class="w-full" />
+          </div>
+          <figcaption class="mt-4 flex flex-wrap items-center justify-between gap-3">
+            <span class="text-[11px] uppercase tracking-[0.2em] text-mist-400">
+              {m.name} · {formatSurface(m.surface)} · Planta esquemática
+            </span>
+            <span class="flex items-center gap-3">
+              <DemoBadge demo={m.demo} label="PLANO DEMO" />
+              <button
+                type="button"
+                data-plan-open={m.slug}
+                class="inline-flex items-center gap-2 border border-gold-500/50 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-gold-400 transition-colors hover:bg-gold-500 hover:text-navy-950"
+              >
+                <Icon name="zoom" class="h-4 w-4" />
+                {floorPlans.zoomLabel}
+              </button>
+            </span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+
+  <!-- LIGHTBOX FULLSCREEN -->
+  <div
+    data-plan-lightbox
+    class="fixed inset-0 z-[80] hidden bg-navy-950/97 backdrop-blur-sm"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Plano ampliado"
+  >
+    <div class="flex h-full flex-col">
+      <div class="flex items-center justify-between border-b border-warm-50/10 px-5 py-3">
+        <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-gold-400" data-plan-lb-name></p>
+        <div class="flex items-center gap-2">
+          <button type="button" data-plan-zoom aria-label="Alternar zoom" class="flex h-10 w-10 items-center justify-center border border-warm-50/20 text-warm-50 transition-colors hover:border-gold-500 hover:text-gold-400">
+            <Icon name="zoom" class="h-4 w-4" />
+          </button>
+          <button type="button" data-plan-lb-close aria-label="Cerrar plano" class="flex h-10 w-10 items-center justify-center border border-warm-50/20 text-warm-50 transition-colors hover:border-gold-500 hover:text-gold-400">
+            <Icon name="close" class="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-2 px-5 py-3" data-plan-lb-chips>
+        {HOMES.map((m, i) => (
+          <button
+            type="button"
+            data-plan-lb-chip={m.slug}
+            aria-pressed={i === 0}
+            class={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] transition-all duration-300 ${
+              i === 0
+                ? 'bg-gold-500 text-navy-950'
+                : 'border border-warm-50/15 text-warm-100 hover:border-gold-500/60'
+            }`}
+          >
+            {m.name}
+          </button>
+        ))}
+      </div>
+
+      <div class="relative flex-1 overflow-auto px-5 py-6" data-plan-lb-stage>
+        {HOMES.map((m, i) => (
+          <div class={`mx-auto h-full max-w-4xl ${i === 0 ? 'block' : 'hidden'}`} data-plan-lb-figure={m.slug}>
+            <div class="origin-center transition-transform duration-300" data-plan-lb-img>
+              <MediaImage src={m.floorPlans[0] ?? 'plan-21'} alt={`Plano ampliado del modelo ${m.name}`} class="w-full border border-warm-50/12 bg-navy-900" />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p class="border-t border-warm-50/10 px-5 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-mist-500">
+        Tocá el plano para ampliar · Planos de referencia
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { trackEvent } from '../../lib/analytics/track';
+
+  const slugs = Array.from(document.querySelectorAll<HTMLElement>('[data-plan-chip]')).map((c) => c.dataset.planChip ?? '').filter(Boolean);
+  const lightbox = document.querySelector<HTMLElement>('[data-plan-lightbox]');
+  const lbName = document.querySelector<HTMLElement>('[data-plan-lb-name]');
+  const lbClose = document.querySelector<HTMLButtonElement>('[data-plan-lb-close]');
+  const lbStage = document.querySelector<HTMLElement>('[data-plan-lb-stage]');
+
+  function setActive(slug: string, scope: 'section' | 'lightbox'): void {
+    const prefix = scope === 'section' ? '[data-plan-figure' : '[data-plan-lb-figure';
+    const chipSel = scope === 'section' ? '[data-plan-chip' : '[data-plan-lb-chip';
+    document.querySelectorAll<HTMLElement>(`${prefix}]`).forEach((el) => {
+      const isTarget = el.dataset[scope === 'section' ? 'planFigure' : 'planLbFigure'] === slug;
+      el.classList.toggle('hidden', !isTarget);
+    });
+    document.querySelectorAll<HTMLElement>(`${chipSel}]`).forEach((btn) => {
+      const active = btn.dataset[scope === 'section' ? 'planChip' : 'planLbChip'] === slug;
+      btn.setAttribute('aria-pressed', String(active));
+      btn.classList.toggle('bg-gold-500', active);
+      btn.classList.toggle('text-navy-950', active);
+      btn.classList.toggle('border-warm-50/15', !active);
+      btn.classList.toggle('text-warm-100', !active);
+      btn.classList.toggle('hover:border-gold-500/60', !active);
+      btn.classList.toggle('hover:text-gold-300', !active);
+    });
+    if (scope === 'lightbox') {
+      lbName!.textContent = slug.toUpperCase().replace(/-/g, ' ');
+      // reset zoom al cambiar de modelo
+      document.querySelectorAll<HTMLElement>('[data-plan-lb-img]').forEach((el) => {
+        el.style.transform = '';
+      });
+    }
+  }
+
+  function setLightbox(open: boolean): void {
+    if (!lightbox) return;
+    lightbox.classList.toggle('hidden', !open);
+    lightbox.setAttribute('aria-hidden', String(!open));
+    document.body.classList.toggle('overflow-hidden', open);
+    window.dispatchEvent(new CustomEvent('morcat:modal', { detail: { open } }));
+    if (open) trackEvent('floorplan_open', {});
+  }
+
+  // Chips de la sección
+  document.querySelectorAll<HTMLElement>('[data-plan-chip]').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      setActive(chip.dataset.planChip ?? '', 'section');
+    });
+  });
+
+  // Chips del lightbox
+  document.querySelectorAll<HTMLElement>('[data-plan-lb-chip]').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const slug = chip.dataset.planLbChip ?? '';
+      setActive(slug, 'lightbox');
+      setActive(slug, 'section');
+    });
+  });
+
+  // Botones "ampliar plano"
+  document.querySelectorAll<HTMLElement>('[data-plan-open]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const slug = btn.dataset.planOpen ?? slugs[0] ?? '';
+      setActive(slug, 'lightbox');
+      setLightbox(true);
+    });
+  });
+
+  // Apertura desde el quick view (evento morcat:floorplan-open)
+  window.addEventListener('morcat:floorplan-open', (e) => {
+    const slug = (e as CustomEvent<{ slug: string }>).detail?.slug;
+    if (slug) {
+      setActive(slug, 'section');
+      setActive(slug, 'lightbox');
+      setLightbox(true);
+    }
+  });
+
+  lbClose?.addEventListener('click', () => setLightbox(false));
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox && !lightbox.classList.contains('hidden')) {
+      setLightbox(false);
+    }
+  });
+
+  // Zoom (clic en la imagen / botón zoom)
+  lbStage?.addEventListener('click', (e) => {
+    const img = (e.target as HTMLElement).closest<HTMLElement>('[data-plan-lb-img]');
+    if (img) {
+      const zoomed = img.style.transform === 'scale(1.6)';
+      img.style.transform = zoomed ? '' : 'scale(1.6)';
+    }
+  });
+  document.querySelector('[data-plan-zoom]')?.addEventListener('click', () => {
+    const img = document.querySelector<HTMLElement>('[data-plan-lb-figure]:not(.hidden) [data-plan-lb-img]');
+    if (img) {
+      const zoomed = img.style.transform === 'scale(1.6)';
+      img.style.transform = zoomed ? '' : 'scale(1.6)';
+    }
+  });
+</script>

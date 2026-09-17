@@ -1,0 +1,61 @@
+---
+/**
+ * MORCAT — Encabezado de sección (estilo editorial).
+ * Número índice + eyebrow + título display + descripción.
+ */
+interface Props {
+  index?: string;
+  eyebrow: string;
+  /** Título display (mayúsculas). */
+  title: string;
+  /** Palabra en serif itálica dorada (opcional). */
+  accent?: string;
+  description?: string;
+  align?: 'left' | 'center';
+  light?: boolean;
+  class?: string;
+}
+
+const {
+  index,
+  eyebrow,
+  title,
+  accent,
+  description,
+  align = 'left',
+  light = false,
+  class: className = '',
+} = Astro.props;
+
+const center = align === 'center';
+const ink = light ? 'text-navy-950' : 'text-warm-50';
+const sub = light ? 'text-navy-700/80' : 'text-mist-400';
+---
+
+<div
+  class={`${className} ${center ? 'text-center' : ''}`}
+  data-reveal
+>
+  <div class={center ? 'eyebrow-center justify-center' : 'eyebrow'}>
+    {index && <span class="font-mono text-gold-500">{index}</span>}
+    <span>{eyebrow}</span>
+  </div>
+
+  <h2 class={`display mt-5 ${center ? 'mx-auto' : ''} ${ink}`}>
+    {title}
+    {accent && (
+      <>
+        {' '}
+        <span class={`serif-accent ${light ? 'text-gold-700' : 'text-gold-500'}`}>{accent}</span>
+      </>
+    )}
+  </h2>
+
+  {description && (
+    <p class={`mt-6 max-w-2xl text-[15px] leading-relaxed sm:text-base ${sub} ${center ? 'mx-auto' : ''}`}>
+      {description}
+    </p>
+  )}
+
+  {!center && <div class="hairline mt-8 max-w-xs" aria-hidden="true" />}
+</div>

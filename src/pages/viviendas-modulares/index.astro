@@ -1,0 +1,219 @@
+---
+/**
+ * MORCAT — /viviendas-modulares
+ * Landing SEO/comercial permanente de viviendas industrializadas.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import HomeModelCard from '../../components/HomeModelCard.astro';
+import Icon from '../../components/Icon.astro';
+import MediaImage from '../../components/MediaImage.astro';
+import { HOMES, SURFACE_RANGES } from '../../data/homes';
+
+const HOW = [
+  { title: 'Elegís modelo', text: 'Revisás el catálogo y elegís el modelo que mejor se adapta a tu necesidad.' },
+  { title: 'Adaptamos el proyecto', text: 'Ajustamos distribución, terminaciones y detalles según tu terreno y uso.' },
+  { title: 'Definimos terreno y fundación', text: 'Evaluamos el lote y definimos el sistema de fundación adecuado.' },
+  { title: 'Construcción', text: 'Fabricamos en taller y montamos la vivienda en tu terreno.' },
+  { title: 'Entrega', text: 'Recibís tu vivienda terminada, con los detalles revisados.' },
+] as const;
+
+const TITLE = 'Viviendas Modulares en Ushuaia | Casas industrializadas para Tierra del Fuego';
+const DESCRIPTION =
+  'Viviendas modulares e industrializadas en Ushuaia: modelos de 18 a 45 m² diseñados para el clima de Tierra del Fuego. Conocé el catálogo y cotizá tu proyecto.';
+---
+
+<BaseLayout
+  title={TITLE}
+  description={DESCRIPTION}
+  breadcrumbs={[
+    { name: 'Inicio', path: '/' },
+    { name: 'Viviendas modulares', path: '/viviendas-modulares' },
+  ]}
+>
+  <!-- HERO -->
+  <section class="relative flex min-h-[72svh] items-end overflow-hidden bg-navy-950 pt-36">
+    <div class="absolute inset-0">
+      <MediaImage
+        src="nordicas/bosque"
+        alt="Viviendas modulares MORCAT en Ushuaia"
+        class="h-full w-full object-cover"
+        eager
+        sizes="100vw"
+        widths={[768, 1200, 1600, 2400]}
+      />
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/55 to-navy-950/40" aria-hidden="true" />
+
+    <div class="wrap relative z-10 pb-20">
+      <p class="eyebrow intro-item" style="animation-delay: .1s">Viviendas industrializadas</p>
+      <h1 class="display-xl mt-6 text-warm-50">
+        <span class="block intro-item" style="animation-delay: .2s">Viviendas</span>
+        <span class="block intro-item" style="animation-delay: .3s">pensadas</span>
+        <span class="block intro-item" style="animation-delay: .4s">
+          <span class="serif-accent text-gold-500">para el sur.</span>
+        </span>
+      </h1>
+      <p class="intro-item mt-6 max-w-xl text-[15px] leading-relaxed text-mist-300 sm:text-base" style="animation-delay: .5s">
+        Modelos industrializados que combinan diseño, eficiencia constructiva y adaptación
+        al entorno fueguino.
+      </p>
+      <div class="intro-item mt-9 flex flex-wrap gap-4" style="animation-delay: .6s">
+        <a href="#modelos" class="btn btn-gold">
+          Conocer modelos
+          <Icon name="arrow-down" class="btn-arrow h-4 w-4" />
+        </a>
+        <a href="/contacto" class="btn btn-ghost">
+          Cotizar proyecto
+          <Icon name="arrow-up-right" class="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CÓMO FUNCIONA -->
+  <section class="relative bg-navy-900 py-20 sm:py-28" aria-labelledby="como-funciona">
+    <div class="wrap">
+      <SectionHeader
+        index="01"
+        eyebrow="Cómo funciona"
+        title="De la elección"
+        accent="a la entrega."
+        description="Un proceso claro, con un único interlocutor en cada etapa."
+      />
+
+      <ol class="mt-14 grid gap-0 sm:grid-cols-2 lg:grid-cols-5">
+        {HOW.map((step, i) => (
+          <li class="relative flex gap-5 pb-10 last:pb-0 lg:block lg:pb-0" data-reveal style={`--reveal-delay: ${i * 90}ms`}>
+            <div class="lg:hidden">
+              <span class="flex h-10 w-10 items-center justify-center border border-gold-500/50 bg-navy-900 font-mono text-[12px] font-bold text-gold-500">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+            </div>
+            <div>
+              <span class="hidden font-mono text-[12px] font-bold text-gold-500 lg:block">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <h3 class="display mt-2 text-lg text-warm-50 lg:mt-4">{step.title}</h3>
+              <p class="mt-3 text-[13px] leading-relaxed text-mist-400">{step.text}</p>
+            </div>
+            {i < HOW.length - 1 && (
+              <Icon name="arrow-down" class="absolute -bottom-2 left-3 h-4 w-4 text-gold-500/60 lg:hidden" />
+            )}
+          </li>
+        ))}
+      </ol>
+
+      <p class="mt-8 text-[13px] text-mist-500" data-reveal>
+        No publicamos plazos estándar: dependen del modelo, el terreno y la logística de
+        cada proyecto.
+      </p>
+    </div>
+  </section>
+
+  <!-- CATÁLOGO FILTRABLE -->
+  <section id="modelos" class="relative bg-navy-950 py-20 sm:py-28" aria-labelledby="modelos">
+    <div class="wrap">
+      <div class="flex flex-wrap items-end justify-between gap-6">
+        <SectionHeader
+          index="02"
+          eyebrow="Catálogo de modelos"
+          title="Modelos que"
+          accent="se adaptan."
+          description="Superficies de referencia iniciales: el catálogo definitivo se carga cuando MORCAT confirme los datos."
+          class="max-w-2xl"
+        />
+      </div>
+
+      <!-- Filtros -->
+      <div class="mt-10 flex flex-wrap items-center gap-3" role="group" aria-label="Filtrar por superficie" data-reveal>
+        {SURFACE_RANGES.map((range, i) => (
+          <button
+            type="button"
+            data-filter={range.id}
+            aria-pressed={i === 0}
+            class={`px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.18em] transition-all duration-300 ${
+              i === 0
+                ? 'bg-gold-500 text-navy-950'
+                : 'border border-warm-50/15 text-warm-100 hover:border-gold-500/60 hover:text-gold-300'
+            }`}
+          >
+            {range.label}
+          </button>
+        ))}
+        <span class="ml-auto text-[12px] uppercase tracking-[0.18em] text-mist-500">
+          <span data-model-count>{HOMES.length}</span> modelos
+        </span>
+      </div>
+
+      <!-- Grilla -->
+      <div class="mt-12 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3" data-catalog-grid>
+        {HOMES.map((model, i) => (
+          <HomeModelCard model={model} delay={i * 80} />
+        ))}
+      </div>
+
+      <!-- Estado vacío -->
+      <p class="mt-12 hidden border border-warm-50/12 p-8 text-center text-mist-400" data-filter-empty>
+        No hay modelos en ese rango por el momento. Consultanos por opciones disponibles.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="border-t border-warm-50/10 bg-navy-900 py-16">
+    <div class="wrap flex flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-left">
+      <div data-reveal>
+        <h2 class="display text-2xl text-warm-50 sm:text-3xl">
+          ¿No encontrás el modelo ideal?
+        </h2>
+        <p class="mt-2 text-[14px] text-mist-400">
+          Los modelos se adaptan a cada terreno y necesidad. Contanos tu caso.
+        </p>
+      </div>
+      <a href="/contacto" class="btn btn-gold shrink-0" data-reveal>
+        Cotizar proyecto
+        <Icon name="arrow-up-right" class="h-4 w-4" />
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  /** Filtro del catálogo por rango de superficie. */
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-surface]'));
+  const count = document.querySelector<HTMLElement>('[data-model-count]');
+  const empty = document.querySelector<HTMLElement>('[data-filter-empty]');
+
+  function applyFilter(id: string): void {
+    let visible = 0;
+    for (const card of cards) {
+      const surface = Number(card.dataset.surface ?? 0);
+      let match = true;
+      if (id === 'small') match = surface <= 25;
+      if (id === 'medium') match = surface > 25 && surface <= 40;
+      if (id === 'large') match = surface > 40;
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    }
+    if (count) count.textContent = String(visible);
+    if (empty) empty.hidden = visible !== 0;
+  }
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      buttons.forEach((b) => {
+        const active = b === btn;
+        b.setAttribute('aria-pressed', String(active));
+        b.classList.toggle('bg-gold-500', active);
+        b.classList.toggle('text-navy-950', active);
+        b.classList.toggle('border-warm-50/15', !active);
+        b.classList.toggle('text-warm-100', !active);
+        b.classList.toggle('hover:border-gold-500/60', !active);
+        b.classList.toggle('hover:text-gold-300', !active);
+      });
+      applyFilter(btn.dataset.filter ?? 'all');
+    });
+  });
+</script>

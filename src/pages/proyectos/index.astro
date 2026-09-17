@@ -1,0 +1,111 @@
+---
+/**
+ * MORCAT — /proyectos
+ * Portfolio de obras terminadas, en ejecución y futuras.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { PROJECTS, PROJECT_STATUS_ORDER, type ProjectStatus } from '../../data/projects';
+
+const FILTERS: ('todos' | ProjectStatus)[] = ['todos', ...PROJECT_STATUS_ORDER];
+
+const TITLE = 'Proyectos de Construcción en Ushuaia | Obras de MORCAT Constructora';
+const DESCRIPTION =
+  'Portfolio de MORCAT Constructora: obras terminadas, en ejecución y proyectos futuros en Ushuaia y Tierra del Fuego.';
+---
+
+<BaseLayout
+  title={TITLE}
+  description={DESCRIPTION}
+  breadcrumbs={[
+    { name: 'Inicio', path: '/' },
+    { name: 'Proyectos', path: '/proyectos' },
+  ]}
+>
+  <!-- HERO -->
+  <section class="relative flex min-h-[60svh] items-end overflow-hidden bg-navy-950 pt-36">
+    <div class="grid-lines absolute inset-0" aria-hidden="true" />
+    <div class="absolute inset-0 bg-gradient-to-b from-navy-950/30 to-navy-950" aria-hidden="true" />
+
+    <div class="wrap relative z-10 pb-16">
+      <p class="eyebrow intro-item" style="animation-delay: .1s">Portfolio</p>
+      <h1 class="display-xl mt-6 text-warm-50">
+        <span class="block intro-item" style="animation-delay: .2s">Proyectos que</span>
+        <span class="block intro-item" style="animation-delay: .3s">
+          <span class="serif-accent text-gold-500">toman forma.</span>
+        </span>
+      </h1>
+      <p class="intro-item mt-6 max-w-xl text-[15px] leading-relaxed text-mist-300" style="animation-delay: .4s">
+        Obras terminadas, en ejecución y proyectos futuros en Ushuaia y Tierra del Fuego.
+      </p>
+    </div>
+  </section>
+
+  <!-- GRID -->
+  <section class="bg-navy-950 pb-24 pt-4 sm:pb-32">
+    <div class="wrap">
+      <!-- Filtros por estado -->
+      <div class="flex flex-wrap items-center gap-3" role="group" aria-label="Filtrar por estado" data-reveal>
+        {FILTERS.map((f, i) => (
+          <button
+            type="button"
+            data-filter={f}
+            aria-pressed={i === 0}
+            class={`px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.18em] transition-all duration-300 ${
+              i === 0
+                ? 'bg-gold-500 text-navy-950'
+                : 'border border-warm-50/15 text-warm-100 hover:border-gold-500/60 hover:text-gold-300'
+            }`}
+          >
+            {f === 'todos' ? 'Todos' : f}
+          </button>
+        ))}
+      </div>
+
+      <div class="mt-12 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3" data-projects-grid>
+        {PROJECTS.map((project, i) => (
+          <div data-status={project.status}>
+            <ProjectCard project={project} delay={i * 80} />
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-12 hidden border border-warm-50/12 p-8 text-center text-mist-400" data-filter-empty>
+        No hay proyectos en ese estado por el momento.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  /** Filtro del portfolio por estado. */
+  const items = Array.from(document.querySelectorAll<HTMLElement>('[data-status]'));
+  const empty = document.querySelector<HTMLElement>('[data-filter-empty]');
+
+  function apply(status: string): void {
+    let visible = 0;
+    for (const item of items) {
+      const match = status === 'todos' || item.dataset.status === status;
+      item.style.display = match ? '' : 'none';
+      if (match) visible++;
+    }
+    if (empty) empty.hidden = visible !== 0;
+  }
+
+  const filterButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('button[data-filter]'));
+  filterButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach((b) => {
+        const active = b === btn;
+        b.setAttribute('aria-pressed', String(active));
+        b.classList.toggle('bg-gold-500', active);
+        b.classList.toggle('text-navy-950', active);
+        b.classList.toggle('border-warm-50/15', !active);
+        b.classList.toggle('text-warm-100', !active);
+        b.classList.toggle('hover:border-gold-500/60', !active);
+        b.classList.toggle('hover:text-gold-300', !active);
+      });
+      apply(btn.dataset.filter ?? 'todos');
+    });
+  });
+</script>
