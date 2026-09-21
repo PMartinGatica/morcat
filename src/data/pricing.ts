@@ -15,6 +15,15 @@
  *  Para dúplex da 926,04 en vez de los 923 USD que pasó Rodrigo
  *  (diferencia menor, probablemente redondeo de su parte) — se
  *  usa la fórmula igual, por consistencia entre todos los modelos.
+ *
+ *  2026-09-21: agregado "Núcleo húmedo" (construcción tradicional,
+ *  USD 1350/m²) que Rodrigo había olvidado en el mensaje original.
+ *  Va en FINANCING_PLANS (no en CONSTRUCTION_PRICING/el cotizador)
+ *  porque no dio rango de m² ni si aplica Plan Habitar — a diferencia
+ *  de los 3 sistemas industrializados, este es tradicional y no tiene
+ *  el mismo tamaño modular fijo. Si Rodrigo confirma un rango de m²,
+ *  mover a CONSTRUCTION_PRICING para que entre al selector del
+ *  cotizador.
  * ============================================================
  */
 
@@ -88,6 +97,11 @@ export const FINANCING_PLANS: FinancingPlan[] = [
     name: 'Financiación 100% propia y bancarizada',
     description:
       'Cuotas desde USD 650. Avance de obra por acumulación de capital, con certificación.',
+  },
+  {
+    id: 'nucleo-humedo',
+    name: 'Núcleo húmedo (construcción tradicional)',
+    description: 'Costo USD 1350/m², sistema constructivo tradicional.',
   },
   {
     id: 'obra-gris',

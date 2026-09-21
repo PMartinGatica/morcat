@@ -130,3 +130,13 @@ el cliente pide algo más sofisticado.
     `pricing.ts`.
       Verificado con build + Playwright (capturas de la sección completa
       y del link de WhatsApp de la comisión).
+- [x] **Núcleo húmedo agregado** — 2026-09-21. Rodrigo se acordó de que
+      había olvidado un costo: construcción tradicional de núcleo
+      húmedo, USD 1350/m². Se agregó a `FINANCING_PLANS` en
+      `pricing.ts` (junto a Obra gris/Platea) en vez de al selector del
+      cotizador (`CONSTRUCTION_PRICING`), porque no dio rango de m² ni
+      confirmó si aplica el Plan Habitar — a diferencia de los 3
+      sistemas industrializados del cotizador, este es tradicional y no
+      tiene un tamaño modular fijo. **Pendiente:** si Rodrigo pasa un
+      rango de m², se puede mover al cotizador para que tenga su propio
+      slider como los otros tres.
