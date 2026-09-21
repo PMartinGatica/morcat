@@ -58,7 +58,7 @@ export const PROJECTS: Project[] = [
     status: 'En obra',
     description:
       'Dúplex de dos unidades en altura, con accesos independientes. Actualmente en ejecución; se publicarán fotos de avance de obra cuando estén disponibles.',
-    gallery: ['duplex/terrazas-jardines', 'duplex/semi-rural', 'duplex/linea-940'],
+    gallery: ['duplex/hero-vela', 'duplex/atardecer-madera', 'duplex/linea-modelos', 'duplex/terrazas-jardines', 'duplex/semi-rural', 'duplex/linea-940'],
     completion: 40,
     surface: null,
     featured: true,

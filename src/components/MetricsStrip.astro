@@ -26,7 +26,7 @@ const light = variant === 'light';
 
 function format(m: (typeof FEATURES.metrics)[number]): string {
   if (m.value == null) return '—';
-  return `${m.prefix ?? ''}${m.value}${m.suffix ?? ''}`;
+  return `${m.prefix ?? ''}${m.value.toLocaleString('es-AR')}${m.suffix ?? ''}`;
 }
 
 const valueSize = columns === 2 ? 'text-4xl sm:text-5xl' : 'text-3xl sm:text-4xl';

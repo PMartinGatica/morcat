@@ -9,8 +9,10 @@
 @import "tailwindcss";
 
 @theme {
-  /* --- Paleta MORCAT --- */
-  --color-navy-950: #050d16;
+  /* --- Paleta MORCAT ---
+     navy-950 y gold-600 son los valores de marca oficiales confirmados
+     por el cliente (fondo de logo y página #0B1629; dorado #C8912A). */
+  --color-navy-950: #0b1629;
   --color-navy-900: #081522;
   --color-navy-850: #0a1a2b;
   --color-navy-800: #0b1b2c;
@@ -21,10 +23,10 @@
   --color-gold-300: #e9cd85;
   --color-gold-400: #ddaf4e;
   --color-gold-500: #d39a29;
-  --color-gold-600: #c8922e;
+  --color-gold-600: #c8912a;
   --color-gold-700: #a3761f;
 
-  --color-warm-50: #f4f2ec;
+  --color-warm-50: #f7f3e8;
   --color-warm-100: #eae7dd;
   --color-warm-200: #d8d4c6;
   --color-warm-300: #bfbaa9;
@@ -360,16 +362,14 @@ body {
    ============================================================ */
 
 .navbar {
+  /* Color fijo, sin transparencia (pedido explícito del cliente: el
+     logo no puede cambiar de tono al hacer scroll). */
+  background: var(--color-navy-950);
   transition:
-    background-color 0.45s var(--ease-arch),
     border-color 0.45s var(--ease-arch),
-    backdrop-filter 0.45s var(--ease-arch),
     box-shadow 0.45s var(--ease-arch);
 }
 .navbar.is-solid {
-  background: rgb(5 13 22 / 0.86);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   border-color: rgb(244 242 236 / 0.08);
   box-shadow: 0 10px 40px -18px rgb(0 0 0 / 0.7);
 }

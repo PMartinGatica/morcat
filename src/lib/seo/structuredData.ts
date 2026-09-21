@@ -65,7 +65,7 @@ export function webSiteSchema() {
     '@id': `${SITE.domain}/#website`,
     url: SITE.domain,
     name: SITE.companyName,
-    description: 'Constructora y desarrolladora inmobiliaria en Ushuaia, Tierra del Fuego.',
+    description: 'Constructora y desarrolladora inmobiliaria en Tierra del Fuego, Ushuaia.',
     publisher: { '@id': `${SITE.domain}/#organization` },
     inLanguage: 'es-AR',
   };

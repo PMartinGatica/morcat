@@ -10,9 +10,10 @@ export default defineConfig({
   site: SITE.domain,
   integrations: [
     sitemap({
-      // Landings de campaña (/promo/*) y secciones desactivadas
-      // (/capital) no van al sitemap principal.
-      filter: (page) => !page.includes('/promo/') && !page.includes('/capital'),
+      // Landings de campaña (/promo/*), secciones desactivadas
+      // (/capital) y páginas internas de mockup no van al sitemap.
+      filter: (page) =>
+        !page.includes('/promo/') && !page.includes('/capital') && !page.includes('/tipografia-mock'),
     }),
   ],
   vite: {

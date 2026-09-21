@@ -2,44 +2,46 @@
 /**
  * MORCAT — Logo.
  *
- * ⚠️ LOGO PROVISIONAL (placeholder claramente identificado).
- * No es el logo real de MORCAT: es una marca genérica de
- * reemplazo. Cuando se reciba el SVG oficial, reemplazar este
- * componente (o apuntar a /images/logo/logo-morcat.svg) sin
- * deformar el original.
+ * Isotipo real del cliente (sello circular navy/dorado con "MORCAT
+ * CONSTRUCTORA SRL"). El archivo recibido (logomorcatv1.svg) es en
+ * realidad un PNG de 1542x1542 envuelto en una etiqueta <svg> — no
+ * es un vector editable. Se extrajo el PNG real a
+ * src/assets/media/logo/morcat-badge.png para que astro:assets lo
+ * optimice (AVIF/WebP + tamaños). Si más adelante el cliente provee
+ * el archivo fuente (Illustrator/Figma/EPS), reemplazar por una
+ * versión vectorial y, de ser posible, separar el isotipo del
+ * wordmark para poder ajustarlos de forma independiente.
  */
+import { Image } from 'astro:assets';
+import { getMedia } from '../lib/media/manifest';
+
 interface Props {
   class?: string;
-  /** Solo el símbolo circular (navbar móvil, favicons, etc.). */
+  /** Solo el símbolo circular (navbar móvil, footers de promo, etc.). */
   markOnly?: boolean;
   /** Tamaño del símbolo (clases tailwind h-* w-*). */
   markClass?: string;
 }
 
-const { class: className = '', markOnly = false, markClass = 'h-10 w-10 sm:h-11 sm:w-11' } =
+const { class: className = '', markOnly = false, markClass = 'h-[60px] w-[60px] sm:h-[66px] sm:w-[66px]' } =
   Astro.props;
+
+const badge = getMedia('logo/morcat-badge');
 ---
 
 <a href="/" class={`group inline-flex items-center gap-3 ${className}`} aria-label="MORCAT Constructora — Inicio">
-  <svg viewBox="0 0 96 96" class={markClass} role="img" aria-hidden="true" fill="none">
-    <!-- anillo exterior -->
-    <circle cx="48" cy="48" r="45" stroke="#d39a29" stroke-opacity="0.9" stroke-width="1.6" />
-    <!-- anillo interior punteado -->
-    <circle cx="48" cy="48" r="37.5" stroke="#f4f2ec" stroke-opacity="0.28" stroke-width="1" stroke-dasharray="2 5" />
-    <!-- monograma M (genérico, no es el logo real) -->
-    <path
-      d="M31 60 V35 L48 49 L65 35 V60"
-      stroke="#f4f2ec"
-      stroke-opacity="0.95"
-      stroke-width="4.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+  {badge && (
+    <Image
+      src={badge}
+      alt="Morcat Constructora SRL"
+      class={`${markClass} shrink-0 rounded-full object-contain`}
+      widths={[64, 96, 128, 192]}
+      sizes="96px"
+      quality={92}
+      loading="eager"
+      decoding="async"
     />
-    <!-- punto dorado -->
-    <circle cx="48" cy="70" r="2.6" fill="#d39a29" />
-    <!-- guías finas -->
-    <path d="M48 14 V20 M48 76 V82" stroke="#d39a29" stroke-opacity="0.5" stroke-width="1" />
-  </svg>
+  )}
 
   {!markOnly && (
     <span class="flex flex-col leading-none">

@@ -181,7 +181,7 @@ export const PROMOS: Promo[] = [
     seoTitle:
       'Viviendas Industrializadas en Ushuaia | Pedí información — MORCAT Constructora',
     seoDescription:
-      'Viviendas modulares diseñadas para Tierra del Fuego. Pedí información y consultá las opciones disponibles para tu terreno en Ushuaia.',
+      'Viviendas modulares diseñadas para Tierra del Fuego. Pedí información y consultá qué modelo se adapta mejor a tu proyecto.',
 
     hero: {
       eyebrow: 'VIVIENDAS INDUSTRIALIZADAS · USHUAIA',
@@ -217,7 +217,7 @@ export const PROMOS: Promo[] = [
       subtitle:
         'Explorá los modelos disponibles y encontrá la superficie que mejor se adapte a tu proyecto.',
     },
-    featuredHomeSlugs: ['homero-a01', 'homero-a02', 'yagan-b01', 'lapataia-c01', 'beagle-d01'],
+    featuredHomeSlugs: ['homero-a00', 'homero-a01', 'yagan-b01', 'lapataia-c01', 'beagle-d01'],
     modelsCta: 'VER MODELO',
     modelsSecondaryCta: 'CONSULTAR',
 
@@ -287,7 +287,7 @@ export const PROMOS: Promo[] = [
       eyebrow: 'Personalización',
       title: 'UN MODELO',
       accentLine: 'NO TIENE QUE SER UNA LIMITACIÓN.',
-      copy: 'Los modelos funcionan como punto de partida. Cada proyecto se analiza según el terreno, el uso y las necesidades.',
+      copy: 'Los modelos funcionan como punto de partida. Cada proyecto se analiza según el uso, las necesidades y el terreno.',
       categories: ['Distribución', 'Terminaciones', 'Superficie', 'Implantación'],
       note: 'Consultanos qué alternativas de adaptación están disponibles para cada modelo.',
     },
@@ -305,7 +305,7 @@ export const PROMOS: Promo[] = [
         {
           index: '02',
           title: 'CONTANOS TU PROYECTO',
-          description: 'Terreno, uso previsto, presupuesto estimado: todo lo que ayude a entender tu caso.',
+          description: 'Uso previsto, presupuesto estimado y terreno: todo lo que ayude a entender tu caso.',
         },
         {
           index: '03',
@@ -334,7 +334,7 @@ export const PROMOS: Promo[] = [
     south: {
       eyebrow: 'Tierra del Fuego',
       title: 'PENSADAS',
-      accentLine: 'DESDE EL SUR.',
+      accentLine: 'PARA TIERRA DEL FUEGO.',
       body: [
         'Construir en Tierra del Fuego requiere pensar el proyecto desde su entorno.',
         'Diseño, implantación, materiales y sistema constructivo deben analizarse según cada ubicación.',
@@ -355,7 +355,7 @@ export const PROMOS: Promo[] = [
       eyebrow: 'Confianza',
       title: 'QUIÉN ESTÁ',
       accentLine: 'DETRÁS DEL PROYECTO.',
-      body: 'MORCAT CONSTRUCTORA SRL es una empresa constructora y desarrolladora inmobiliaria de Ushuaia, Tierra del Fuego. Nuestra experiencia se construye obra a obra, en el lugar más austral del mundo.',
+      body: 'MORCAT CONSTRUCTORA SRL es una empresa constructora y desarrolladora inmobiliaria de Tierra del Fuego, Ushuaia. Nuestra experiencia se construye obra a obra, en el lugar más austral del mundo.',
       corporateLinkLabel: 'CONOCÉ MORCAT',
     },
 
@@ -378,7 +378,7 @@ export const PROMOS: Promo[] = [
       {
         question: '¿Trabajan únicamente en Ushuaia?',
         answer:
-          'La empresa está radicada en Ushuaia y desarrolla su actividad en Tierra del Fuego. Consultanos por tu ubicación puntual.',
+          'La empresa desarrolla su actividad en Tierra del Fuego, con sede en Ushuaia. Consultanos por tu ubicación puntual.',
       },
       {
         question: '¿Puedo ver los planos?',

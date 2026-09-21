@@ -1,0 +1,188 @@
+---
+/**
+ * MORCAT — Cotizador rápido (landing de campaña).
+ *
+ * Calculadora 100% client-side (sin backend, apta para hosting
+ * estático): el visitante elige tipo de obra + m², ve una
+ * estimación llave en mano y en cuotas (Plan Habitar, 48 cuotas),
+ * y termina en WhatsApp con esos datos precargados — mismo flujo
+ * que ya usa Morcat a mano.
+ *
+ * Precios: src/data/pricing.ts (provistos por Rodrigo, 2026-09-20).
+ * No se cobra ni se cotiza nada acá: es una estimación de
+ * referencia, aclarado en el texto.
+ */
+import Icon from '../Icon.astro';
+import { CONSTRUCTION_PRICING } from '../../data/pricing';
+---
+
+<section id="cotizador" class="relative bg-navy-900 py-24 sm:py-32" aria-labelledby="cotizador-title">
+  <div class="grid-lines absolute inset-0 opacity-40" aria-hidden="true" />
+
+  <div class="wrap relative max-w-3xl">
+    <div class="text-center" data-reveal>
+      <div class="eyebrow-center">
+        <span>Estimación rápida</span>
+      </div>
+      <h2 id="cotizador-title" class="display mt-5 text-4xl text-warm-50 sm:text-5xl">
+        CALCULÁ TU
+        <span class="block"><span class="serif-accent text-gold-500">proyecto.</span></span>
+      </h2>
+      <p class="mx-auto mt-4 max-w-xl text-[14px] text-mist-400">
+        Elegí el tipo de obra y los metros cuadrados. Es una estimación de referencia —
+        la cotización real se ajusta según terreno, terminaciones y ubicación.
+      </p>
+    </div>
+
+    <div class="mt-12 border border-warm-50/12 bg-navy-950/60 p-6 backdrop-blur-sm sm:p-9" data-cotizador>
+      <!-- Tipo de obra -->
+      <fieldset>
+        <legend class="field-label">Tipo de obra</legend>
+        <div class="grid gap-3 sm:grid-cols-3">
+          {CONSTRUCTION_PRICING.map((t, i) => (
+            <label
+              class="flex cursor-pointer flex-col gap-1 border border-warm-50/15 px-4 py-3 text-[13px] font-semibold text-warm-100 transition-colors duration-300 has-checked:border-gold-500/70 has-checked:text-gold-300"
+              data-cotizador-option
+            >
+              <span class="flex items-center gap-2.5">
+                <input
+                  type="radio"
+                  name="tipoObra"
+                  value={t.id}
+                  checked={i === 0}
+                  class="h-4 w-4 accent-gold-500"
+                  data-cotizador-radio
+                />
+                {t.name}
+              </span>
+              <span class="pl-6 text-[11px] font-normal normal-case tracking-normal text-mist-500">
+                {t.minSurface}–{t.maxSurface} m² · {t.structure}
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <!-- Metros cuadrados -->
+      <div class="mt-7">
+        <div class="flex items-center justify-between">
+          <label for="cotizador-m2" class="field-label mb-0!">Superficie (m²)</label>
+          <span class="font-mono text-lg font-bold text-gold-400" data-cotizador-m2-value></span>
+        </div>
+        <input
+          id="cotizador-m2"
+          type="range"
+          class="mt-3 h-1.5 w-full cursor-pointer appearance-none bg-warm-50/15 accent-gold-500"
+          data-cotizador-m2-input
+        />
+        <div class="mt-1.5 flex justify-between text-[11px] text-mist-500" data-cotizador-m2-range></div>
+      </div>
+
+      <!-- Resultado -->
+      <div class="mt-8 grid gap-4 border-t border-warm-50/10 pt-7 sm:grid-cols-2">
+        <div>
+          <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-mist-500">
+            Llave en mano
+          </p>
+          <p class="display mt-2 text-3xl text-warm-50" data-cotizador-total>USD 0</p>
+        </div>
+        <div>
+          <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-mist-500">
+            O desde, en 48 cuotas (Plan Habitar)
+          </p>
+          <p class="display mt-2 text-3xl text-gold-400" data-cotizador-installment>USD 0<span class="text-base text-mist-500">/mes</span></p>
+        </div>
+      </div>
+
+      <p class="mt-5 text-[12px] leading-relaxed text-mist-500">
+        Para participar del sorteo con el Plan Habitar hay que integrar las primeras 5
+        cuotas. Entrega estimada: 5 meses. Valores de referencia en USD, sujetos a
+        confirmación según terreno y condiciones vigentes.
+      </p>
+
+      <div class="mt-7 flex justify-center">
+        <a href="#" class="btn btn-gold" data-cotizador-whatsapp target="_blank" rel="noopener noreferrer">
+          <Icon name="whatsapp" class="h-4 w-4" />
+          Consultar esta estimación
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { CONSTRUCTION_PRICING, estimateTotalUsd, estimateInstallmentUsd } from '../../data/pricing';
+  import { whatsappLink } from '../../config/site';
+  import { cotizadorWhatsAppMessage } from '../../lib/promo/whatsapp';
+  import { trackEvent } from '../../lib/analytics/track';
+
+  const root = document.querySelector<HTMLElement>('[data-cotizador]');
+  if (root) {
+    const m2Input = root.querySelector<HTMLInputElement>('[data-cotizador-m2-input]')!;
+    const m2Value = root.querySelector<HTMLElement>('[data-cotizador-m2-value]')!;
+    const m2Range = root.querySelector<HTMLElement>('[data-cotizador-m2-range]')!;
+    const totalEl = root.querySelector<HTMLElement>('[data-cotizador-total]')!;
+    const installmentEl = root.querySelector<HTMLElement>('[data-cotizador-installment]')!;
+    const waLink = root.querySelector<HTMLAnchorElement>('[data-cotizador-whatsapp]')!;
+    const radios = Array.from(root.querySelectorAll<HTMLInputElement>('[data-cotizador-radio]'));
+
+    const fmt = (n: number) => `USD ${n.toLocaleString('es-AR')}`;
+
+    function currentType() {
+      const id = radios.find((r) => r.checked)?.value ?? CONSTRUCTION_PRICING[0].id;
+      return CONSTRUCTION_PRICING.find((t) => t.id === id) ?? CONSTRUCTION_PRICING[0];
+    }
+
+    function syncRangeForType() {
+      const type = currentType();
+      m2Input.min = String(type.minSurface);
+      m2Input.max = String(type.maxSurface);
+      // Siempre arranca en el mínimo al cambiar de tipo (incluida la carga
+      // inicial): un <input type="range"> sin min/max explícitos parte de
+      // value=50, y el navegador lo clampea solo al nuevo max al setearlo
+      // por JS — sin este reset quedaba mostrando el precio más caro primero.
+      m2Input.value = String(type.minSurface);
+      m2Range.textContent = '';
+      m2Range.append(`${type.minSurface} m²`);
+      const max = document.createElement('span');
+      max.textContent = `${type.maxSurface} m²`;
+      m2Range.append(max);
+    }
+
+    function update() {
+      const type = currentType();
+      const surface = Number(m2Input.value);
+      m2Value.textContent = `${surface} m²`;
+
+      const total = estimateTotalUsd(type, surface);
+      const installment = estimateInstallmentUsd(type, surface);
+      totalEl.textContent = fmt(total);
+      installmentEl.innerHTML = `${fmt(installment)}<span class="text-base text-mist-500">/mes</span>`;
+
+      const message = cotizadorWhatsAppMessage(type.name, surface, total, installment);
+      const link = whatsappLink(message);
+      if (link) {
+        waLink.href = link;
+      } else {
+        waLink.href = '#promo-form';
+        waLink.removeAttribute('target');
+      }
+    }
+
+    radios.forEach((r) =>
+      r.addEventListener('change', () => {
+        syncRangeForType();
+        update();
+      }),
+    );
+    m2Input.addEventListener('input', update);
+
+    waLink.addEventListener('click', () => {
+      const type = currentType();
+      trackEvent('cotizador_whatsapp_click', { tipo: type.id, m2: m2Input.value });
+    });
+
+    syncRangeForType();
+    update();
+  }
+</script>

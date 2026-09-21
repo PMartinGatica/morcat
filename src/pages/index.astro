@@ -5,7 +5,6 @@
  * desarrolla en su propia página con su propio SEO.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ThreeHero from '../components/ThreeHero.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import HomeModelCard from '../components/HomeModelCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
@@ -54,7 +53,7 @@ const WHY = [
   { icon: 'mountain', title: 'Conocimiento del clima fueguino', text: 'Proyectamos sabiendo cómo se comporta el viento, la lluvia y la nieve en la región.' },
   { icon: 'compass', title: 'Diseño adaptado al entorno', text: 'Cada proyecto se piensa para su terreno, su orientación y su paisaje.' },
   { icon: 'shield-check', title: 'Experiencia en construcción', text: 'Equipo local que conoce la logística, los proveedores y la realidad de construir en Ushuaia.' },
-  { icon: 'module', title: 'Soluciones industrializadas', text: 'Viviendas fabricadas en taller y montadas en terreno, con mayor control del proceso.' },
+  { icon: 'module', title: 'Soluciones industrializadas', text: 'Viviendas fabricadas en fábrica y montadas en terreno, con mayor control del proceso.' },
   { icon: 'users', title: 'Acompañamiento durante el proyecto', text: 'Un único interlocutor desde la primera consulta hasta la entrega de la obra.' },
 ] as const;
 
@@ -62,17 +61,26 @@ const FACTORS = ['Clima', 'Aislación', 'Viento', 'Orientación', 'Materiales', 
 
 const TITLE = 'MORCAT Constructora en Ushuaia | Viviendas industrializadas, construcción y desarrollos';
 const DESCRIPTION =
-  'Constructora y desarrolladora inmobiliaria en Ushuaia, Tierra del Fuego. Viviendas modulares, casas a medida, dúplex y desarrollos. Conocé cómo construimos otra forma de habitar el sur.';
+  'Constructora y desarrolladora inmobiliaria en Tierra del Fuego, Ushuaia. Viviendas modulares, casas a medida, dúplex y desarrollos. Conocé cómo construimos otra forma de habitar el sur.';
 ---
 
 <BaseLayout title={TITLE} description={DESCRIPTION}>
   <!-- ============ 01 · HERO ============ -->
   <section class="relative flex min-h-[100svh] items-end overflow-hidden bg-navy-950">
-    <ThreeHero />
+    <div class="absolute inset-0">
+      <MediaImage
+        src="modulares/hero-nocturna-ushuaia"
+        alt="Vivienda modular MORCAT sobre Ushuaia, de noche con la bahía y las montañas nevadas de fondo"
+        class="h-full w-full object-cover"
+        sizes="100vw"
+        eager
+      />
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/55 to-navy-950/20" aria-hidden="true" />
 
     <div class="wrap relative z-10 pb-28 pt-40 sm:pb-32">
       <p class="eyebrow intro-item" style="animation-delay: .1s">
-        Constructora · Ushuaia, Tierra del Fuego
+        Constructora · Tierra del Fuego, Ushuaia
       </p>
 
       <h1 class="display-xl mt-6 text-warm-50">
@@ -348,8 +356,8 @@ const DESCRIPTION =
     <div class="wrap text-center">
       <div class="hairline mx-auto max-w-md" data-reveal="fade" />
       <h2 class="display mt-10 text-4xl text-warm-50 sm:text-6xl" data-reveal>
-        ¿Tenés un terreno
-        <span class="block"><span class="serif-accent text-gold-500">o una idea?</span></span>
+        ¿Tenés un proyecto
+        <span class="block"><span class="serif-accent text-gold-500">en mente?</span></span>
       </h2>
       <p class="mx-auto mt-6 max-w-xl text-[15px] leading-relaxed text-mist-400 sm:text-base" data-reveal>
         Contanos qué querés construir y evaluamos juntos la mejor alternativa para tu

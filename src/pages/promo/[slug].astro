@@ -19,6 +19,7 @@ import UseCases from '../../components/promo/UseCases.astro';
 import Personalization from '../../components/promo/Personalization.astro';
 import PromoProcess from '../../components/promo/PromoProcess.astro';
 import SouthSection from '../../components/promo/SouthSection.astro';
+import Cotizador from '../../components/promo/Cotizador.astro';
 import FinancingCTA from '../../components/promo/FinancingCTA.astro';
 import PromoTrust from '../../components/promo/PromoTrust.astro';
 import PromoFAQ from '../../components/promo/PromoFAQ.astro';
@@ -77,6 +78,9 @@ const { promo } = Astro.props;
 
   <!-- 09 · TIERRA DEL FUEGO -->
   <SouthSection south={promo.south} />
+
+  <!-- 09b · COTIZADOR RÁPIDO -->
+  <Cotizador />
 
   <!-- 10 · FINANCIACIÓN -->
   <FinancingCTA financing={promo.financing} />

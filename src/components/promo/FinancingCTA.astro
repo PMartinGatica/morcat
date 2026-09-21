@@ -1,11 +1,14 @@
 ---
 /**
- * MORCAT — Sección de financiación (claro).
- * Copy prudente: sin cuotas, tasas, anticipos ni montos.
+ * MORCAT — Sección de financiación.
+ * Antes tenía copy prudente sin cuotas/montos porque no había
+ * datos confirmados. Desde 2026-09-20 Rodrigo pasó los planes
+ * reales (src/data/pricing.ts) — se muestran acá tal cual.
  * CTA abre WhatsApp con mensaje prearmado de financiación.
  */
 import Icon from '../Icon.astro';
 import { promoWhatsAppLink } from '../../lib/promo/whatsapp';
+import { FINANCING_PLANS, SALES_COMMISSION, CONSTRUCTION_STAGES_40_60 } from '../../data/pricing';
 import type { Promo } from '../../data/promos';
 
 interface Props {
@@ -14,11 +17,12 @@ interface Props {
 
 const { financing } = Astro.props;
 const wa = promoWhatsAppLink('financing');
+const waCommission = promoWhatsAppLink('commission');
 ---
 
 <section class="relative bg-warm-50 py-20 text-navy-950 sm:py-28" aria-labelledby="financiacion-title">
-  <div class="wrap grid items-center gap-10 lg:grid-cols-[1.3fr_1fr] lg:gap-16">
-    <div data-reveal>
+  <div class="wrap">
+    <div class="max-w-2xl" data-reveal>
       <div class="eyebrow">
         <span>{financing.eyebrow}</span>
       </div>
@@ -29,13 +33,39 @@ const wa = promoWhatsAppLink('financing');
       <p class="mt-5 max-w-xl text-[15px] leading-relaxed text-navy-700/80 sm:text-base">
         {financing.copy}
       </p>
-      <p class="mt-4 text-[12px] text-navy-700/60">
-        Cuotas, tasas y condiciones se informan según la propuesta vigente al momento de
-        la consulta.
-      </p>
     </div>
 
-    <div class="flex justify-start lg:justify-end" data-reveal="right">
+    <div class="mt-10 grid gap-px border border-navy-950/10 bg-navy-950/10 sm:grid-cols-2 lg:grid-cols-3">
+      {FINANCING_PLANS.map((plan, i) => (
+        <article class="bg-warm-50 p-6" data-reveal style={`--reveal-delay: ${i * 70}ms`}>
+          <h3 class="display text-lg text-navy-950">{plan.name}</h3>
+          <p class="mt-3 text-[13px] leading-relaxed text-navy-700/75">{plan.description}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="mt-8" data-reveal>
+      <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-navy-700/60">
+        Plan Etapa 4 · aplica financiación 40/60
+      </p>
+      <ol class="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-navy-700/75">
+        {CONSTRUCTION_STAGES_40_60.map((stage) => (
+          <li class="flex items-center gap-2">
+            <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-navy-950 text-[10px] font-bold text-warm-50">
+              {stage.order}
+            </span>
+            {stage.name}
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <p class="mt-6 text-[12px] text-navy-700/60">
+      Cuotas, tasas y condiciones se informan según la propuesta vigente al momento de
+      la consulta.
+    </p>
+
+    <div class="mt-8 flex flex-wrap items-center gap-4" data-reveal>
       <a
         href={wa ?? '#promo-form'}
         target={wa ? '_blank' : undefined}
@@ -47,6 +77,28 @@ const wa = promoWhatsAppLink('financing');
         {financing.cta}
       </a>
     </div>
+
+    <!-- Comisión por venta -->
+    <div class="mt-14 flex flex-col items-start gap-5 border border-gold-700/30 bg-navy-950 p-7 text-warm-50 sm:flex-row sm:items-center sm:justify-between" data-reveal>
+      <div>
+        <p class="eyebrow text-gold-400!">
+          <span>Programa de referidos</span>
+        </p>
+        <p class="mt-3 max-w-xl text-[15px] leading-relaxed text-mist-300">
+          {SALES_COMMISSION.description}
+        </p>
+      </div>
+      <a
+        href={waCommission ?? '#promo-form'}
+        target={waCommission ? '_blank' : undefined}
+        rel={waCommission ? 'noopener noreferrer' : undefined}
+        data-commission-cta
+        class="btn btn-light-gold shrink-0"
+      >
+        <Icon name={waCommission ? 'whatsapp' : 'mail'} class="h-4 w-4" />
+        Quiero sumarme
+      </a>
+    </div>
   </div>
 </section>
 
@@ -54,5 +106,8 @@ const wa = promoWhatsAppLink('financing');
   import { trackEvent } from '../../lib/analytics/track';
   document.querySelector('[data-financing-cta]')?.addEventListener('click', () => {
     trackEvent('financing_click', {});
+  });
+  document.querySelector('[data-commission-cta]')?.addEventListener('click', () => {
+    trackEvent('commission_click', {});
   });
 </script>

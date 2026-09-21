@@ -24,7 +24,7 @@ export const CONSTRUCTION_PROCESS: ProcessStep[] = [
     index: '01',
     title: 'Idea',
     description:
-      'Empezamos escuchando: qué querés construir, en qué terreno, para qué uso y con qué presupuesto.',
+      'Empezamos escuchando: qué querés construir, para qué uso, con qué presupuesto y en qué terreno.',
   },
   {
     index: '02',
@@ -92,7 +92,7 @@ export const CONSTRUCTION_SYSTEMS: ConstructionSystem[] = [
     id: 'industrializado',
     name: 'Sistemas industrializados',
     description:
-      'Componentes fabricados en taller y montados en terreno: módulos y paneles que reducen tiempos y dependencia del clima.',
+      'Componentes fabricados en fábrica y montados en terreno: paneles armados in situ o módulos terminados listos para trasladar, según el proyecto.',
     icon: 'module',
     image: 'nordicas/platea-flotante',
     demo: false,
@@ -151,12 +151,12 @@ export const CONSTRUCTION_LINES: ConstructionLine[] = [
   {
     title: 'Proyectos personalizados',
     description:
-      'Diseño y construcción de proyectos únicos, adaptados al terreno, al clima y a tu forma de vivir.',
+      'Diseño y construcción de proyectos únicos, pensados para tu forma de vivir, el clima y el terreno.',
   },
   {
     title: 'Sistemas industrializados',
     description:
-      'Aplicamos componentes modulares y paneles cuando el proyecto se beneficia de la producción en taller.',
+      'Aplicamos componentes modulares y paneles cuando el proyecto se beneficia de la producción en fábrica.',
   },
   {
     title: 'Construcción tradicional',
