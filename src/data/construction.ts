@@ -48,7 +48,7 @@ export const CONSTRUCTION_PROCESS: ProcessStep[] = [
     index: '05',
     title: 'Entrega',
     description:
-      'Entregamos la obra terminada, con los detalles revisados y la documentación del proyecto.',
+      'Entregamos la obra terminada, con detalles y supervisión técnica, acompañada por la documentación del proyecto.',
   },
 ];
 
@@ -92,7 +92,7 @@ export const CONSTRUCTION_SYSTEMS: ConstructionSystem[] = [
     id: 'industrializado',
     name: 'Sistemas industrializados',
     description:
-      'Componentes fabricados en fábrica y montados en terreno: paneles armados in situ o módulos terminados listos para trasladar, según el proyecto.',
+      'Componentes fabricados en fábrica y montajes en el terreno: paneles armados in situ o módulos terminados listos para trasladar, según el proyecto.',
     icon: 'module',
     image: 'nordicas/platea-flotante',
     demo: false,

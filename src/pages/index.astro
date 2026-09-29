@@ -9,7 +9,6 @@ import SectionHeader from '../components/SectionHeader.astro';
 import HomeModelCard from '../components/HomeModelCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ConstructionProcess from '../components/ConstructionProcess.astro';
-import ContactForm from '../components/ContactForm.astro';
 import WhatsAppCTA from '../components/WhatsAppCTA.astro';
 import Icon from '../components/Icon.astro';
 import MediaImage from '../components/MediaImage.astro';
@@ -29,7 +28,7 @@ const AREAS = [
       'Modelos industrializados diseñados para construcción eficiente, adaptados al clima del sur.',
     cta: 'Conocer modelos',
     href: '/viviendas-modulares',
-    image: 'modulares/cabana-andina',
+    image: 'modulares/edificios-invierno',
   },
   {
     index: '02',
@@ -52,16 +51,16 @@ const AREAS = [
 const WHY = [
   { icon: 'mountain', title: 'Conocimiento del clima fueguino', text: 'Proyectamos sabiendo cómo se comporta el viento, la lluvia y la nieve en la región.' },
   { icon: 'compass', title: 'Diseño adaptado al entorno', text: 'Cada proyecto se piensa para su terreno, su orientación y su paisaje.' },
-  { icon: 'shield-check', title: 'Experiencia en construcción', text: 'Equipo local que conoce la logística, los proveedores y la realidad de construir en Ushuaia.' },
-  { icon: 'module', title: 'Soluciones industrializadas', text: 'Viviendas fabricadas en fábrica y montadas en terreno, con mayor control del proceso.' },
+  { icon: 'shield-check', title: 'Experiencia en construcción', text: 'Equipo local que conoce la logística, los proveedores y la realidad de construir en Tierra del Fuego.' },
+  { icon: 'module', title: 'Soluciones industrializadas', text: 'Viviendas industrializadas, panelizadas en fábrica, in situ. Con mayor control del proceso.' },
   { icon: 'users', title: 'Acompañamiento durante el proyecto', text: 'Un único interlocutor desde la primera consulta hasta la entrega de la obra.' },
 ] as const;
 
 const FACTORS = ['Clima', 'Aislación', 'Viento', 'Orientación', 'Materiales', 'Logística'];
 
-const TITLE = 'MORCAT Constructora en Ushuaia | Viviendas industrializadas, construcción y desarrollos';
+const TITLE = 'MORCAT Constructora en Tierra del Fuego | Viviendas industrializadas, construcción y desarrollos';
 const DESCRIPTION =
-  'Constructora y desarrolladora inmobiliaria en Tierra del Fuego, Ushuaia. Viviendas modulares, casas a medida, dúplex y desarrollos. Conocé cómo construimos otra forma de habitar el sur.';
+  'Constructora y desarrolladora inmobiliaria en Tierra del Fuego. Viviendas modulares, casas a medida, dúplex y desarrollos. Conocé cómo construimos otra forma de habitar el sur.';
 ---
 
 <BaseLayout title={TITLE} description={DESCRIPTION}>
@@ -80,7 +79,7 @@ const DESCRIPTION =
 
     <div class="wrap relative z-10 pb-28 pt-40 sm:pb-32">
       <p class="eyebrow intro-item" style="animation-delay: .1s">
-        Constructora · Tierra del Fuego, Ushuaia
+        Constructora · Tierra del Fuego
       </p>
 
       <h1 class="display-xl mt-6 text-warm-50">
@@ -92,7 +91,7 @@ const DESCRIPTION =
       </h1>
 
       <p class="intro-item mt-7 max-w-xl text-[15px] leading-relaxed text-mist-300 sm:text-base" style="animation-delay: .5s">
-        Viviendas industrializadas, construcción y desarrollos inmobiliarios desde Ushuaia.
+        Viviendas industrializadas, construcción y desarrollos inmobiliarios en Tierra del Fuego.
       </p>
 
       <div class="intro-item mt-10 flex flex-wrap items-center gap-4" style="animation-delay: .6s">
@@ -142,9 +141,6 @@ const DESCRIPTION =
                     sizes="(min-width: 1024px) 58vw, 100vw"
                   />
                   <div class="absolute inset-0 bg-gradient-to-t from-navy-950/50 via-transparent to-transparent" aria-hidden="true" />
-                  <span class="absolute left-5 top-5 font-mono text-lg font-bold text-gold-400">
-                    / {area.index}
-                  </span>
                   <span class="absolute bottom-5 right-5 flex h-12 w-12 items-center justify-center border border-gold-500/50 bg-navy-950/60 text-gold-400 transition-all duration-300 group-hover:bg-gold-500 group-hover:text-navy-950">
                     <Icon name="arrow-up-right" class="h-5 w-5" />
                   </span>
@@ -159,7 +155,7 @@ const DESCRIPTION =
                 <p class="mt-5 max-w-md text-[15px] leading-relaxed text-mist-400">
                   {area.description}
                 </p>
-                <a href={area.href} class="group mt-7 inline-flex items-center gap-3 text-[12px] font-bold uppercase tracking-[0.2em] text-gold-400 transition-colors hover:text-gold-300">
+                <a href={area.href} class="group -my-2 mt-7 inline-flex items-center gap-3 py-2 text-[12px] font-bold uppercase tracking-[0.2em] text-gold-400 transition-colors hover:text-gold-300">
                   {area.cta}
                   <span class="h-px w-10 bg-gold-500/60 transition-all duration-300 group-hover:w-16" aria-hidden="true" />
                 </a>
@@ -337,7 +333,7 @@ const DESCRIPTION =
         eyebrow="Construir en Tierra del Fuego"
         title="Diseñado"
         accent="para el sur."
-        description="Proyectar en Ushuaia requiere pensar el clima, la aislación, el viento, la orientación, los materiales y la logística antes de empezar. Ese conocimiento es parte del proyecto."
+        description="Proyectar en Tierra del Fuego requiere pensar el clima, la aislación, el viento, la orientación, los materiales y la logística antes de empezar. Ese conocimiento es parte del proyecto."
       />
 
       <ul class="mt-10 flex flex-wrap gap-3" data-reveal>
@@ -369,19 +365,5 @@ const DESCRIPTION =
     </div>
   </section>
 
-  <!-- ============ 10 · CONTACTO ============ -->
-  <section class="relative border-t border-warm-50/10 bg-navy-950 py-24 sm:py-32" aria-labelledby="contacto">
-    <div class="wrap">
-      <SectionHeader
-        index="06"
-        eyebrow="Contacto"
-        title="Empecemos a"
-        accent="conversar."
-        description="Contanos sobre tu proyecto: te respondemos con información concreta y sin vueltas."
-      />
-      <div class="mt-14">
-        <ContactForm source="home" />
-      </div>
-    </div>
-  </section>
+  <!-- 10 · CALCULADORA + CONTACTO: los agrega BaseLayout (PreFooter) -->
 </BaseLayout>

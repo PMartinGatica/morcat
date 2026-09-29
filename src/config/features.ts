@@ -16,11 +16,11 @@ export const FEATURES = {
   capitalEnabled: false,
 
   /**
-   * Muestra el indicador "DEMO CONTENT" sobre datos no confirmados.
-   * En desarrollo aparece siempre; en producción se puede ocultar
-   * poniendo esto en false.
+   * Muestra el indicador "DEMO CONTENT" (y sus variantes) sobre datos
+   * no confirmados, tanto en desarrollo como en producción.
+   * En false el sitio se ve como versión final.
    */
-  showDemoBadges: true,
+  showDemoBadges: false,
 
   /**
    * Indica si el sitio se encuentra en etapa de demo (avisos

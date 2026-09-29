@@ -45,7 +45,7 @@ Para volver a procesar desde el material original: `node scripts/media-build.mjs
 
 | Clave (`src/assets/media/`) | Origen | Dónde se usa |
 | --- | --- | --- |
-| `modulares/cabana-andina` | MODULARES HOME · Cabaña cálida en el bosque andino.png | Hero landing promo · Home "Qué hacemos" · Nosotros · Proyecto Casa Bosque Sur |
+| `modulares/cabana-andina` | MODULARES HOME · Cabaña cálida en el bosque andino.png | Hero landing promo · Home "Qué hacemos" · Nosotros · Proyecto Línea Homero |
 | `modulares/bosque-01` | MODULARES HOME · Cabaña moderna en el bosque (1).png | Modelo HOMERO A01 (portada + galería) |
 | `modulares/neblinoso` | MODULARES HOME · Cabaña moderna en el bosque neblinoso.png | Modelo HOMERO A02 · Home sección Ushuaia · Landing promo "Pensadas desde el sur" |
 | `modulares/linea-25` | MODULARES HOME · ChatGPT Image 25 abr 2026, 02_26_58 p.m..png | Modelo YAGAN B01 (portada) |
@@ -53,16 +53,18 @@ Para volver a procesar desde el material original: `node scripts/media-build.mjs
 | `modulares/exterior-02` | MODULARES HOME · 550dc1d8…png | Galerías · Showcase · Proyecto Estudio Austral / Nave |
 | `modulares/plano-21` | VIVIENDAS NORDICAS · **Casa 21,5 M2 - Monoambiente - Planos.png** | **Plano real 21,5 m²** (modelo HOMERO A01 + sección Planos) |
 | `modulares/plano-referencia` | VIVIENDAS NORDICAS · plano_original_con_logo_morcat_esquina.jpg | /construccion → "Plano original MORCAT" |
-| `nordicas/bosque-07` | VIVIENDAS NORDICAS · Cabaña moderna en el bosque (7).png | Modelo LAPATAIA C01 (portada) |
+| `modulares/nexa-austral-a00` | Render provisto por MORCAT · Cabaña de chapa negra y madera con deck.jpg | Modelo NEXA AUSTRAL A00 (portada) |
+| `nordicas/bosque-07` | VIVIENDAS NORDICAS · Cabaña moderna en el bosque (7).png | Sin uso (era la portada de LAPATAIA C01) |
 | `nordicas/bosque-08` | VIVIENDAS NORDICAS · Cabaña moderna en el bosque (8).png | Modelo BEAGLE D01 (portada) |
 | `nordicas/montanoso` | VIVIENDAS NORDICAS · Casa moderna en el bosque montañoso.png | Galerías |
 | `nordicas/paisaje` | VIVIENDAS NORDICAS · Casa moderna en paisaje natural.png | Galerías · Proyectos |
 | `nordicas/bosque` | VIVIENDAS NORDICAS · Cabaña moderna en el bosque.png | Hero /viviendas-modulares · Hero Nosotros |
 | `nordicas/otono` | VIVIENDAS NORDICAS · Cabaña minimalista en el bosque otoño (1).png | Galería · Showcase |
 | `nordicas/platea-flotante` | VIVIENDAS NORDICAS · **Platea Flotante.png** | Sistemas constructivos · /construccion (detalle) · Landing promo (volumen) |
-| `nordicas/plano-35` | VIVIENDAS NORDICAS · **Plano_35M2-removebg-preview.png** | **Plano real 35 m²** (modelo LAPATAIA C01 + sección Planos) |
+| `nordicas/plano-35` | VIVIENDAS NORDICAS · **Plano_35M2-removebg-preview.png** | **Plano real 35 m²** (modelo NEXA AUSTRAL A00 + sección Planos) |
 | `duplex/semi-rural` | Duplex austral · Casa moderna en paisaje semi-rural.png | Hero /construccion · Proyectos |
-| `duplex/terrazas-jardines` | Duplex austral · Casa moderna con terrazas y jardines.png | Proyecto Dúplex Kuar (portada) |
+| `duplex/terrazas-jardines` | Duplex austral · Casa moderna con terrazas y jardines.png | Proyecto Dúplex Austral (galería) |
+| `duplex/duplex-austral` | Render provisto por MORCAT · Dúplex de madera y chapa negra con montañas nevadas.jpg | Proyecto Dúplex Austral (portada) |
 | `duplex/panoramica` | Duplex austral · Gemini_Generated_Image_u67ey…png | Galerías |
 | `duplex/linea-940` | Duplex austral · ChatGPT Image 25 mar 2026, 10_19_18 a.m..png | Galerías |
 | `duplex/plano-alzado` | Duplex austral · **Plsanoalz.png** | /construccion → plano y alzado del dúplex |

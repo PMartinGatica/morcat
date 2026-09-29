@@ -3,13 +3,12 @@
  *
  * Todo dato no confirmado debe tener `demo: true` en su fuente.
  * Este módulo centraliza CUÁNDO se muestra el indicador.
- * - En desarrollo (astro dev) siempre se muestra.
- * - En producción depende de FEATURES.showDemoBadges.
+ * Depende solo de FEATURES.showDemoBadges (igual en dev y producción).
  */
 import { FEATURES } from '../../config/features';
 
 export function isDemoVisible(): boolean {
-  return import.meta.env.DEV || FEATURES.showDemoBadges;
+  return FEATURES.showDemoBadges;
 }
 
 export const DEMO_NOTE =

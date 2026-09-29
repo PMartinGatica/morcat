@@ -3,7 +3,6 @@
  * MORCAT — Tarjeta de proyecto (portfolio).
  */
 import type { Project } from '../data/projects';
-import { formatMeters, formatPercent } from '../lib/utils/format';
 import MediaImage from './MediaImage.astro';
 import DemoBadge from './DemoBadge.astro';
 import Icon from './Icon.astro';
@@ -15,12 +14,6 @@ interface Props {
 }
 
 const { project, delay = 0, class: className = '' } = Astro.props;
-
-const statusColor = {
-  Proyecto: 'border-mist-400/50 text-mist-300',
-  'En obra': 'border-gold-500/60 text-gold-400',
-  Finalizado: 'border-warm-50/40 text-warm-100',
-}[project.status];
 ---
 
 <article class={`card group ${className}`} data-reveal style={`--reveal-delay: ${delay}ms`}>
@@ -31,34 +24,10 @@ const statusColor = {
 
       <div class="absolute left-4 top-4 flex flex-wrap items-center gap-2">
         <DemoBadge demo={project.demo} />
-        <span class={`chip !py-1 !text-[10px] uppercase tracking-[0.2em] ${statusColor}`}>
-          {project.status}
-        </span>
       </div>
 
-      {project.completion != null && project.status === 'En obra' && (
-        <div class="absolute bottom-4 left-4 right-4">
-          <div class="flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-warm-100">
-            <span>Avance de obra</span>
-            <span class="text-gold-400">{formatPercent(project.completion)}</span>
-          </div>
-          <div class="mt-2 h-px w-full bg-warm-50/20" aria-hidden="true">
-            <div class="h-full bg-gold-500" style={`width: ${project.completion}%`} />
-          </div>
-        </div>
-      )}
-
-      <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
-        <div>
-          <p class="flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-gold-400">
-            <Icon name="map-pin" class="h-3.5 w-3.5" />
-            {project.location}
-          </p>
-          <h3 class="display mt-2 text-2xl text-warm-50">{project.name}</h3>
-        </div>
-        <p class="display shrink-0 text-lg text-warm-50/90">
-          {formatMeters(project.surface) ?? project.type}
-        </p>
+      <div class="absolute bottom-4 left-4 right-4">
+        <h3 class="display text-2xl text-warm-50">{project.name}</h3>
       </div>
     </div>
 

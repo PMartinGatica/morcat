@@ -29,7 +29,10 @@ function format(m: (typeof FEATURES.metrics)[number]): string {
   return `${m.prefix ?? ''}${m.value.toLocaleString('es-AR')}${m.suffix ?? ''}`;
 }
 
-const valueSize = columns === 2 ? 'text-4xl sm:text-5xl' : 'text-3xl sm:text-4xl';
+// Tamaño responsivo: en mobile el número más largo (p. ej. "+200.000")
+// tiene que entrar en la celda sin forzar scroll lateral (ver min-w-0
+// arriba). El tamaño grande vuelve a partir de sm.
+const valueSize = columns === 2 ? 'text-2xl sm:text-4xl md:text-5xl' : 'text-xl sm:text-3xl md:text-4xl';
 ---
 
 <div
@@ -40,7 +43,7 @@ const valueSize = columns === 2 ? 'text-4xl sm:text-5xl' : 'text-3xl sm:text-4xl
 >
   {FEATURES.metrics.map((m) => (
     <div
-      class={`flex h-full flex-col justify-start ${light ? 'bg-warm-50 p-5 sm:p-6' : 'bg-navy-900 p-6 sm:p-8'}`}
+      class={`flex h-full min-w-0 flex-col justify-start ${light ? 'bg-warm-50 p-5 sm:p-6' : 'bg-navy-900 p-6 sm:p-8'}`}
     >
       <p
         class={`display tabular-nums leading-none ${valueSize} ${light ? 'text-navy-950' : 'text-warm-50'}`}

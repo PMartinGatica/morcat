@@ -8,11 +8,11 @@ const routes = [
   '/',
   '/viviendas-modulares',
   '/viviendas-modulares/homero-a01',
-  '/viviendas-modulares/lapataia-c01',
+  '/viviendas-modulares/nexa-austral-a00',
   '/construccion',
   '/desarrollos',
   '/proyectos',
-  '/proyectos/duplex-kuar',
+  '/proyectos/duplex-austral',
   '/nosotros',
   '/promo/viviendas-modulares',
 ];

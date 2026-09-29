@@ -5,6 +5,8 @@
  * planos reales, reemplazar las claves 'plan-*' por rutas en
  * src/data/homes.ts.
  */
+import { isDemoVisible } from '../../lib/utils/demo';
+
 interface PlanRoom {
   x: number;
   y: number;
@@ -317,19 +319,21 @@ function doorArc(d: PlanDoor): string {
       </g>
 
       <!-- marca demo -->
-      <text
-        x="670"
-        y="456"
-        text-anchor="end"
-        fill={GOLD}
-        fill-opacity="0.8"
-        font-family="'Archivo Variable', sans-serif"
-        font-size="12"
-        font-weight="700"
-        letter-spacing="4"
-      >
-        PLANTA DEMO
-      </text>
+      {isDemoVisible() && (
+        <text
+          x="670"
+          y="456"
+          text-anchor="end"
+          fill={GOLD}
+          fill-opacity="0.8"
+          font-family="'Archivo Variable', sans-serif"
+          font-size="12"
+          font-weight="700"
+          letter-spacing="4"
+        >
+          PLANTA DEMO
+        </text>
+      )}
 
       <!-- norte -->
       <g stroke={GOLD} stroke-width="1.4">

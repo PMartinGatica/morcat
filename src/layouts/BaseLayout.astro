@@ -7,6 +7,7 @@ import '../styles/global.css';
 import HeadMeta from '../components/HeadMeta.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+import PreFooter from '../components/PreFooter.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 import type { Crumb } from '../lib/seo/structuredData';
 
@@ -19,9 +20,11 @@ interface Props {
   breadcrumbs?: Crumb[];
   jsonLd?: Record<string, unknown>[];
   bodyClass?: string;
+  /** Calculadora + formulario antes del footer (por defecto, sí). */
+  preFooter?: boolean;
 }
 
-const { bodyClass = '' } = Astro.props;
+const { bodyClass = '', preFooter = true } = Astro.props;
 ---
 
 <!doctype html>
@@ -44,6 +47,7 @@ const { bodyClass = '' } = Astro.props;
     <Navbar />
     <main id="main">
       <slot />
+      {preFooter && <PreFooter />}
     </main>
     <Footer />
     <WhatsAppFloat />

@@ -9,7 +9,7 @@ import DemoBadge from '../../components/DemoBadge.astro';
 import Icon from '../../components/Icon.astro';
 import MediaImage from '../../components/MediaImage.astro';
 import { PROJECTS } from '../../data/projects';
-import { formatMeters, formatPercent } from '../../lib/utils/format';
+import { formatMeters } from '../../lib/utils/format';
 import type { Crumb } from '../../lib/seo/structuredData';
 
 export function getStaticPaths() {
@@ -31,21 +31,15 @@ const crumbs: Crumb[] = [
   { name: project.name, path: `/proyectos/${project.slug}` },
 ];
 
+// Sin 'Estado' ni 'Avance': no está confirmado en qué etapa está cada
+// obra (ver nota en data/projects.ts).
 const features = [
   { label: 'Tipo', value: project.type },
   { label: 'Ubicación', value: project.location },
-  { label: 'Estado', value: project.status },
   ...(project.surface != null ? [{ label: 'Superficie', value: formatMeters(project.surface)! }] : []),
-  ...(project.completion != null ? [{ label: 'Avance', value: formatPercent(project.completion) }] : []),
 ];
 
 const otherProjects = PROJECTS.filter((p) => p.id !== project.id).slice(0, 3);
-const statusDesc =
-  project.status === 'En obra'
-    ? 'Proyecto en ejecución. Se publicarán fotos de avance de obra cuando estén disponibles.'
-    : project.status === 'Finalizado'
-      ? 'Obra terminada y entregada.'
-      : 'Proyecto en etapa de definición y presupuesto.';
 ---
 
 <BaseLayout
@@ -69,9 +63,6 @@ const statusDesc =
     <div class="wrap relative z-10 pb-16">
       <div class="flex flex-wrap items-center gap-3 intro-item" style="animation-delay: .1s">
         <DemoBadge demo={project.demo} />
-        <span class="chip !border-gold-500/40 !bg-navy-950/70 !py-1 !text-[10px] uppercase tracking-[0.2em] text-gold-400">
-          {project.status}
-        </span>
         <span class="flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-mist-400">
           <Icon name="map-pin" class="h-3.5 w-3.5" />
           {project.location}
@@ -81,10 +72,6 @@ const statusDesc =
       <h1 class="display-xl mt-5 text-warm-50 intro-item" style="animation-delay: .2s">
         {project.name}
       </h1>
-
-      <p class="mt-4 text-[15px] text-mist-300 intro-item" style="animation-delay: .3s">
-        {project.type} · {statusDesc}
-      </p>
     </div>
   </section>
 
@@ -116,18 +103,6 @@ const statusDesc =
             </div>
           ))}
         </dl>
-
-        {project.status === 'En obra' && project.completion != null && (
-          <div class="mt-7">
-            <div class="flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-warm-100">
-              <span>Avance de obra</span>
-              <span class="text-gold-400">{formatPercent(project.completion)}</span>
-            </div>
-            <div class="mt-2 h-px w-full bg-warm-50/20" aria-hidden="true">
-              <div class="h-full bg-gold-500" style={`width: ${project.completion}%`} />
-            </div>
-          </div>
-        )}
 
         <div class="mt-7 space-y-3">
           <a href="/contacto" class="btn btn-gold w-full">

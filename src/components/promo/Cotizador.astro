@@ -1,6 +1,7 @@
 ---
 /**
- * MORCAT — Cotizador rápido (landing de campaña).
+ * MORCAT — Cotizador rápido (landing de campaña y cierre de la web,
+ * ver src/components/PreFooter.astro).
  *
  * Calculadora 100% client-side (sin backend, apta para hosting
  * estático): el visitante elige tipo de obra + m², ve una
@@ -164,7 +165,8 @@ import { CONSTRUCTION_PRICING } from '../../data/pricing';
       if (link) {
         waLink.href = link;
       } else {
-        waLink.href = '#promo-form';
+        // Sin WhatsApp configurado: baja al formulario de la página (landing o web).
+        waLink.href = document.getElementById('promo-form') ? '#promo-form' : '#contacto';
         waLink.removeAttribute('target');
       }
     }

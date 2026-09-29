@@ -10,7 +10,7 @@ según la clave indicada en los datos (`src/data/homes.ts`, `src/data/projects.t
 
 1. Colocar las fotos/renders aquí con nombres claros, por ejemplo:
    - `public/images/models/homero-a01.webp`
-   - `public/images/projects/casa-bosque-sur.webp`
+   - `public/images/projects/linea-homero.webp`
    - `public/images/hero/ushuaia.webp`
 2. En `src/data/homes.ts` / `src/data/projects.ts`, reemplazar la clave
    de ilustración por la ruta absoluta (empieza con `/`):

@@ -5,12 +5,26 @@
  *  Obras terminadas, en ejecución y proyectos futuros.
  *  Se genera dinámicamente /proyectos y /proyectos/[slug].
  *
- *  ⚠️  ESTADO ACTUAL: DATOS DEMO.
- *  - Nombres, ubicaciones y estados son provisorios hasta
- *    recibir el portfolio real de MORCAT.
- *  - `completion` (% avance) y `surface` (m²) pueden ser null.
- *  - gallery usa claves de ilustraciones demo; reemplazar por
- *    rutas reales cuando existan: '/images/projects/<slug>.webp'.
+ *  ⚠️  ESTADO ACTUAL: DATOS DEMO — NO CONFIRMADOS POR MORCAT.
+ *  - `location` se dejó en 'Tierra del Fuego' (el único dato cierto)
+ *    porque las localidades específicas que había antes (Valle de
+ *    Andorra, Costa del Canal Beagle, Parque Industrial, etc.) eran
+ *    inventadas. No reemplazar por otra localidad específica sin
+ *    confirmarla con Rodrigo.
+ *  - `status` (Proyecto/En obra/Finalizado) y `completion` (% avance)
+ *    NO se muestran en el sitio (ver proyectos/index.astro y
+ *    proyectos/[slug].astro) porque no sabemos cuál es el estado real
+ *    de cada obra. El campo queda en el dato por si se confirma más
+ *    adelante, pero no se renderiza.
+ *  - Todos los nombres son provisorios excepto 'Línea Homero' y
+ *    'Dúplex Austral' (indicados explícitamente por el cliente). El
+ *    resto (Refugio del Canal, Estudio Austral, Vivienda Paso
+ *    Garibaldi, Nave Industrial, Desarrollo Inmobiliario, Valle
+ *    Andino, Barrio Norte Residencial) son nombres de relleno.
+ *  - `surface` (m²) pueden ser null; los valores no-null tampoco están
+ *    confirmados.
+ *  - gallery usa fotos/renders que NO están confirmados como
+ *    correspondientes a cada proyecto real.
  * ============================================================
  */
 
@@ -35,10 +49,10 @@ export interface Project {
 
 export const PROJECTS: Project[] = [
   {
-    id: 'casa-bosque-sur',
-    slug: 'casa-bosque-sur',
-    name: 'Casa Bosque Sur',
-    location: 'Valle de Andorra, Ushuaia',
+    id: 'linea-homero',
+    slug: 'linea-homero',
+    name: 'Línea Homero',
+    location: 'Tierra del Fuego',
     type: 'Casa',
     status: 'Proyecto',
     description:
@@ -50,15 +64,15 @@ export const PROJECTS: Project[] = [
     demo: true,
   },
   {
-    id: 'duplex-kuar',
-    slug: 'duplex-kuar',
-    name: 'Dúplex Kuar',
-    location: 'Ushuaia',
+    id: 'duplex-austral',
+    slug: 'duplex-austral',
+    name: 'Dúplex Austral',
+    location: 'Tierra del Fuego',
     type: 'Dúplex',
     status: 'En obra',
     description:
       'Dúplex de dos unidades en altura, con accesos independientes. Actualmente en ejecución; se publicarán fotos de avance de obra cuando estén disponibles.',
-    gallery: ['duplex/hero-vela', 'duplex/atardecer-madera', 'duplex/linea-modelos', 'duplex/terrazas-jardines', 'duplex/semi-rural', 'duplex/linea-940'],
+    gallery: ['duplex/duplex-austral', 'duplex/hero-vela', 'duplex/atardecer-madera', 'duplex/linea-modelos', 'duplex/terrazas-jardines', 'duplex/semi-rural', 'duplex/linea-940'],
     completion: 40,
     surface: null,
     featured: true,
@@ -68,11 +82,11 @@ export const PROJECTS: Project[] = [
     id: 'refugio-del-canal',
     slug: 'refugio-del-canal',
     name: 'Refugio del Canal',
-    location: 'Costa del Canal Beagle, Ushuaia',
+    location: 'Tierra del Fuego',
     type: 'Vivienda modular',
     status: 'Proyecto',
     description:
-      'Refugio modular de uso estacional sobre la costa del Canal Beagle. Ejemplo del sistema industrializado aplicado a terrenos de difícil acceso.',
+      'Refugio modular de uso estacional, pensado para terrenos de difícil acceso. Ejemplo del sistema industrializado aplicado a este tipo de proyectos.',
     gallery: ['nordicas/otono', 'nordicas/montanoso', 'modulares/atardecer'],
     completion: null,
     surface: 35,
@@ -83,7 +97,7 @@ export const PROJECTS: Project[] = [
     id: 'estudio-austral',
     slug: 'estudio-austral',
     name: 'Estudio Austral',
-    location: 'Zona centro, Ushuaia',
+    location: 'Tierra del Fuego',
     type: 'Ampliación',
     status: 'Finalizado',
     description:
@@ -98,7 +112,7 @@ export const PROJECTS: Project[] = [
     id: 'vivienda-paso-garibaldi',
     slug: 'vivienda-paso-garibaldi',
     name: 'Vivienda Paso Garibaldi',
-    location: 'Ruta 3, cercanías de Ushuaia',
+    location: 'Tierra del Fuego',
     type: 'Casa',
     status: 'Proyecto',
     description:
@@ -113,11 +127,11 @@ export const PROJECTS: Project[] = [
     id: 'nave-industrial',
     slug: 'nave-industrial',
     name: 'Nave Industrial',
-    location: 'Parque Industrial, Ushuaia',
+    location: 'Tierra del Fuego',
     type: 'Construcción',
     status: 'Finalizado',
     description:
-      'Construcción de nave liviana para uso industrial en el Parque Industrial de Ushuaia. Obra ejecutada con sistema de estructura metálica.',
+      'Construcción de nave liviana para uso industrial. Obra ejecutada con sistema de estructura metálica.',
     gallery: ['duplex/panoramica', 'modulares/exterior-02'],
     completion: 100,
     surface: null,
@@ -125,14 +139,14 @@ export const PROJECTS: Project[] = [
     demo: true,
   },
   {
-    id: 'costa-beagle-residencial',
-    slug: 'costa-beagle-residencial',
-    name: 'Costa Beagle Residencial',
-    location: 'Costa del Canal Beagle, Ushuaia',
+    id: 'desarrollo-inmobiliario',
+    slug: 'desarrollo-inmobiliario',
+    name: 'Desarrollo Inmobiliario',
+    location: 'Tierra del Fuego',
     type: 'Desarrollo inmobiliario',
     status: 'Proyecto',
     description:
-      'Desarrollo de viviendas en conjunto sobre la costa del Canal Beagle. El proyecto se encuentra en etapa de definición: se publicarán los detalles cuando estén confirmados.',
+      'Desarrollo de viviendas en conjunto. El proyecto se encuentra en etapa de definición: se publicarán los detalles cuando estén confirmados.',
     gallery: ['desarrollo/render-01', 'desarrollo/render-02', 'modulares/neblinoso'],
     completion: null,
     surface: null,
@@ -143,11 +157,11 @@ export const PROJECTS: Project[] = [
     id: 'valle-andino',
     slug: 'valle-andino',
     name: 'Valle Andino',
-    location: 'Valle de Andorra, Ushuaia',
+    location: 'Tierra del Fuego',
     type: 'Desarrollo inmobiliario',
     status: 'Proyecto',
     description:
-      'Propuesta de desarrollo residencial en el Valle de Andorra, con foco en viviendas de baja densidad integradas al bosque.',
+      'Propuesta de desarrollo residencial con foco en viviendas de baja densidad integradas al bosque.',
     gallery: ['desarrollo/volumetria', 'desarrollo/render-03', 'nordicas/montanoso'],
     completion: null,
     surface: null,
@@ -158,7 +172,7 @@ export const PROJECTS: Project[] = [
     id: 'barrio-norte',
     slug: 'barrio-norte',
     name: 'Barrio Norte Residencial',
-    location: 'Ushuaia',
+    location: 'Tierra del Fuego',
     type: 'Desarrollo inmobiliario',
     status: 'Proyecto',
     description:

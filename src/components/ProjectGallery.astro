@@ -33,9 +33,6 @@ const { images, altPrefix = 'Imagen', class: className = '' } = Astro.props;
               alt={`${altPrefix} — imagen ${i + 1}`}
               class="h-full w-full object-cover"
             />
-            <figcaption class="absolute bottom-3 left-3 bg-navy-950/70 px-3 py-1 text-[11px] tracking-[0.18em] text-warm-100">
-              {String(i + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
-            </figcaption>
           </figure>
         ))}
       </div>

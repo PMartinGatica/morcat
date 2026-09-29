@@ -23,7 +23,7 @@ async function main() {
     'plan lightbox': text.includes('data-plan-lightbox'),
     'sticky safe-area': text.includes('safe-area-inset-bottom'),
     'form: opciones uso': text.includes('Proyecto turístico') && text.includes('Estoy buscando'),
-    'form: modelo select con 5 modelos': (text.match(/<option value="(homero|yagan|lapataia|beagle)/g) ?? []).length === 5,
+    'form: modelo select con 5 modelos': (text.match(/<option value="(homero|austral|nexa|beagle)/g) ?? []).length === 5,
     'form: CTA QUIERO RECIBIR': text.includes('QUIERO RECIBIR INFORMACIÓN'),
     'sin Three.js en la página': !text.includes('ThreeHero') && !text.includes('architectureScene'),
     'sin navbar corporativo': !text.includes('data-navbar'),

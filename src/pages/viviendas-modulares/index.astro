@@ -18,9 +18,9 @@ const HOW = [
   { title: 'Entrega', text: 'Recibís tu vivienda terminada, con los detalles revisados.' },
 ] as const;
 
-const TITLE = 'Viviendas Modulares en Ushuaia | Casas industrializadas para Tierra del Fuego';
+const TITLE = 'Viviendas Modulares en Tierra del Fuego | Casas industrializadas';
 const DESCRIPTION =
-  'Viviendas modulares e industrializadas en Ushuaia: modelos de 18 a 45 m² diseñados para el clima de Tierra del Fuego. Conocé el catálogo y cotizá tu proyecto.';
+  'Viviendas modulares e industrializadas en Tierra del Fuego: modelos de 18 a 45 m² diseñados para el clima de la región. Conocé el catálogo y cotizá tu proyecto.';
 ---
 
 <BaseLayout
@@ -35,8 +35,8 @@ const DESCRIPTION =
   <section class="relative flex min-h-[72svh] items-end overflow-hidden bg-navy-950 pt-36">
     <div class="absolute inset-0">
       <MediaImage
-        src="nordicas/bosque"
-        alt="Viviendas modulares MORCAT en Ushuaia"
+        src="modulares/hero-viviendas"
+        alt="Viviendas modulares MORCAT en Tierra del Fuego"
         class="h-full w-full object-cover"
         eager
         sizes="100vw"
@@ -154,7 +154,7 @@ const DESCRIPTION =
       </div>
 
       <!-- Estado vacío -->
-      <p class="mt-12 hidden border border-warm-50/12 p-8 text-center text-mist-400" data-filter-empty>
+      <p class="mt-12 border border-warm-50/12 p-8 text-center text-mist-400" data-filter-empty hidden>
         No hay modelos en ese rango por el momento. Consultanos por opciones disponibles.
       </p>
     </div>

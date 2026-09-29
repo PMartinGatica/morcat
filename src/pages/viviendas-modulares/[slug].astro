@@ -43,7 +43,7 @@ const specs = [
 ---
 
 <BaseLayout
-  title={`Modelo ${model.name} · Vivienda modular de ${model.surface} m² en Ushuaia`}
+  title={`Modelo ${model.name} · Vivienda modular de ${model.surface} m² en Tierra del Fuego`}
   description={model.shortDescription}
   canonicalPath={`/viviendas-modulares/${model.slug}`}
   breadcrumbs={crumbs}
@@ -63,9 +63,6 @@ const specs = [
     <div class="wrap relative z-10 pb-16">
       <div class="flex flex-wrap items-center gap-3 intro-item" style="animation-delay: .1s">
         <DemoBadge demo={model.demo} />
-        <span class="chip !border-gold-500/40 !bg-navy-950/70 !py-1 !text-[10px] uppercase tracking-[0.2em] text-gold-400">
-          {HOME_STATUS_LABEL[model.status]}
-        </span>
         <span class="text-[11px] uppercase tracking-[0.24em] text-mist-400">{model.line}</span>
       </div>
 

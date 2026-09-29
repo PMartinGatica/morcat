@@ -5,12 +5,13 @@
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
+import Cotizador from '../components/promo/Cotizador.astro';
 import Icon from '../components/Icon.astro';
 import { SITE } from '../config/site';
 
-const TITLE = 'Contacto | Cotizá tu proyecto — MORCAT Constructora Ushuaia';
+const TITLE = 'Contacto | Cotizá tu proyecto — MORCAT Constructora Tierra del Fuego';
 const DESCRIPTION =
-  'Contactate con MORCAT Constructora en Ushuaia: viviendas modulares, construcción a medida y desarrollos. Envianos tu consulta por el formulario, email o Instagram.';
+  'Contactate con MORCAT Constructora en Tierra del Fuego: viviendas modulares, construcción a medida y desarrollos. Envianos tu consulta por el formulario, email o Instagram.';
 ---
 
 <BaseLayout
@@ -20,6 +21,7 @@ const DESCRIPTION =
     { name: 'Inicio', path: '/' },
     { name: 'Contacto', path: '/contacto' },
   ]}
+  preFooter={false}
 >
   <!-- HERO -->
   <section class="relative flex min-h-[52svh] items-end overflow-hidden bg-navy-950 pt-36">
@@ -36,7 +38,7 @@ const DESCRIPTION =
       </h1>
       <p class="intro-item mt-6 max-w-xl text-[15px] leading-relaxed text-mist-300" style="animation-delay: .4s">
         Respondemos consultas sobre viviendas modulares, construcción a medida,
-        ampliaciones y desarrollos en Tierra del Fuego y Ushuaia.
+        ampliaciones y desarrollos en Tierra del Fuego.
       </p>
     </div>
   </section>
@@ -47,6 +49,9 @@ const DESCRIPTION =
       <ContactForm source="contacto" title="ENVIANOS TU CONSULTA" />
     </div>
   </section>
+
+  <!-- CALCULADORA (en las demás páginas la agrega BaseLayout con el formulario) -->
+  <Cotizador />
 
   <!-- DATOS -->
   <section class="border-t border-warm-50/10 bg-navy-900 py-16">
@@ -79,7 +84,7 @@ const DESCRIPTION =
             href={SITE.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            class="mt-1 block font-semibold text-gold-400 hover:text-gold-300"
+            class="mt-1 inline-block py-2 font-semibold text-gold-400 hover:text-gold-300"
           >
             {SITE.instagramHandle}
           </a>

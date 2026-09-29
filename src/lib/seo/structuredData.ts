@@ -38,10 +38,7 @@ export function organizationSchema() {
       latitude: SITE.latitude,
       longitude: SITE.longitude,
     },
-    areaServed: [
-      { '@type': 'Place', name: SITE.city },
-      { '@type': 'Place', name: SITE.province },
-    ],
+    areaServed: [{ '@type': 'Place', name: SITE.province }],
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
@@ -65,7 +62,7 @@ export function webSiteSchema() {
     '@id': `${SITE.domain}/#website`,
     url: SITE.domain,
     name: SITE.companyName,
-    description: 'Constructora y desarrolladora inmobiliaria en Tierra del Fuego, Ushuaia.',
+    description: 'Constructora y desarrolladora inmobiliaria en Tierra del Fuego.',
     publisher: { '@id': `${SITE.domain}/#organization` },
     inLanguage: 'es-AR',
   };

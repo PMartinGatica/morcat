@@ -4,7 +4,6 @@
  * Imagen grande, superficie destacada, specs y CTA.
  */
 import type { HomeModel } from '../data/homes';
-import { HOME_STATUS_LABEL } from '../data/homes';
 import MediaImage from './MediaImage.astro';
 import DemoBadge from './DemoBadge.astro';
 import Icon from './Icon.astro';
@@ -18,10 +17,11 @@ interface Props {
 
 const { model, delay = 0, class: className = '' } = Astro.props;
 
+// La foto lleva solo el nombre; el resto de los datos va debajo.
 const specs = [
+  { icon: 'module', label: `${model.surface} m²` },
   { icon: 'home', label: `${model.bedrooms} dorm.` },
   { icon: 'bath', label: `${model.bathrooms} baño${model.bathrooms > 1 ? 's' : ''}` },
-  { icon: 'module', label: model.line },
 ];
 ---
 
@@ -38,20 +38,10 @@ const specs = [
 
       <div class="absolute left-4 top-4 flex flex-wrap items-center gap-2">
         <DemoBadge demo={model.demo} />
-        <span class="chip !border-gold-500/40 !bg-navy-950/70 !py-1 !text-[10px] uppercase tracking-[0.2em] text-gold-400">
-          {HOME_STATUS_LABEL[model.status]}
-        </span>
       </div>
 
-      <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
-        <div>
-          <p class="text-[11px] uppercase tracking-[0.24em] text-gold-400">{model.line}</p>
-          <h3 class="display mt-1 text-2xl text-warm-50 sm:text-3xl">{model.name}</h3>
-        </div>
-        <p class="display shrink-0 text-3xl text-warm-50 sm:text-4xl">
-          {model.surface}
-          <span class="text-sm text-gold-400"> m²</span>
-        </p>
+      <div class="absolute bottom-4 left-4 right-4">
+        <h3 class="display text-2xl text-warm-50 sm:text-3xl">{model.name}</h3>
       </div>
     </div>
 

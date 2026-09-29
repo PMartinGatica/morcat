@@ -68,6 +68,11 @@ picture {
 body {
   @apply bg-navy-950 text-warm-50 font-sans antialiased;
   text-rendering: optimizeLegibility;
+  /* Los reveal con translateX (data-reveal="left"/"right") arrancan
+     corridos del viewport antes de animar: sin esto, generan scroll
+     horizontal fantasma en mobile hasta que el elemento entra en
+     pantalla y el IntersectionObserver dispara la animación. */
+  overflow-x: hidden;
 }
 
 ::selection {
@@ -124,7 +129,12 @@ body {
     text-transform: uppercase;
     letter-spacing: -0.015em;
     line-height: 0.92;
-    font-size: clamp(2.6rem, 8.2vw, 6.5rem);
+    /* El piso anterior (2.6rem) no bajaba lo suficiente en celulares
+       angostos: palabras largas sin espacios ("Construyendo",
+       "Desarrollos", "CONSTRUCTORA") no entraban en el ancho
+       disponible y quedaban cortadas. Medido con navegador real
+       hasta 300px de ancho — ver conversación del 2026-09-28. */
+    font-size: clamp(1.5rem, 8.2vw, 6.5rem);
   }
 
   /* Acento editorial en serif itálica */
@@ -233,7 +243,9 @@ body {
 
   /* --- Campos de formulario --- */
   .field {
-    @apply w-full rounded-none border border-warm-50/15 bg-navy-900/60 px-4 py-3.5 text-[15px] text-warm-50 placeholder:text-mist-400/60 transition-colors duration-300;
+    /* text-base (16px): por debajo de eso, iOS Safari hace zoom
+       automático al enfocar el campo. */
+    @apply w-full rounded-none border border-warm-50/15 bg-navy-900/60 px-4 py-3.5 text-base text-warm-50 placeholder:text-mist-400/60 transition-colors duration-300;
   }
   .field:focus {
     @apply border-gold-500/70 outline-none;

@@ -1,0 +1,35 @@
+---
+/**
+ * MORCAT — Cierre de página (antes del footer).
+ *
+ * Calculadora rápida + formulario de consulta, en todas las páginas
+ * del sitio que usan BaseLayout. Es el mismo Cotizador de la landing
+ * de campaña (src/components/promo/Cotizador.astro).
+ *
+ * BaseLayout lo desactiva con `preFooter={false}` en las páginas que
+ * ya resuelven su propio cierre (404, /contacto).
+ */
+import Cotizador from './promo/Cotizador.astro';
+import ContactForm from './ContactForm.astro';
+import SectionHeader from './SectionHeader.astro';
+
+/** Origen de la consulta: la ruta de la página ("home", "construccion", …). */
+const path = Astro.url.pathname.replace(/^\/|\/$/g, '');
+const source = path || 'home';
+---
+
+<Cotizador />
+
+<section class="relative border-t border-warm-50/10 bg-navy-950 py-24 sm:py-32" aria-labelledby="contacto">
+  <div class="wrap">
+    <SectionHeader
+      eyebrow="Contacto"
+      title="Empecemos a"
+      accent="conversar."
+      description="Contanos sobre tu proyecto: te respondemos con información concreta y sin vueltas."
+    />
+    <div class="mt-14">
+      <ContactForm source={source} />
+    </div>
+  </div>
+</section>

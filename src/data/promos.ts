@@ -179,12 +179,12 @@ export const PROMOS: Promo[] = [
   {
     slug: 'viviendas-modulares',
     seoTitle:
-      'Viviendas Industrializadas en Ushuaia | Pedí información — MORCAT Constructora',
+      'Viviendas Industrializadas en Tierra del Fuego | Pedí información — MORCAT Constructora',
     seoDescription:
       'Viviendas modulares diseñadas para Tierra del Fuego. Pedí información y consultá qué modelo se adapta mejor a tu proyecto.',
 
     hero: {
-      eyebrow: 'VIVIENDAS INDUSTRIALIZADAS · USHUAIA',
+      eyebrow: 'VIVIENDAS INDUSTRIALIZADAS · TIERRA DEL FUEGO',
       titleLines: ['TU PRÓXIMA', 'VIVIENDA'],
       accentLine: 'EMPIEZA ACÁ.',
       subtitle:
@@ -217,7 +217,7 @@ export const PROMOS: Promo[] = [
       subtitle:
         'Explorá los modelos disponibles y encontrá la superficie que mejor se adapte a tu proyecto.',
     },
-    featuredHomeSlugs: ['homero-a00', 'homero-a01', 'yagan-b01', 'lapataia-c01', 'beagle-d01'],
+    featuredHomeSlugs: ['homero-a00', 'homero-a01', 'austral-a00', 'nexa-austral-a00', 'beagle-d01'],
     modelsCta: 'VER MODELO',
     modelsSecondaryCta: 'CONSULTAR',
 
@@ -355,7 +355,7 @@ export const PROMOS: Promo[] = [
       eyebrow: 'Confianza',
       title: 'QUIÉN ESTÁ',
       accentLine: 'DETRÁS DEL PROYECTO.',
-      body: 'MORCAT CONSTRUCTORA SRL es una empresa constructora y desarrolladora inmobiliaria de Tierra del Fuego, Ushuaia. Nuestra experiencia se construye obra a obra, en el lugar más austral del mundo.',
+      body: 'MORCAT CONSTRUCTORA SRL es una empresa constructora y desarrolladora inmobiliaria de Tierra del Fuego. Nuestra experiencia se construye obra a obra, en el lugar más austral del mundo.',
       corporateLinkLabel: 'CONOCÉ MORCAT',
     },
 
@@ -376,9 +376,9 @@ export const PROMOS: Promo[] = [
           'Cada vivienda se define según el proyecto: estructura, cerramientos y terminaciones varían por modelo y configuración. Te pasamos el detalle de lo que incluye la propuesta puntual.',
       },
       {
-        question: '¿Trabajan únicamente en Ushuaia?',
+        question: '¿En qué zonas de Tierra del Fuego trabajan?',
         answer:
-          'La empresa desarrolla su actividad en Tierra del Fuego, con sede en Ushuaia. Consultanos por tu ubicación puntual.',
+          'La empresa desarrolla su actividad en Tierra del Fuego. Consultanos por tu ubicación puntual.',
       },
       {
         question: '¿Puedo ver los planos?',

@@ -3,13 +3,16 @@
  * MORCAT — Iconos SVG inline (trazo tipo lucide + marcas de red).
  * Sin dependencias externas; hereda currentColor.
  */
-interface Props {
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends Omit<HTMLAttributes<'svg'>, 'class' | 'name'> {
   name: string;
   class?: string;
   strokeWidth?: number;
 }
 
-const { name, class: className = '', strokeWidth = 1.8 } = Astro.props;
+/** `rest` reenvía atributos extra (p. ej. data-*) al <svg>. */
+const { name, class: className = '', strokeWidth = 1.8, ...rest } = Astro.props;
 
 const STROKE = {
   fill: 'none',
@@ -83,11 +86,12 @@ const STROKE_ICONS: Record<string, string[]> = {
       role="img"
       aria-hidden="true"
       fill="currentColor"
+      {...rest}
     >
       <path d={BRAND[name].d} />
     </svg>
   ) : (
-    <svg viewBox="0 0 24 24" class={className} role="img" aria-hidden="true" {...STROKE}>
+    <svg viewBox="0 0 24 24" class={className} role="img" aria-hidden="true" {...STROKE} {...rest}>
       {STROKE_ICONS[name]?.map((d) => <path d={d} />)}
     </svg>
   )
