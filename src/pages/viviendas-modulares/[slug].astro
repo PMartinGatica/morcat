@@ -70,11 +70,11 @@ const specs = [
         {model.name}
       </h1>
 
-      <dl class="mt-8 grid max-w-2xl grid-cols-2 gap-px border border-warm-50/12 bg-warm-50/12 sm:grid-cols-4 intro-item" style="animation-delay: .3s">
+      <dl class="mt-8 grid max-w-3xl grid-cols-2 gap-px border border-warm-50/12 bg-warm-50/12 sm:grid-cols-4 intro-item" style="animation-delay: .3s">
         {specs.map((s) => (
-          <div class="bg-navy-950/80 p-4">
+          <div class="flex min-w-0 flex-col bg-navy-950/80 p-4">
             <dt class="text-[10px] font-semibold uppercase tracking-[0.2em] text-mist-400">{s.label}</dt>
-            <dd class="display mt-1 text-xl text-warm-50">{s.value}</dd>
+            <dd class:list={['display mt-auto flex min-h-7 items-end pt-2 leading-none text-warm-50', /^\d/.test(s.value) ? 'text-xl' : 'text-[13px] sm:text-sm']}>{s.value}</dd>
           </div>
         ))}
       </dl>
