@@ -3,7 +3,7 @@
  * MORCAT — Tarjeta de modelo (HOME y catálogo).
  * Imagen grande, superficie destacada, specs y CTA.
  */
-import type { HomeModel } from '../data/homes';
+import { bedroomsLabel, type HomeModel } from '../data/homes';
 import MediaImage from './MediaImage.astro';
 import DemoBadge from './DemoBadge.astro';
 import Icon from './Icon.astro';
@@ -20,7 +20,7 @@ const { model, delay = 0, class: className = '' } = Astro.props;
 // La foto lleva solo el nombre; el resto de los datos va debajo.
 const specs = [
   { icon: 'module', label: `${model.surface} m²` },
-  { icon: 'home', label: `${model.bedrooms} dorm.` },
+  { icon: 'home', label: bedroomsLabel(model) },
   { icon: 'bath', label: `${model.bathrooms} baño${model.bathrooms > 1 ? 's' : ''}` },
 ];
 ---

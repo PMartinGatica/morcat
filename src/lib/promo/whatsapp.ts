@@ -25,7 +25,8 @@ export const PROMO_WHATSAPP_MESSAGES: Record<PromoWhatsAppKind, string> = {
 
 /** Mensaje para un modelo puntual (nombre + superficie). */
 export function modelWhatsAppMessage(modelName: string, surface: number): string {
-  return `Hola MORCAT, estoy interesado/a en el modelo ${modelName} de ${surface} m². Quisiera recibir más información.`;
+  const label = modelName.includes('m²') ? modelName : `${modelName} de ${surface} m²`;
+  return `Hola MORCAT, estoy interesado/a en el modelo ${label}. Quisiera recibir más información.`;
 }
 
 /** Mensaje con el resultado del cotizador (tipo + m² + estimación). */

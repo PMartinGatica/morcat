@@ -64,8 +64,8 @@ const models = Astro.props.models ?? HOMES;
                     <p class="text-[9px] uppercase tracking-[0.18em] text-mist-400">m²</p>
                   </div>
                   <div class="bg-navy-900 p-3 text-center">
-                    <p class="display text-lg text-warm-50">{m.bedrooms}</p>
-                    <p class="text-[9px] uppercase tracking-[0.18em] text-mist-400">dorm.</p>
+                    <p class="display text-lg text-warm-50">{m.bedrooms === 0 ? 1 : m.bedrooms}</p>
+                    <p class="text-[9px] uppercase tracking-[0.18em] text-mist-400">{m.bedrooms === 0 ? 'ambiente' : 'dorm.'}</p>
                   </div>
                   <div class="bg-navy-900 p-3 text-center">
                     <p class="display text-lg text-warm-50">{m.bathrooms}</p>

@@ -8,7 +8,7 @@ import MediaImage from '../../components/MediaImage.astro';
 import ProjectGallery from '../../components/ProjectGallery.astro';
 import DemoBadge from '../../components/DemoBadge.astro';
 import Icon from '../../components/Icon.astro';
-import { HOMES, HOME_STATUS_LABEL } from '../../data/homes';
+import { HOMES, HOME_STATUS_LABEL, modelLabel } from '../../data/homes';
 import { formatSurface } from '../../lib/utils/format';
 import type { Crumb } from '../../lib/seo/structuredData';
 
@@ -36,14 +36,14 @@ const crumbs: Crumb[] = [
 
 const specs = [
   { label: 'Superficie', value: formatSurface(model.surface) },
-  { label: 'Dormitorios', value: String(model.bedrooms) },
+  { label: 'Dormitorios', value: model.bedrooms === 0 ? 'Monoambiente' : String(model.bedrooms) },
   { label: 'Baños', value: String(model.bathrooms) },
   { label: 'Estado', value: HOME_STATUS_LABEL[model.status] },
 ];
 ---
 
 <BaseLayout
-  title={`Modelo ${model.name} · Vivienda modular de ${model.surface} m² en Tierra del Fuego`}
+  title={`Modelo ${modelLabel(model)} · Vivienda modular en Tierra del Fuego`}
   description={model.shortDescription}
   canonicalPath={`/viviendas-modulares/${model.slug}`}
   breadcrumbs={crumbs}

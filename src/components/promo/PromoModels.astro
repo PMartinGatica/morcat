@@ -9,7 +9,7 @@ import Icon from '../Icon.astro';
 import DemoBadge from '../DemoBadge.astro';
 import MediaImage from '../MediaImage.astro';
 import ModelQuickView from './ModelQuickView.astro';
-import { HOMES } from '../../data/homes';
+import { HOMES, bedroomsLabel } from '../../data/homes';
 import { modelWhatsAppLink } from '../../lib/promo/whatsapp';
 import type { Promo } from '../../data/promos';
 
@@ -71,7 +71,7 @@ const { modelsHeading, modelsCta, modelsSecondaryCta } = Astro.props;
               <div>
                 <p class="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-700">{m.line}</p>
                 <p class="mt-1 text-[15px] font-semibold text-navy-950">
-                  {m.surface} m² · {m.bedrooms} dorm. · {m.bathrooms} baño{m.bathrooms > 1 ? 's' : ''}
+                  {m.surface} m² · {bedroomsLabel(m)} · {m.bathrooms} baño{m.bathrooms > 1 ? 's' : ''}
                 </p>
               </div>
             </div>

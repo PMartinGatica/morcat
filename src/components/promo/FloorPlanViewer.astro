@@ -8,8 +8,7 @@
 import Icon from '../Icon.astro';
 import DemoBadge from '../DemoBadge.astro';
 import MediaImage from '../MediaImage.astro';
-import { HOMES } from '../../data/homes';
-import { formatSurface } from '../../lib/utils/format';
+import { HOMES, modelLabel } from '../../data/homes';
 import type { Promo } from '../../data/promos';
 
 interface Props {
@@ -49,7 +48,7 @@ const { floorPlans } = Astro.props;
               : 'border border-warm-50/15 text-warm-100 hover:border-gold-500/60 hover:text-gold-300'
           }`}
         >
-          {m.name} · {m.surface} m²
+          {modelLabel(m)}
         </button>
       ))}
     </div>
@@ -63,7 +62,7 @@ const { floorPlans } = Astro.props;
           </div>
           <figcaption class="mt-4 flex flex-wrap items-center justify-between gap-3">
             <span class="text-[11px] uppercase tracking-[0.2em] text-mist-400">
-              {m.name} · {formatSurface(m.surface)} · Planta esquemática
+              {modelLabel(m)} · Planta esquemática
             </span>
             <span class="flex items-center gap-3">
               <DemoBadge demo={m.demo} label="PLANO DEMO" />
