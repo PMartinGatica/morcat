@@ -2,22 +2,34 @@
  * ============================================================
  *  MORCAT — MODELOS DE VIVIENDAS MODULARES
  * ============================================================
- *  Datos estructurados de cada modelo. La página
- *  /viviendas-modulares y /viviendas-modulares/[slug] se
- *  generan dinámicamente desde esta lista.
+ *  Cada modelo es una familia (Homero, Nexa Austral…) con sus
+ *  opciones de superficie. La página /viviendas-modulares y
+ *  /viviendas-modulares/[slug] se generan desde esta lista.
  *
- *  ⚠️  ESTADO ACTUAL: DATOS DEMO + IMÁGENES REALES DEL CLIENTE.
- *  - Las imágenes son renders provistos por MORCAT (procesados a
- *    src/assets/media). Reemplazar por fotos de obra cuando existan.
- *  - Los nombres, superficies y características siguen siendo
- *    referencias provisorias hasta recibir el catálogo definitivo.
+ *  ⚠️  ESTADO ACTUAL: FOTOS REALES DEL CLIENTE + DATOS PARCIALES.
+ *  - Las fotos salen de las carpetas del Drive de MORCAT
+ *    (procesadas a src/assets/media/modelos/<slug>/).
+ *  - Superficies, dormitorios y baños: solo se cargan los datos
+ *    confirmados (nombres de archivo del cliente, planos y la
+ *    reunión). Lo que falta queda sin definir y se muestra como
+ *    "Consultar" hasta recibir la planilla de MORCAT.
  *  - No hay precios. `demo: true` activa el indicador DEMO.
- *  - Los planos reales disponibles son 21 m² (monoambiente) y 35 m²;
- *    el resto usa planos esquemáticos de referencia.
  * ============================================================
  */
 
 export type HomeStatus = 'disponible' | 'nuevo' | 'consultar' | 'desarrollo';
+
+/** Una opción de superficie dentro de un modelo. */
+export interface HomeVariant {
+  /** Superficie cubierta aproximada, en m². */
+  surface: number;
+  /** 0 = monoambiente. Sin definir = a confirmar. */
+  bedrooms?: number;
+  /** Sin definir = a confirmar. */
+  bathrooms?: number;
+  /** Foto de referencia de esa medida. */
+  image?: string;
+}
 
 export interface HomeModel {
   id: string;
@@ -25,11 +37,10 @@ export interface HomeModel {
   name: string;
   /** Línea / serie comercial del modelo. */
   line: string;
-  /** Superficie cubierta aproximada, en m². */
-  surface: number;
-  /** 0 = monoambiente. */
-  bedrooms: number;
-  bathrooms: number;
+  /** Opciones de superficie confirmadas (vacío = a confirmar). */
+  variants: HomeVariant[];
+  /** Rango de superficie cuando todavía no hay opciones confirmadas. */
+  surfaceNote?: string;
   description: string;
   shortDescription: string;
   /** Clave de ilustración (demo) o ruta '/images/...' (foto real). */
@@ -42,132 +53,268 @@ export interface HomeModel {
   demo: boolean;
 }
 
+/** Claves de fotos de un modelo dentro de src/assets/media/modelos/<slug>/. */
+const photos = (slug: string, names: string[]): string[] => names.map((n) => `modelos/${slug}/${n}`);
+
+const BASE_FEATURES = [
+  'Estructura industrializada',
+  'Producción en fábrica, montaje en terreno',
+  'Diseño pensado para el clima del sur',
+];
+
 export const HOMES: HomeModel[] = [
   {
-    id: 'homero-a00',
-    slug: 'homero-a00',
-    name: 'HOMERO 18 m²',
-    line: 'Serie Austral',
-    surface: 18,
-    bedrooms: 0,
-    bathrooms: 1,
-    description:
-      'Modelo compacto pensado para terrenos chicos, refugios de fin de semana o primera vivienda. Un solo ambiente integrado con baño completo, optimizado para reducir la superficie a construir sin resignar confort.',
-    shortDescription:
-      'Monoambiente modular de 18 m²: un ambiente integrado y baño completo.',
-    coverImage: 'modulares/homero-nieve',
-    gallery: ['modulares/homero-nieve', 'modulares/neblinoso', 'modulares/exterior-02'],
-    floorPlans: ['plan-18'],
-    features: [
-      'Estructura industrializada',
-      'Baño completo integrado',
-      'Producción en fábrica, montaje en terreno',
-      'Diseño pensado para el clima del sur',
+    id: 'homero',
+    slug: 'homero',
+    name: 'Homero',
+    line: 'Modular compacto',
+    variants: [
+      { surface: 18, bedrooms: 0, bathrooms: 1, image: 'modelos/homero/homero-18' },
+      { surface: 21, bedrooms: 1, bathrooms: 1, image: 'modelos/homero/homero-21' },
+      { surface: 25, image: 'modelos/homero/homero-25' },
+      { surface: 28, image: 'modelos/homero/homero-28-noche' },
+      { surface: 30, image: 'modelos/homero/homero-30' },
     ],
+    description:
+      'La línea modular compacta de MORCAT. Pensada para terrenos chicos, refugios de fin de semana, primera vivienda o alquiler. Todas las medidas comparten el mismo sistema industrializado: elegís el tamaño según tu terreno y el uso que le quieras dar.',
+    shortDescription: 'Línea modular compacta, disponible en varias medidas.',
+    coverImage: 'modelos/homero/homero-28-noche',
+    gallery: photos('homero', [
+      'homero-28-noche',
+      'homero-18',
+      'homero-18-piedra',
+      'homero-21',
+      'homero-21-bosque',
+      'homero-21-negra',
+      'homero-25',
+      'homero-25-blanca',
+      'homero-28-piedra',
+      'homero-28-conjunto',
+      'homero-30',
+      'homero-28-interior',
+      'homero-28-interior-02',
+    ]),
+    floorPlans: ['modulares/plano-21'],
+    features: [...BASE_FEATURES, 'Varias medidas con el mismo sistema', 'Ideal para terrenos chicos'],
+    status: 'consultar',
+    featured: true,
+    demo: true,
+  },
+  {
+    id: 'nexa-austral',
+    slug: 'nexa-austral',
+    name: 'Nexa Austral',
+    line: 'Línea Austral',
+    variants: [
+      { surface: 33 },
+      { surface: 35, bedrooms: 1, bathrooms: 1 },
+      { surface: 49, bedrooms: 2 },
+    ],
+    description:
+      'Vivienda modular de líneas simples con alero y deck de madera, disponible en distintas terminaciones: negra, blanca o roja. Pensada como vivienda principal, con opciones de superficie según lo que necesites.',
+    shortDescription: 'Vivienda modular con deck y terminaciones a elección.',
+    coverImage: 'modelos/nexa-austral/nexa-negra',
+    gallery: photos('nexa-austral', [
+      'nexa-negra',
+      'nexa-blanca',
+      'nexa-negra-02',
+      'nexa-roja',
+      'nexa-montana',
+      'nexa-deck',
+      'nexa-atardecer',
+      'nexa-interior',
+      'nexa-interior-02',
+      'nexa-corte',
+    ]),
+    floorPlans: ['nordicas/plano-35'],
+    features: [...BASE_FEATURES, 'Terminaciones a elección', 'Pensada como vivienda principal'],
+    status: 'consultar',
+    featured: true,
+    demo: true,
+  },
+  {
+    id: 'nordica-austral',
+    slug: 'nordica-austral',
+    name: 'Nórdica Austral',
+    line: 'Línea Austral',
+    variants: [],
+    surfaceNote: 'De 30 a 49 m²',
+    description:
+      'Diseño de inspiración nórdica con grandes ventanales para aprovechar la luz y el paisaje del sur. La línea crece en superficie manteniendo el mismo diseño.',
+    shortDescription: 'Inspiración nórdica, grandes ventanales y mucha luz.',
+    coverImage: 'modelos/nordica-austral/nordica-alpina',
+    gallery: photos('nordica-austral', [
+      'nordica-alpina',
+      'nordica-atardecer',
+      'nordica-montana',
+      'nordica-nieve',
+      'nordica-fogon',
+      'nordica-bosque',
+      'nordica-noche',
+      'nordica-blanca',
+      'nordica-patagonia',
+      'nordica-madera',
+    ]),
+    floorPlans: ['modelos/nordica-austral/nordica-plano'],
+    features: [...BASE_FEATURES, 'Grandes ventanales', 'Crece en superficie sin cambiar el diseño'],
     status: 'consultar',
     featured: false,
     demo: true,
   },
   {
-    id: 'homero-a01',
-    slug: 'homero-a01',
-    name: 'HOMERO 21 m²',
-    line: 'Serie Austral',
-    surface: 21,
-    bedrooms: 1,
-    bathrooms: 1,
+    id: 'duplex-austral',
+    slug: 'duplex-austral',
+    name: 'Dúplex Austral',
+    line: 'Dúplex industrializado',
+    variants: [],
     description:
-      'El modelo de referencia de MORCAT para viviendas individuales. Un dormitorio, baño y espacio de estar integrado, con la posibilidad de adaptar la distribución según el terreno y el uso que le quieras dar.',
-    shortDescription:
-      'Vivienda modular de 21 m² con dormitorio, baño y espacio integrado.',
-    coverImage: 'modulares/cabana-andina',
-    gallery: ['modulares/cabana-andina', 'modulares/bosque-01', 'nordicas/bosque'],
-    floorPlans: ['modulares/plano-21'],
-    features: [
-      '1 dormitorio + baño completo',
-      'Espacio de estar integrado',
-      'Estructura industrializada',
-      'Adaptable al terreno',
-      'Producción en fábrica, montaje en terreno',
-    ],
+      'Vivienda en dos plantas con sistema industrializado: más superficie en el mismo lote. Ideal para familias o para quienes quieren separar las áreas sociales de los dormitorios.',
+    shortDescription: 'Dúplex industrializado en dos plantas.',
+    coverImage: 'modelos/duplex-austral/duplex-austral-montana',
+    gallery: photos('duplex-austral', [
+      'duplex-austral-montana',
+      'duplex-austral-blanca',
+      'duplex-austral-escalera',
+      'duplex-austral-nieve',
+      'duplex-austral-madera',
+      'duplex-austral-madera-02',
+      'duplex-austral-invernadero',
+      'duplex-austral-bosque',
+      'duplex-austral-barrio',
+      'duplex-austral-invierno',
+      'duplex-austral-corte',
+    ]),
+    floorPlans: [],
+    features: [...BASE_FEATURES, 'Dos plantas', 'Más superficie en el mismo lote'],
     status: 'consultar',
     featured: true,
     demo: true,
   },
   {
-    id: 'austral-a00',
-    slug: 'austral-a00',
-    name: 'AUSTRAL 25 m²',
-    line: 'Serie Austral',
-    surface: 25,
-    bedrooms: 2,
-    bathrooms: 1,
+    id: 'duplex-beagle',
+    slug: 'duplex-beagle',
+    name: 'Dúplex Beagle',
+    line: 'Dúplex industrializado',
+    variants: [{ surface: 86.3, bedrooms: 2, bathrooms: 2 }],
     description:
-      'Modelo versátil de 25 m² diseñado para adaptarse a diferentes necesidades. Dos dormitorios, baño y espacios que se pueden personalizar según el terreno y el uso. Una solución moderna y eficiente.',
-    shortDescription:
-      'Vivienda modular de 25 m² con dos dormitorios y baño completo.',
-    coverImage: 'modulares/negra-piedra-01',
-    gallery: ['modulares/negra-piedra-01', 'modulares/negra-piedra-02', 'nordicas/paisaje'],
-    floorPlans: ['plan-25'],
-    features: [
-      '2 dormitorios + baño completo',
-      'Diseño moderno y eficiente',
-      'Estructura industrializada',
-      'Adaptable al terreno',
-      'Producción en fábrica, montaje en terreno',
-    ],
+      'Dúplex industrializado de líneas contemporáneas, con volúmenes en chapa negra y madera. La distribución de referencia incluye dos dormitorios —uno en suite—, dos baños, estar y cocina.',
+    shortDescription: 'Dúplex contemporáneo en chapa negra y madera.',
+    coverImage: 'modelos/duplex-beagle/beagle-negra',
+    gallery: photos('duplex-beagle', [
+      'beagle-negra',
+      'beagle-amplia',
+      'beagle-madera',
+      'beagle-cubo',
+      'beagle-jardin',
+      'beagle-blanca',
+      'beagle-balcon',
+      'beagle-vidriada',
+      'beagle-bosque',
+      'beagle-interior',
+      'beagle-corte',
+      'beagle-corte-02',
+    ]),
+    floorPlans: ['modulares/plano-referencia'],
+    features: [...BASE_FEATURES, 'Dormitorio en suite', 'Dos baños'],
     status: 'consultar',
-    featured: true,
+    featured: false,
     demo: true,
   },
   {
-    id: 'nexa-austral-a00',
-    slug: 'nexa-austral-a00',
-    name: 'NEXA AUSTRAL 35 m²',
-    line: 'Serie Austral',
-    surface: 35,
-    bedrooms: 1,
-    bathrooms: 1,
+    id: 'american-small-family',
+    slug: 'american-small-family',
+    name: 'American Small Family',
+    line: 'Modular',
+    variants: [],
     description:
-      'Un paso más de superficie para vivir con mayor amplitud: dormitorio, baño y una cocina-comedor-lavadero generosa. Pensado como vivienda principal en lote propio.',
-    shortDescription:
-      'Vivienda modular de 35 m² con dormitorio, baño y cocina-comedor amplia.',
-    coverImage: 'modulares/nexa-austral-a00',
-    gallery: ['modulares/nexa-austral-a00', 'nordicas/montanoso', 'nordicas/nexa-blanca', 'nordicas/otono'],
-    floorPlans: ['nordicas/plano-35'],
-    features: [
-      '1 dormitorio + baño',
-      'Cocina-comedor amplia',
-      'Estructura industrializada',
-      'Pensada como vivienda principal',
-      'Producción en fábrica, montaje en terreno',
-    ],
+      'Vivienda modular de estilo americano pensada para familias chicas, con techo a dos aguas y estructura industrializada.',
+    shortDescription: 'Vivienda modular para familias chicas.',
+    coverImage: 'modelos/american-small-family/american-negra',
+    gallery: photos('american-small-family', [
+      'american-negra',
+      'american-blanca',
+      'american-pilotes',
+      'american-estructura',
+    ]),
+    floorPlans: [],
+    features: [...BASE_FEATURES, 'Techo a dos aguas'],
     status: 'consultar',
-    featured: true,
+    featured: false,
     demo: true,
   },
   {
-    id: 'beagle-d01',
-    slug: 'beagle-d01',
-    name: 'BEAGLE 45 m²',
-    line: 'Serie Beagle',
-    surface: 45,
-    bedrooms: 3,
-    bathrooms: 2,
+    id: 'cabana-del-bosque',
+    slug: 'cabana-del-bosque',
+    name: 'Cabaña del Bosque',
+    line: 'Modular',
+    variants: [],
     description:
-      'El modelo más amplio del catálogo demo: tres dormitorios y dos baños para familias que necesitan espacio real. Permite sumar módulos o personalizar la distribución completa.',
-    shortDescription:
-      'Vivienda modular de 45 m² con tres dormitorios y dos baños.',
-    coverImage: 'nordicas/bosque-08',
-    gallery: ['nordicas/bosque-08', 'nordicas/bosque', 'nordicas/montanoso', 'nordicas/paisaje'],
-    floorPlans: ['plan-45'],
-    features: [
-      '3 dormitorios + 2 baños',
-      'Máxima superficie del catálogo',
-      'Estructura industrializada',
-      'Posibilidad de ampliación por módulos',
-      'Producción en fábrica, montaje en terreno',
-    ],
+      'Cabañas modulares pensadas para el bosque: desde volúmenes simples con deck hasta diseños a dos aguas. Una opción para refugio, turismo o complejos de cabañas.',
+    shortDescription: 'Cabañas modulares para el bosque y el turismo.',
+    coverImage: 'modelos/cabana-del-bosque/cabana-bosque',
+    gallery: photos('cabana-del-bosque', [
+      'cabana-bosque',
+      'cabana-deck',
+      'cabana-a-nieve',
+      'cabana-a-montana',
+      'cabana-conjunto',
+      'cabana-gemelas',
+      'cabana-pareja',
+      'cabana-roja',
+    ]),
+    floorPlans: [],
+    features: [...BASE_FEATURES, 'Ideal para refugio o turismo'],
+    status: 'consultar',
+    featured: false,
+    demo: true,
+  },
+  {
+    id: 'modulo-scandinavian',
+    slug: 'modulo-scandinavian',
+    name: 'Módulo Scandinavian',
+    line: 'Modular',
+    variants: [],
+    description:
+      'Módulo de estilo escandinavo que combina chapa negra con revestimiento claro. Líneas simples y volumen compacto.',
+    shortDescription: 'Módulo de estilo escandinavo.',
+    coverImage: 'modelos/modulo-scandinavian/scandinavian',
+    gallery: photos('modulo-scandinavian', ['scandinavian']),
+    floorPlans: [],
+    features: [...BASE_FEATURES],
+    status: 'consultar',
+    featured: false,
+    demo: true,
+  },
+  {
+    id: 'modulo-yamanas',
+    slug: 'modulo-yamanas',
+    name: 'Módulo Yámanas',
+    line: 'Modular',
+    variants: [],
+    description:
+      'Módulo de líneas simples con galería de madera, pensado para vivienda o refugio.',
+    shortDescription: 'Módulo con galería de madera.',
+    coverImage: 'modelos/modulo-yamanas/yamanas-negra',
+    gallery: photos('modulo-yamanas', ['yamanas-negra', 'yamanas-deck', 'yamanas-nieve']),
+    floorPlans: [],
+    features: [...BASE_FEATURES, 'Galería de madera'],
+    status: 'consultar',
+    featured: false,
+    demo: true,
+  },
+  {
+    id: 'modulo-kuar',
+    slug: 'modulo-kuar',
+    name: 'Módulo Kuar',
+    line: 'Modular',
+    variants: [],
+    description:
+      'Módulo con techo a un agua, grandes aberturas y deck de madera.',
+    shortDescription: 'Módulo con techo a un agua y deck.',
+    coverImage: 'modelos/modulo-kuar/kuar-deck',
+    gallery: photos('modulo-kuar', ['kuar-deck', 'kuar-piedra']),
+    floorPlans: [],
+    features: [...BASE_FEATURES, 'Grandes aberturas'],
     status: 'consultar',
     featured: false,
     demo: true,
@@ -179,25 +326,32 @@ export function getHomeBySlug(slug: string): HomeModel | undefined {
   return HOMES.find((h) => h.slug === slug);
 }
 
-/** Nombre + superficie, sin repetir los m² si el nombre ya los incluye. */
-export function modelLabel(model: Pick<HomeModel, 'name' | 'surface'>): string {
-  return model.name.includes('m²') ? model.name : `${model.name} · ${model.surface} m²`;
+/** Superficie con coma decimal: 86.3 → "86,3 m²". */
+export function surfaceLabel(m2: number): string {
+  return `${m2.toLocaleString('es-AR')} m²`;
 }
 
-/** Dormitorios para mostrar: 0 = monoambiente. */
-export function bedroomsLabel(model: Pick<HomeModel, 'bedrooms'>): string {
-  return model.bedrooms === 0 ? 'Monoambiente' : `${model.bedrooms} dorm.`;
+/** Rango de superficies del modelo ("18 a 30 m²"), o "Consultar". */
+export function surfacesLabel(model: Pick<HomeModel, 'variants' | 'surfaceNote'>): string {
+  const surfaces = model.variants.map((v) => v.surface).sort((a, b) => a - b);
+  if (surfaces.length === 0) return model.surfaceNote ?? 'Consultar';
+  const min = surfaces[0];
+  const max = surfaces[surfaces.length - 1];
+  return min === max ? surfaceLabel(min) : `${min.toLocaleString('es-AR')} a ${surfaceLabel(max)}`;
 }
 
-/** Rangos usados por el filtro del catálogo. */
-export type SurfaceRange = 'all' | 'small' | 'medium' | 'large';
+/** Dormitorios para mostrar: 0 = monoambiente, sin dato = consultar. */
+export function bedroomsLabel(variant: Pick<HomeVariant, 'bedrooms'>): string {
+  if (variant.bedrooms === undefined) return 'Consultar';
+  if (variant.bedrooms === 0) return 'Monoambiente';
+  return `${variant.bedrooms} dormitorio${variant.bedrooms > 1 ? 's' : ''}`;
+}
 
-export const SURFACE_RANGES: { id: SurfaceRange; label: string; test: (s: number) => boolean }[] = [
-  { id: 'all', label: 'Todos', test: () => true },
-  { id: 'small', label: 'Hasta 25 m²', test: (s) => s <= 25 },
-  { id: 'medium', label: '25–40 m²', test: (s) => s > 25 && s <= 40 },
-  { id: 'large', label: 'Más de 40 m²', test: (s) => s > 40 },
-];
+/** Baños para mostrar, sin dato = consultar. */
+export function bathroomsLabel(variant: Pick<HomeVariant, 'bathrooms'>): string {
+  if (variant.bathrooms === undefined) return 'Consultar';
+  return `${variant.bathrooms} baño${variant.bathrooms > 1 ? 's' : ''}`;
+}
 
 export const HOME_STATUS_LABEL: Record<HomeStatus, string> = {
   disponible: 'Disponible',

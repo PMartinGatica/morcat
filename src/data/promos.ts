@@ -192,7 +192,7 @@ export const PROMOS: Promo[] = [
       cta: 'VER MODELOS',
       secondaryCta: 'CONSULTAR POR WHATSAPP',
       image: 'modulares/cabana-andina',
-      note: 'Modelos de 18 a 45 m²',
+      note: 'Modelos desde 18 m²',
       footnote: '*Superficies y configuraciones sujetas al modelo seleccionado.',
     },
 
@@ -217,7 +217,7 @@ export const PROMOS: Promo[] = [
       subtitle:
         'Explorá los modelos disponibles y encontrá la superficie que mejor se adapte a tu proyecto.',
     },
-    featuredHomeSlugs: ['homero-a00', 'homero-a01', 'austral-a00', 'nexa-austral-a00', 'beagle-d01'],
+    featuredHomeSlugs: ['homero', 'nexa-austral', 'duplex-austral', 'nordica-austral', 'duplex-beagle'],
     modelsCta: 'VER MODELO',
     modelsSecondaryCta: 'CONSULTAR',
 

@@ -7,8 +7,8 @@ const base = 'http://localhost:4321';
 const routes = [
   '/',
   '/viviendas-modulares',
-  '/viviendas-modulares/homero-a01',
-  '/viviendas-modulares/nexa-austral-a00',
+  '/viviendas-modulares/homero',
+  '/viviendas-modulares/nexa-austral',
   '/construccion',
   '/desarrollos',
   '/proyectos',

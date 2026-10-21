@@ -111,3 +111,21 @@ no fotos de obras entregadas. Por eso:
   `DEMO` / `REFERENCIA` con la aclaración "no representan obras entregadas".
 - Los planos reales disponibles (21,5 m² y 35 m²) se usan como planos del
   modelo; el resto de los modelos usa planos esquemáticos de referencia.
+
+## Fotos por modelo (`src/assets/media/modelos/<slug>/`)
+
+Desde la reorganización del catálogo por familias (Homero, Nexa Austral,
+Nórdica Austral, Dúplex Austral, Dúplex Beagle, American Small Family,
+Cabaña del Bosque, Módulo Scandinavian, Módulo Yámanas, Módulo Kuar), cada
+modelo tiene su carpeta con las fotos tomadas de las carpetas del Drive
+(`MODULARES HOME`, `VIVIENDAS NORDICAS`, `Duplex austral`), convertidas a
+JPG de 1800 px de ancho.
+
+- El nombre de archivo del cliente indica el modelo (y en Homero, la medida:
+  `HOMERO-18`, `HOMERO-21`…). **Ojo:** al volver a descargar del Drive, los
+  sufijos `(1)`, `(2)`… pueden cambiar de foto; verificar visualmente.
+- Medidas, dormitorios y baños se cargan en `src/data/homes.ts` (`variants`).
+  Lo que no está confirmado queda vacío y la página muestra "Consultar".
+- Planos usados: `modulares/plano-21` (Homero 21 m²), `nordicas/plano-35`
+  (Nexa 35 m²), `modelos/nordica-austral/nordica-plano` y
+  `modulares/plano-referencia` (Dúplex Beagle, 86,30 m² según su PDF).

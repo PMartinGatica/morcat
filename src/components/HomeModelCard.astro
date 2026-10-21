@@ -1,9 +1,10 @@
 ---
 /**
  * MORCAT — Tarjeta de modelo (HOME y catálogo).
- * Imagen grande, superficie destacada, specs y CTA.
+ * Foto de referencia y nombre del modelo; las medidas y
+ * ambientes se ven en la ficha (/viviendas-modulares/[slug]).
  */
-import { bedroomsLabel, type HomeModel } from '../data/homes';
+import type { HomeModel } from '../data/homes';
 import MediaImage from './MediaImage.astro';
 import DemoBadge from './DemoBadge.astro';
 import Icon from './Icon.astro';
@@ -16,19 +17,11 @@ interface Props {
 }
 
 const { model, delay = 0, class: className = '' } = Astro.props;
-
-// La foto lleva solo el nombre; el resto de los datos va debajo.
-const specs = [
-  { icon: 'module', label: `${model.surface} m²` },
-  { icon: 'home', label: bedroomsLabel(model) },
-  { icon: 'bath', label: `${model.bathrooms} baño${model.bathrooms > 1 ? 's' : ''}` },
-];
 ---
 
 <article
   class={`card group ${className}`}
   data-reveal
-  data-surface={model.surface}
   style={`--reveal-delay: ${delay}ms`}
 >
   <a href={`/viviendas-modulares/${model.slug}`} class="block" aria-label={`Ver modelo ${model.name}`}>
@@ -46,14 +39,7 @@ const specs = [
     </div>
 
     <div class="mt-4 flex items-center justify-between gap-4 border-t border-warm-50/10 pt-4">
-      <div class="flex flex-wrap items-center gap-x-5 gap-y-1">
-        {specs.map((s) => (
-          <span class="flex items-center gap-2 text-[13px] text-mist-400">
-            <Icon name={s.icon} class="h-4 w-4 text-gold-500" />
-            {s.label}
-          </span>
-        ))}
-      </div>
+      <span class="text-[11px] uppercase tracking-[0.2em] text-mist-400">{model.line}</span>
       <span class="flex shrink-0 items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-gold-400 transition-colors duration-300 group-hover:text-gold-300">
         Ver modelo
         <Icon name="arrow-up-right" class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

@@ -8,7 +8,7 @@
 import Icon from '../Icon.astro';
 import DemoBadge from '../DemoBadge.astro';
 import MediaImage from '../MediaImage.astro';
-import { HOMES, modelLabel } from '../../data/homes';
+import { HOMES } from '../../data/homes';
 import type { Promo } from '../../data/promos';
 
 interface Props {
@@ -16,6 +16,9 @@ interface Props {
 }
 
 const { floorPlans } = Astro.props;
+
+// Solo los modelos que ya tienen plano cargado.
+const PLAN_MODELS = HOMES.filter((m) => m.floorPlans.length > 0);
 ---
 
 <section id="promo-planos" class="relative bg-navy-950 py-24 sm:py-32" aria-labelledby="planos-title">
@@ -37,7 +40,7 @@ const { floorPlans } = Astro.props;
 
     <!-- Selector de modelo -->
     <div class="mt-10 flex flex-wrap gap-2" role="group" aria-label="Elegir modelo" data-plan-chips>
-      {HOMES.map((m, i) => (
+      {PLAN_MODELS.map((m, i) => (
         <button
           type="button"
           data-plan-chip={m.slug}
@@ -48,21 +51,21 @@ const { floorPlans } = Astro.props;
               : 'border border-warm-50/15 text-warm-100 hover:border-gold-500/60 hover:text-gold-300'
           }`}
         >
-          {modelLabel(m)}
+          {m.name}
         </button>
       ))}
     </div>
 
     <!-- Marco de plano (un figure por modelo) -->
     <div class="mt-8 border border-warm-50/12 bg-navy-900 p-4 sm:p-6" data-plan-frame>
-      {HOMES.map((m, i) => (
+      {PLAN_MODELS.map((m, i) => (
         <figure class={i === 0 ? 'block' : 'hidden'} data-plan-figure={m.slug}>
           <div class="relative overflow-hidden bg-navy-950">
-            <MediaImage src={m.floorPlans[0] ?? 'plan-21'} alt={`Plano del modelo ${m.name}`} class="w-full" />
+            <MediaImage src={m.floorPlans[0]} alt={`Plano del modelo ${m.name}`} class="w-full" />
           </div>
           <figcaption class="mt-4 flex flex-wrap items-center justify-between gap-3">
             <span class="text-[11px] uppercase tracking-[0.2em] text-mist-400">
-              {modelLabel(m)} · Planta esquemática
+              {m.name} · Planta de referencia
             </span>
             <span class="flex items-center gap-3">
               <DemoBadge demo={m.demo} label="PLANO DEMO" />
@@ -103,7 +106,7 @@ const { floorPlans } = Astro.props;
       </div>
 
       <div class="flex flex-wrap justify-center gap-2 px-5 py-3" data-plan-lb-chips>
-        {HOMES.map((m, i) => (
+        {PLAN_MODELS.map((m, i) => (
           <button
             type="button"
             data-plan-lb-chip={m.slug}
@@ -120,10 +123,10 @@ const { floorPlans } = Astro.props;
       </div>
 
       <div class="relative flex-1 overflow-auto px-5 py-6" data-plan-lb-stage>
-        {HOMES.map((m, i) => (
+        {PLAN_MODELS.map((m, i) => (
           <div class={`mx-auto h-full max-w-4xl ${i === 0 ? 'block' : 'hidden'}`} data-plan-lb-figure={m.slug}>
             <div class="origin-center transition-transform duration-300" data-plan-lb-img>
-              <MediaImage src={m.floorPlans[0] ?? 'plan-21'} alt={`Plano ampliado del modelo ${m.name}`} class="w-full border border-warm-50/12 bg-navy-900" />
+              <MediaImage src={m.floorPlans[0]} alt={`Plano ampliado del modelo ${m.name}`} class="w-full border border-warm-50/12 bg-navy-900" />
             </div>
           </div>
         ))}

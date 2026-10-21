@@ -10,7 +10,7 @@
  *   (n8n / CRM / API) o email sin backend, con fallback mailto.
  */
 import Icon from '../Icon.astro';
-import { HOMES, modelLabel } from '../../data/homes';
+import { HOMES } from '../../data/homes';
 import { SITE } from '../../config/site';
 import type { Promo } from '../../data/promos';
 
@@ -96,7 +96,7 @@ const TERRENO_OPTIONS = ['Sí', 'No', 'Estoy buscando'];
           <select id="plf-modelo" name="modeloInteres" class="field appearance-none">
             <option value="">No sé todavía</option>
             {HOMES.map((m) => (
-              <option value={m.slug}>{modelLabel(m)}</option>
+              <option value={m.slug}>{m.name}</option>
             ))}
             <option value="otro">Otro</option>
           </select>
@@ -183,7 +183,10 @@ const TERRENO_OPTIONS = ['Sí', 'No', 'Estoy buscando'];
   const modeloSelect = form.querySelector<HTMLSelectElement>('#plf-modelo')!;
   const content = utm.utm_content.toLowerCase().replace(/_/g, '-');
   if (content) {
-    const match = Array.from(modeloSelect.options).find((o) => o.value === content);
+    // utm_content puede traer la medida (homero-a01 → homero).
+    const match = Array.from(modeloSelect.options).find(
+      (o) => o.value && (o.value === content || content.startsWith(`${o.value}-`)),
+    );
     if (match) modeloSelect.value = match.value;
   }
 

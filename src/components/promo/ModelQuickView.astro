@@ -3,7 +3,7 @@
  * MORCAT — Quick view de modelo (modal / bottom sheet).
  *
  * El usuario explora el modelo SIN abandonar la landing:
- * imágenes, superficie, planta, ambientes y CTA de WhatsApp.
+ * imagen, medidas disponibles, planta y CTA de WhatsApp.
  * La ficha completa queda a un clic (/viviendas-modulares/[slug]).
  *
  * Cada modelo se renderiza en el servidor (panel oculto); el JS
@@ -11,7 +11,7 @@
  */
 import Icon from '../Icon.astro';
 import MediaImage from '../MediaImage.astro';
-import { HOMES } from '../../data/homes';
+import { HOMES, bathroomsLabel, bedroomsLabel, surfaceLabel, surfacesLabel } from '../../data/homes';
 import { modelWhatsAppLink } from '../../lib/promo/whatsapp';
 
 interface Props {
@@ -49,29 +49,33 @@ const models = Astro.props.models ?? HOMES;
     <!-- Paneles (uno por modelo, server-rendered) -->
     <div class="px-5 py-6 sm:px-8" data-quickview-panels>
       {models.map((m) => {
-        const wa = modelWhatsAppLink(m.name, m.surface);
+        const wa = modelWhatsAppLink(m.name);
         return (
-          <article class="hidden" data-qv-panel={m.slug} aria-hidden="true">
+          <article class="hidden" data-qv-panel={m.slug} data-qv-title={m.name} data-qv-subtitle={m.line} aria-hidden="true">
             <div class="grid gap-6 sm:grid-cols-[1.1fr_1fr]">
               <div class="space-y-4">
                 <div class="relative aspect-[4/3] overflow-hidden bg-navy-800">
                   <MediaImage src={m.coverImage} alt={`Modelo ${m.name}`} class="h-full w-full object-cover" />
                 </div>
 
-                <div class="grid grid-cols-3 gap-px border border-warm-50/10 bg-warm-50/10">
-                  <div class="bg-navy-900 p-3 text-center">
-                    <p class="display text-lg text-warm-50">{m.surface}</p>
-                    <p class="text-[9px] uppercase tracking-[0.18em] text-mist-400">m²</p>
-                  </div>
-                  <div class="bg-navy-900 p-3 text-center">
-                    <p class="display text-lg text-warm-50">{m.bedrooms === 0 ? 1 : m.bedrooms}</p>
-                    <p class="text-[9px] uppercase tracking-[0.18em] text-mist-400">{m.bedrooms === 0 ? 'ambiente' : 'dorm.'}</p>
-                  </div>
-                  <div class="bg-navy-900 p-3 text-center">
-                    <p class="display text-lg text-warm-50">{m.bathrooms}</p>
-                    <p class="text-[9px] uppercase tracking-[0.18em] text-mist-400">baños</p>
-                  </div>
-                </div>
+                {m.variants.length > 0 ? (
+                  <ul class="divide-y divide-warm-50/10 border border-warm-50/10 bg-navy-900">
+                    {m.variants.map((v) => (
+                      <li class="flex items-baseline justify-between gap-3 px-4 py-2.5">
+                        <span class="display text-base text-warm-50">{surfaceLabel(v.surface)}</span>
+                        <span class="text-right text-[12px] text-mist-300">
+                          {v.bedrooms === undefined && v.bathrooms === undefined
+                            ? 'Ambientes a consultar'
+                            : `${bedroomsLabel(v)} · ${bathroomsLabel(v)}`}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p class="border border-warm-50/10 bg-navy-900 px-4 py-3 text-[13px] text-mist-300">
+                    Medidas: <span class="text-warm-50">{surfacesLabel(m)}</span>
+                  </p>
+                )}
 
                 <p class="text-[13px] leading-relaxed text-mist-300">{m.shortDescription}</p>
               </div>
@@ -141,13 +145,6 @@ const models = Astro.props.models ?? HOMES;
   const nameEl = document.querySelector<HTMLElement>('[data-qv-name]');
   const lineEl = document.querySelector<HTMLElement>('[data-qv-line]');
   const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-qv-panel]'));
-  const LINES: Record<string, string> = {
-    'homero-a00': 'Serie Austral · 18 m²',
-    'homero-a01': 'Serie Austral · 21 m²',
-    'austral-a00': 'Serie Austral · 25 m²',
-    'nexa-austral-a00': 'Serie Austral · 35 m²',
-    'beagle-d01': 'Serie Beagle · 45 m²',
-  };
 
   if (!modal || !closeBtn || !nameEl || !lineEl) {
     throw new Error('ModelQuickView: marcado incompleto');
@@ -178,8 +175,8 @@ const models = Astro.props.models ?? HOMES;
       p.classList.toggle('hidden', !active);
       p.setAttribute('aria-hidden', String(!active));
     });
-    nameEl!.textContent = slug.toUpperCase().replace(/-/g, ' ');
-    lineEl!.textContent = LINES[slug] ?? '';
+    nameEl!.textContent = panel.dataset.qvTitle ?? '';
+    lineEl!.textContent = panel.dataset.qvSubtitle ?? '';
     setModalOpen(true);
     trackEvent('model_open', { model: slug });
   }

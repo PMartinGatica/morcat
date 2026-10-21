@@ -23,10 +23,9 @@ export const PROMO_WHATSAPP_MESSAGES: Record<PromoWhatsAppKind, string> = {
     'Hola MORCAT, quiero información sobre el programa de comisión por venta de proyectos.',
 };
 
-/** Mensaje para un modelo puntual (nombre + superficie). */
-export function modelWhatsAppMessage(modelName: string, surface: number): string {
-  const label = modelName.includes('m²') ? modelName : `${modelName} de ${surface} m²`;
-  return `Hola MORCAT, estoy interesado/a en el modelo ${label}. Quisiera recibir más información.`;
+/** Mensaje para un modelo puntual. */
+export function modelWhatsAppMessage(modelName: string): string {
+  return `Hola MORCAT, estoy interesado/a en el modelo ${modelName}. Quisiera recibir más información.`;
 }
 
 /** Mensaje con el resultado del cotizador (tipo + m² + estimación). */
@@ -45,6 +44,6 @@ export function promoWhatsAppLink(kind: PromoWhatsAppKind): string | null {
 }
 
 /** Link de WhatsApp para un modelo puntual. */
-export function modelWhatsAppLink(modelName: string, surface: number): string | null {
-  return whatsappLink(modelWhatsAppMessage(modelName, surface));
+export function modelWhatsAppLink(modelName: string): string | null {
+  return whatsappLink(modelWhatsAppMessage(modelName));
 }

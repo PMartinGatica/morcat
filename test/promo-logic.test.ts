@@ -70,12 +70,12 @@ assert(typeof payload.timestamp === 'string' && payload.timestamp.length > 0, 't
 assert('landing_url' in payload, 'landing_url presente en el payload');
 
 console.log('— WhatsApp —');
-const msg = modelWhatsAppMessage('HOMERO A01', 21);
-assert(msg.includes('HOMERO A01') && msg.includes('21 m²'), 'mensaje de modelo incluye nombre y superficie');
+const msg = modelWhatsAppMessage('Homero');
+assert(msg.includes('Homero'), 'mensaje de modelo incluye el nombre');
 assert(PROMO_WHATSAPP_MESSAGES.hero.includes('viviendas modulares'), 'mensaje hero contextual');
 assert(PROMO_WHATSAPP_MESSAGES.financing.includes('financiación'), 'mensaje financiación contextual');
 assert(PROMO_WHATSAPP_MESSAGES.terrain.includes('terreno'), 'mensaje terreno contextual');
-assert(modelWhatsAppLink('HOMERO A01', 21) === null, 'sin número configurado → link null (fallback honesto)');
+assert(modelWhatsAppLink('Homero') === null, 'sin número configurado → link null (fallback honesto)');
 assert(promoWhatsAppLink('hero') === null, 'promoWhatsAppLink hero null sin número');
 
 console.log('— Persistencia (fallback sin sessionStorage) —');

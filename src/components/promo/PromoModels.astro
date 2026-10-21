@@ -1,15 +1,15 @@
 ---
 /**
  * MORCAT — Catálogo de modelos de la landing (claro).
- * Cards fotográficas grandes: imagen, nombre, superficie,
- * dormitorios/baños y CTAs. Los datos salen ÚNICAMENTE de
+ * Cards fotográficas grandes: imagen, nombre, línea y CTAs
+ * (las medidas se ven en el quick view y en la ficha). Los datos salen ÚNICAMENTE de
  * src/data/homes.ts (sin duplicación ni nombres inventados).
  */
 import Icon from '../Icon.astro';
 import DemoBadge from '../DemoBadge.astro';
 import MediaImage from '../MediaImage.astro';
 import ModelQuickView from './ModelQuickView.astro';
-import { HOMES, bedroomsLabel } from '../../data/homes';
+import { HOMES } from '../../data/homes';
 import { modelWhatsAppLink } from '../../lib/promo/whatsapp';
 import type { Promo } from '../../data/promos';
 
@@ -39,7 +39,7 @@ const { modelsHeading, modelsCta, modelsSecondaryCta } = Astro.props;
 
     <div class="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3" data-promo-models>
       {HOMES.map((m, i) => {
-        const wa = modelWhatsAppLink(m.name, m.surface);
+        const wa = modelWhatsAppLink(m.name);
         return (
           <article class="group" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
             <!-- Imagen → abre quick view -->
@@ -70,9 +70,6 @@ const { modelsHeading, modelsCta, modelsSecondaryCta } = Astro.props;
             <div class="mt-4 flex items-start justify-between gap-4">
               <div>
                 <p class="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-700">{m.line}</p>
-                <p class="mt-1 text-[15px] font-semibold text-navy-950">
-                  {m.surface} m² · {bedroomsLabel(m)} · {m.bathrooms} baño{m.bathrooms > 1 ? 's' : ''}
-                </p>
               </div>
             </div>
 
@@ -108,8 +105,7 @@ const { modelsHeading, modelsCta, modelsSecondaryCta } = Astro.props;
 
     <p class="mt-10 flex items-center gap-2 text-[12px] text-navy-700/60" data-reveal="fade">
       <Icon name="info" class="h-4 w-4 shrink-0" />
-      Modelos y superficies de referencia cargados en el catálogo. Tocá un modelo para ver
-      distribución y consultar sin salir de esta página.
+      Tocá un modelo para ver sus medidas disponibles y consultar sin salir de esta página.
     </p>
   </div>
 

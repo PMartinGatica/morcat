@@ -8,6 +8,14 @@ import { SITE } from './src/config/site';
 // https://astro.build/config
 export default defineConfig({
   site: SITE.domain,
+  // Fichas viejas (un modelo por medida) → ficha del modelo con todas sus medidas.
+  redirects: {
+    '/viviendas-modulares/homero-a00': '/viviendas-modulares/homero',
+    '/viviendas-modulares/homero-a01': '/viviendas-modulares/homero',
+    '/viviendas-modulares/austral-a00': '/viviendas-modulares/duplex-austral',
+    '/viviendas-modulares/nexa-austral-a00': '/viviendas-modulares/nexa-austral',
+    '/viviendas-modulares/beagle-d01': '/viviendas-modulares/duplex-beagle',
+  },
   integrations: [
     sitemap({
       // Landings de campaña (/promo/*), secciones desactivadas

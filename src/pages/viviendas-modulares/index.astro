@@ -8,7 +8,7 @@ import SectionHeader from '../../components/SectionHeader.astro';
 import HomeModelCard from '../../components/HomeModelCard.astro';
 import Icon from '../../components/Icon.astro';
 import MediaImage from '../../components/MediaImage.astro';
-import { HOMES, SURFACE_RANGES } from '../../data/homes';
+import { HOMES } from '../../data/homes';
 
 const HOW = [
   { title: 'Elegís modelo', text: 'Revisás el catálogo y elegís el modelo que mejor se adapta a tu necesidad.' },
@@ -20,7 +20,7 @@ const HOW = [
 
 const TITLE = 'Viviendas Modulares en Tierra del Fuego | Casas industrializadas';
 const DESCRIPTION =
-  'Viviendas modulares e industrializadas en Tierra del Fuego: modelos de 18 a 45 m² diseñados para el clima de la región. Conocé el catálogo y cotizá tu proyecto.';
+  'Viviendas modulares e industrializadas en Tierra del Fuego: modelos diseñados para el clima de la región. Conocé el catálogo y cotizá tu proyecto.';
 ---
 
 <BaseLayout
@@ -111,7 +111,7 @@ const DESCRIPTION =
     </div>
   </section>
 
-  <!-- CATÁLOGO FILTRABLE -->
+  <!-- CATÁLOGO -->
   <section id="modelos" class="relative bg-navy-950 py-20 sm:py-28" aria-labelledby="modelos">
     <div class="wrap">
       <div class="flex flex-wrap items-end justify-between gap-6">
@@ -120,31 +120,14 @@ const DESCRIPTION =
           eyebrow="Catálogo de modelos"
           title="Modelos que"
           accent="se adaptan."
-          description="Superficies de referencia iniciales: el catálogo definitivo se carga cuando MORCAT confirme los datos."
+          description="Elegí un modelo para ver sus medidas disponibles, ambientes y fotos."
           class="max-w-2xl"
         />
       </div>
 
-      <!-- Filtros -->
-      <div class="mt-10 flex flex-wrap items-center gap-3" role="group" aria-label="Filtrar por superficie" data-reveal>
-        {SURFACE_RANGES.map((range, i) => (
-          <button
-            type="button"
-            data-filter={range.id}
-            aria-pressed={i === 0}
-            class={`px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.18em] transition-all duration-300 ${
-              i === 0
-                ? 'bg-gold-500 text-navy-950'
-                : 'border border-warm-50/15 text-warm-100 hover:border-gold-500/60 hover:text-gold-300'
-            }`}
-          >
-            {range.label}
-          </button>
-        ))}
-        <span class="ml-auto text-[12px] uppercase tracking-[0.18em] text-mist-500">
-          <span data-model-count>{HOMES.length}</span> modelos
-        </span>
-      </div>
+      <p class="mt-10 text-[12px] uppercase tracking-[0.18em] text-mist-500" data-reveal>
+        {HOMES.length} modelos
+      </p>
 
       <!-- Grilla -->
       <div class="mt-12 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3" data-catalog-grid>
@@ -153,10 +136,7 @@ const DESCRIPTION =
         ))}
       </div>
 
-      <!-- Estado vacío -->
-      <p class="mt-12 border border-warm-50/12 p-8 text-center text-mist-400" data-filter-empty hidden>
-        No hay modelos en ese rango por el momento. Consultanos por opciones disponibles.
-      </p>
+
     </div>
   </section>
 
@@ -179,41 +159,3 @@ const DESCRIPTION =
   </section>
 </BaseLayout>
 
-<script>
-  /** Filtro del catálogo por rango de superficie. */
-  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter]'));
-  const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-surface]'));
-  const count = document.querySelector<HTMLElement>('[data-model-count]');
-  const empty = document.querySelector<HTMLElement>('[data-filter-empty]');
-
-  function applyFilter(id: string): void {
-    let visible = 0;
-    for (const card of cards) {
-      const surface = Number(card.dataset.surface ?? 0);
-      let match = true;
-      if (id === 'small') match = surface <= 25;
-      if (id === 'medium') match = surface > 25 && surface <= 40;
-      if (id === 'large') match = surface > 40;
-      card.style.display = match ? '' : 'none';
-      if (match) visible++;
-    }
-    if (count) count.textContent = String(visible);
-    if (empty) empty.hidden = visible !== 0;
-  }
-
-  buttons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      buttons.forEach((b) => {
-        const active = b === btn;
-        b.setAttribute('aria-pressed', String(active));
-        b.classList.toggle('bg-gold-500', active);
-        b.classList.toggle('text-navy-950', active);
-        b.classList.toggle('border-warm-50/15', !active);
-        b.classList.toggle('text-warm-100', !active);
-        b.classList.toggle('hover:border-gold-500/60', !active);
-        b.classList.toggle('hover:text-gold-300', !active);
-      });
-      applyFilter(btn.dataset.filter ?? 'all');
-    });
-  });
-</script>
