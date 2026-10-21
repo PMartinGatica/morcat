@@ -13,6 +13,7 @@ import {
   HOME_STATUS_LABEL,
   bathroomsLabel,
   bedroomsLabel,
+  optionsTotal,
   surfaceLabel,
   surfacesLabel,
 } from '../../data/homes';
@@ -40,9 +41,13 @@ const crumbs: Crumb[] = [
   { name: model.name, path: `/viviendas-modulares/${model.slug}` },
 ];
 
+// Opciones según la planilla de MORCAT; algunas todavía sin medidas cargadas.
+const options = optionsTotal(model);
+const pendingOptions = options - model.variants.length;
+
 const specs = [
   { label: 'Superficies', value: surfacesLabel(model) },
-  { label: 'Opciones', value: model.variants.length > 0 ? String(model.variants.length) : 'Consultar' },
+  { label: 'Opciones', value: options > 0 ? String(options) : 'Consultar' },
   { label: 'Estado', value: HOME_STATUS_LABEL[model.status] },
 ];
 ---
@@ -173,6 +178,7 @@ const specs = [
         <div class="mt-10 border border-warm-50/12 bg-navy-900 p-8" data-reveal>
           <p class="display text-xl text-warm-50">{model.surfaceNote ?? 'Medidas a consultar'}</p>
           <p class="mt-3 max-w-2xl text-[14px] leading-relaxed text-mist-400">
+            {options > 0 && `Este modelo tiene ${options} opciones. `}
             Estamos cargando las medidas y ambientes de este modelo. Consultanos y te
             pasamos las opciones disponibles.
           </p>
@@ -183,6 +189,13 @@ const specs = [
         </div>
       )}
 
+      {model.variants.length > 0 && pendingOptions > 0 && (
+        <p class="mt-6 text-[14px] text-mist-300">
+          Este modelo tiene {options} opciones: estamos cargando las medidas que faltan.
+          <a href="/contacto" class="text-gold-400 underline-offset-4 hover:underline">Consultanos</a>
+          por todas las opciones.
+        </p>
+      )}
       <p class="mt-6 text-[13px] text-mist-500">
         Medidas y ambientes de referencia: pueden ajustarse según el proyecto.
       </p>

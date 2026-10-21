@@ -41,6 +41,8 @@ export interface HomeModel {
   variants: HomeVariant[];
   /** Rango de superficie cuando todavía no hay opciones confirmadas. */
   surfaceNote?: string;
+  /** Cantidad total de opciones según la planilla de MORCAT, si hay más que las confirmadas. */
+  optionsCount?: number;
   description: string;
   shortDescription: string;
   /** Clave de ilustración (demo) o ruta '/images/...' (foto real). */
@@ -110,6 +112,7 @@ export const HOMES: HomeModel[] = [
       { surface: 35, bedrooms: 1, bathrooms: 1 },
       { surface: 49, bedrooms: 2 },
     ],
+    optionsCount: 4,
     description:
       'Vivienda modular de líneas simples con alero y deck de madera, disponible en distintas terminaciones: negra, blanca o roja. Pensada como vivienda principal, con opciones de superficie según lo que necesites.',
     shortDescription: 'Vivienda modular con deck y terminaciones a elección.',
@@ -139,6 +142,7 @@ export const HOMES: HomeModel[] = [
     line: 'Línea Austral',
     variants: [],
     surfaceNote: 'De 30 a 49 m²',
+    optionsCount: 4,
     description:
       'Diseño de inspiración nórdica con grandes ventanales para aprovechar la luz y el paisaje del sur. La línea crece en superficie manteniendo el mismo diseño.',
     shortDescription: 'Inspiración nórdica, grandes ventanales y mucha luz.',
@@ -167,6 +171,7 @@ export const HOMES: HomeModel[] = [
     name: 'Dúplex Austral',
     line: 'Dúplex industrializado',
     variants: [],
+    optionsCount: 4,
     description:
       'Vivienda en dos plantas con sistema industrializado: más superficie en el mismo lote. Ideal para familias o para quienes quieren separar las áreas sociales de los dormitorios.',
     shortDescription: 'Dúplex industrializado en dos plantas.',
@@ -196,6 +201,7 @@ export const HOMES: HomeModel[] = [
     name: 'Dúplex Beagle',
     line: 'Dúplex industrializado',
     variants: [{ surface: 86.3, bedrooms: 2, bathrooms: 2 }],
+    optionsCount: 2,
     description:
       'Dúplex industrializado de líneas contemporáneas, con volúmenes en chapa negra y madera. La distribución de referencia incluye dos dormitorios —uno en suite—, dos baños, estar y cocina.',
     shortDescription: 'Dúplex contemporáneo en chapa negra y madera.',
@@ -226,6 +232,7 @@ export const HOMES: HomeModel[] = [
     name: 'American Small Family',
     line: 'Modular',
     variants: [],
+    optionsCount: 3,
     description:
       'Vivienda modular de estilo americano pensada para familias chicas, con techo a dos aguas y estructura industrializada.',
     shortDescription: 'Vivienda modular para familias chicas.',
@@ -338,6 +345,11 @@ export function surfacesLabel(model: Pick<HomeModel, 'variants' | 'surfaceNote'>
   const min = surfaces[0];
   const max = surfaces[surfaces.length - 1];
   return min === max ? surfaceLabel(min) : `${min.toLocaleString('es-AR')} a ${surfaceLabel(max)}`;
+}
+
+/** Cantidad total de opciones del modelo (planilla o medidas confirmadas). */
+export function optionsTotal(model: Pick<HomeModel, 'variants' | 'optionsCount'>): number {
+  return Math.max(model.optionsCount ?? 0, model.variants.length);
 }
 
 /** Dormitorios para mostrar: 0 = monoambiente, sin dato = consultar. */
