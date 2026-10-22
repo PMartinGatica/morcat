@@ -6,10 +6,9 @@
  * src/data/homes.ts (sin duplicación ni nombres inventados).
  */
 import Icon from '../Icon.astro';
-import DemoBadge from '../DemoBadge.astro';
 import MediaImage from '../MediaImage.astro';
 import ModelQuickView from './ModelQuickView.astro';
-import { HOMES } from '../../data/homes';
+import { HOMES, surfacesLabel } from '../../data/homes';
 import { modelWhatsAppLink } from '../../lib/promo/whatsapp';
 import type { Promo } from '../../data/promos';
 
@@ -54,10 +53,6 @@ const { modelsHeading, modelsCta, modelsSecondaryCta } = Astro.props;
               </span>
               <span class="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-transparent to-transparent" aria-hidden="true" />
 
-              <span class="absolute left-3 top-3 flex flex-wrap items-center gap-2">
-                <DemoBadge demo={m.demo} />
-              </span>
-
               <span class="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-3">
                 <span class="display text-2xl text-warm-50 sm:text-3xl">{m.name}</span>
                 <span class="flex h-10 w-10 items-center justify-center border border-gold-500/50 bg-navy-950/60 text-gold-400 transition-colors duration-300 group-hover:bg-gold-500 group-hover:text-navy-950">
@@ -71,6 +66,7 @@ const { modelsHeading, modelsCta, modelsSecondaryCta } = Astro.props;
               <div>
                 <p class="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-700">{m.line}</p>
               </div>
+              <p class="shrink-0 text-[13px] font-bold text-navy-950">{surfacesLabel(m)}</p>
             </div>
 
             <p class="mt-2 line-clamp-2 text-[13px] leading-relaxed text-navy-700/70">

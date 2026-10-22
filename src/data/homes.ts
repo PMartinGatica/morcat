@@ -6,13 +6,11 @@
  *  opciones de superficie. La página /viviendas-modulares y
  *  /viviendas-modulares/[slug] se generan desde esta lista.
  *
- *  ⚠️  ESTADO ACTUAL: FOTOS REALES DEL CLIENTE + PLANILLA DE MORCAT.
- *  - Las fotos salen de las carpetas del Drive de MORCAT
- *    (procesadas a src/assets/media/modelos/<slug>/).
- *  - Códigos, superficies, dormitorios y baños salen de la planilla
- *    "planilla-datos" de MORCAT (pestaña Modelos, 2026-10-21).
- *    Un dato sin definir se muestra como "Consultar".
- *  - No hay precios. `demo: true` activa el indicador DEMO.
+ *  Fotos: carpetas del Drive de MORCAT (src/assets/media/modelos/<slug>/).
+ *  Superficies, dormitorios y baños: planilla de MORCAT (pestaña
+ *  Modelos, 2026-10-21). Un dato sin definir se muestra como "Consultar".
+ *  No hay precios ni planos (los planos quedaron desactualizados y
+ *  se sacaron hasta tener versión final).
  * ============================================================
  */
 
@@ -91,11 +89,11 @@ export const HOMES: HomeModel[] = [
       'homero-28-interior',
       'homero-28-interior-02',
     ]),
-    floorPlans: ['modulares/plano-21'],
+    floorPlans: [],
     features: [...BASE_FEATURES, 'Varias medidas con el mismo sistema', 'Ideal para terrenos chicos'],
     status: 'consultar',
     featured: true,
-    demo: true,
+    demo: false,
   },
   {
     id: 'nexa-austral',
@@ -124,11 +122,11 @@ export const HOMES: HomeModel[] = [
       'nexa-interior-02',
       'nexa-corte',
     ]),
-    floorPlans: ['nordicas/plano-35'],
+    floorPlans: [],
     features: [...BASE_FEATURES, 'Terminaciones a elección', 'Pensada como vivienda principal'],
     status: 'consultar',
     featured: true,
-    demo: true,
+    demo: false,
   },
   {
     id: 'nordica-austral',
@@ -157,11 +155,11 @@ export const HOMES: HomeModel[] = [
       'nordica-patagonia',
       'nordica-madera',
     ]),
-    floorPlans: ['modelos/nordica-austral/nordica-plano'],
+    floorPlans: [],
     features: [...BASE_FEATURES, 'Grandes ventanales', 'Crece en superficie sin cambiar el diseño'],
     status: 'consultar',
     featured: false,
-    demo: true,
+    demo: false,
   },
   {
     id: 'duplex-austral',
@@ -195,7 +193,7 @@ export const HOMES: HomeModel[] = [
     features: [...BASE_FEATURES, 'Dos plantas', 'Más superficie en el mismo lote'],
     status: 'consultar',
     featured: true,
-    demo: true,
+    demo: false,
   },
   {
     id: 'duplex-beagle',
@@ -228,7 +226,7 @@ export const HOMES: HomeModel[] = [
     features: [...BASE_FEATURES, 'Dos plantas', 'Hasta 3 dormitorios'],
     status: 'consultar',
     featured: false,
-    demo: true,
+    demo: false,
   },
   {
     id: 'american-small-family',
@@ -254,7 +252,7 @@ export const HOMES: HomeModel[] = [
     features: [...BASE_FEATURES, 'Techo a dos aguas'],
     status: 'consultar',
     featured: false,
-    demo: true,
+    demo: false,
   },
   {
     id: 'cabana-del-bosque',
@@ -280,7 +278,7 @@ export const HOMES: HomeModel[] = [
     features: [...BASE_FEATURES, 'Ideal para refugio o turismo'],
     status: 'consultar',
     featured: false,
-    demo: true,
+    demo: false,
   },
   {
     id: 'modulo-scandinavian',
@@ -297,7 +295,7 @@ export const HOMES: HomeModel[] = [
     features: [...BASE_FEATURES],
     status: 'consultar',
     featured: false,
-    demo: true,
+    demo: false,
   },
   {
     id: 'modulo-yamanas',
@@ -314,7 +312,7 @@ export const HOMES: HomeModel[] = [
     features: [...BASE_FEATURES, 'Galería de madera'],
     status: 'consultar',
     featured: false,
-    demo: true,
+    demo: false,
   },
   {
     id: 'modulo-kuar',
@@ -331,7 +329,7 @@ export const HOMES: HomeModel[] = [
     features: [...BASE_FEATURES, 'Grandes aberturas'],
     status: 'consultar',
     featured: false,
-    demo: true,
+    demo: false,
   },
 ];
 

@@ -14,7 +14,7 @@ interface Props {
 }
 
 const { problem } = Astro.props;
-const labels = ['PLANO', 'VOLUMEN', 'VIVIENDA'];
+const labels = ['EXTERIOR', 'DETALLE', 'ENTORNO'];
 ---
 
 <section class="relative bg-warm-50 py-24 text-navy-950 sm:py-32" aria-labelledby="problema">
@@ -67,13 +67,9 @@ const labels = ['PLANO', 'VOLUMEN', 'VIVIENDA'];
           ))}
         </div>
 
-        <div class="flex items-center justify-between border-t border-warm-50/10 px-5 py-3">
+        <div class="flex items-center border-t border-warm-50/10 px-5 py-3">
           <span class="text-[10px] font-bold uppercase tracking-[0.24em] text-gold-400" data-visual-label>
             {labels[0]}
-          </span>
-          <span class="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-mist-500">
-            <span class="h-1 w-1 rounded-full bg-gold-500" aria-hidden="true" />
-            Referencia esquemática
           </span>
         </div>
       </div>
@@ -117,7 +113,7 @@ const labels = ['PLANO', 'VOLUMEN', 'VIVIENDA'];
   // Sincroniza la etiqueta con la capa visible.
   const visual = document.querySelector<HTMLElement>('[data-problem-visual]');
   const label = document.querySelector<HTMLElement>('[data-visual-label]');
-  const labels = ['PLANO', 'VOLUMEN', 'VIVIENDA'];
+  const labels = ['EXTERIOR', 'DETALLE', 'ENTORNO'];
   if (visual && label && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const apply = () => {
       const sec = Math.floor((Date.now() / 1000) % 12 / 4);

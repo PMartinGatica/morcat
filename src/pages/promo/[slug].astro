@@ -13,7 +13,6 @@ import PromoHero from '../../components/promo/PromoHero.astro';
 import TrustStrip from '../../components/promo/TrustStrip.astro';
 import ProblemSection from '../../components/promo/ProblemSection.astro';
 import PromoModels from '../../components/promo/PromoModels.astro';
-import FloorPlanViewer from '../../components/promo/FloorPlanViewer.astro';
 import PromoShowcase from '../../components/promo/PromoShowcase.astro';
 import UseCases from '../../components/promo/UseCases.astro';
 import Personalization from '../../components/promo/Personalization.astro';
@@ -61,10 +60,7 @@ const { promo } = Astro.props;
     modelsSecondaryCta={promo.modelsSecondaryCta}
   />
 
-  <!-- 05 · PLANOS -->
-  <FloorPlanViewer floorPlans={promo.floorPlans} />
-
-  <!-- 05b · SHOWCASE (video + fotos reales) -->
+  <!-- 05 · SHOWCASE (video + fotos reales) -->
   <PromoShowcase showcase={promo.showcase} />
 
   <!-- 06 · CASOS DE USO -->

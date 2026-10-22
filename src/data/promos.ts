@@ -79,15 +79,6 @@ export interface Promo {
   modelsCta: string;
   modelsSecondaryCta: string;
 
-  /* ---------- PLANOS ---------- */
-  floorPlans: {
-    eyebrow: string;
-    title: string;
-    accentLine: string;
-    subtitle: string;
-    zoomLabel: string;
-  };
-
   /* ---------- SHOWCASE (video + fotos) ---------- */
   showcase: {
     eyebrow: string;
@@ -208,7 +199,7 @@ export const PROMOS: Promo[] = [
         'MORCAT desarrolla modelos con diferentes superficies y distribuciones para adaptarse a distintos proyectos.',
       ],
       note: 'Las distribuciones y características de cada modelo se publican tal como están cargadas en el catálogo.',
-      visuals: ['modulares/plano-21', 'nordicas/platea-flotante', 'modulares/bosque-01'],
+      visuals: ['nordicas/platea-flotante', 'modulares/bosque-01', 'modulares/atardecer'],
     },
 
     modelsHeading: {
@@ -220,15 +211,6 @@ export const PROMOS: Promo[] = [
     featuredHomeSlugs: ['homero', 'nexa-austral', 'duplex-austral', 'nordica-austral', 'duplex-beagle'],
     modelsCta: 'VER MODELO',
     modelsSecondaryCta: 'CONSULTAR',
-
-    floorPlans: {
-      eyebrow: 'Distribución',
-      title: 'MIRÁ CÓMO',
-      accentLine: 'SE APROVECHA CADA METRO.',
-      subtitle:
-        'Planos esquemáticos de referencia. La distribución final se adapta a tu terreno y necesidades.',
-      zoomLabel: 'AMPLIAR PLANO',
-    },
 
     showcase: {
       eyebrow: 'Recorré una vivienda',
@@ -379,11 +361,6 @@ export const PROMOS: Promo[] = [
         question: '¿En qué zonas de Tierra del Fuego trabajan?',
         answer:
           'La empresa desarrolla su actividad en Tierra del Fuego. Consultanos por tu ubicación puntual.',
-      },
-      {
-        question: '¿Puedo ver los planos?',
-        answer:
-          'Los planos de distribución se muestran acá y en la ficha de cada modelo. Los planos definitivos de tu proyecto se entregan en la etapa de proyecto.',
       },
       {
         question: '¿Existen opciones de financiación?',

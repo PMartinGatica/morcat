@@ -6,11 +6,9 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import MediaImage from '../../components/MediaImage.astro';
 import ProjectGallery from '../../components/ProjectGallery.astro';
-import DemoBadge from '../../components/DemoBadge.astro';
 import Icon from '../../components/Icon.astro';
 import {
   HOMES,
-  HOME_STATUS_LABEL,
   bathroomsLabel,
   bedroomsLabel,
   surfaceLabel,
@@ -43,7 +41,6 @@ const crumbs: Crumb[] = [
 const specs = [
   { label: 'Superficies', value: surfacesLabel(model) },
   { label: 'Opciones', value: model.variants.length > 0 ? String(model.variants.length) : 'Consultar' },
-  { label: 'Estado', value: HOME_STATUS_LABEL[model.status] },
 ];
 ---
 
@@ -67,7 +64,6 @@ const specs = [
 
     <div class="wrap relative z-10 pb-16">
       <div class="flex flex-wrap items-center gap-3 intro-item" style="animation-delay: .1s">
-        <DemoBadge demo={model.demo} />
         <span class="text-[11px] uppercase tracking-[0.24em] text-mist-400">{model.line}</span>
       </div>
 
@@ -206,47 +202,12 @@ const specs = [
           </div>
           <h2 class="display mt-4 text-2xl text-warm-50 sm:text-3xl">El modelo en imágenes</h2>
         </div>
-        <DemoBadge demo={model.demo} label="IMÁGENES DEMO" class="mb-1" />
       </div>
       <div class="mt-10">
         <ProjectGallery images={model.gallery} altPrefix={`Modelo ${model.name}`} />
       </div>
     </div>
   </section>
-
-  <!-- DISTRIBUCIÓN Y PLANOS -->
-  {model.floorPlans.length > 0 && (
-  <section class="bg-navy-950 py-20 sm:py-24" aria-labelledby="planos">
-    <div class="wrap">
-      <div data-reveal>
-        <div class="eyebrow">
-          <span>Distribución</span>
-        </div>
-        <h2 class="display mt-4 text-2xl text-warm-50 sm:text-3xl">
-          Planta <span class="serif-accent text-gold-500">esquemática.</span>
-        </h2>
-        <p class="mt-4 max-w-2xl text-[14px] text-mist-400">
-          Planos de referencia inicial. La distribución final se adapta a tu terreno y
-          necesidades.
-        </p>
-      </div>
-
-      <div class="mt-10 grid gap-8 md:grid-cols-2">
-        {model.floorPlans.map((plan, i) => (
-          <figure class="border border-warm-50/12 bg-navy-950 p-4" data-reveal style={`--reveal-delay: ${i * 100}ms`}>
-            <MediaImage src={plan} alt={`Plano de planta ${plan} — modelo ${model.name}`} class="w-full" />
-            <figcaption class="mt-3 flex items-center justify-between px-1">
-              <span class="text-[11px] uppercase tracking-[0.2em] text-mist-400">
-                Planta {String(i + 1).padStart(2, '0')}
-              </span>
-              <DemoBadge demo={model.demo} label="DEMO" />
-            </figcaption>
-          </figure>
-        ))}
-      </div>
-    </div>
-  </section>
-  )}
 
   <!-- CARACTERÍSTICAS + SISTEMA -->
   <section class="border-y border-warm-50/10 bg-navy-900 py-20 sm:py-24">
@@ -264,7 +225,6 @@ const specs = [
             </li>
           ))}
         </ul>
-        <DemoBadge demo={model.demo} label="CARACTERÍSTICAS DEMO" class="mt-6" />
       </div>
 
       <div data-reveal>

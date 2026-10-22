@@ -93,25 +93,6 @@ const models = Astro.props.models ?? HOMES;
                   </ul>
                 </div>
 
-                {m.floorPlans[0] && (
-                  <div>
-                    <p class="text-[10px] font-bold uppercase tracking-[0.22em] text-gold-400">Planta</p>
-                    <button
-                      type="button"
-                      data-qv-plan={m.slug}
-                      class="group mt-3 block w-full overflow-hidden border border-warm-50/12 bg-navy-900 p-2 text-left transition-colors hover:border-gold-500/50"
-                    >
-                      <span class="block overflow-hidden">
-                        <MediaImage src={m.floorPlans[0]} alt={`Plano ${m.name}`} class="w-full" />
-                      </span>
-                      <span class="mt-2 flex items-center justify-between px-1 text-[11px] font-bold uppercase tracking-[0.18em] text-gold-400">
-                        Ver plano ampliado
-                        <Icon name="zoom" class="h-4 w-4" />
-                      </span>
-                    </button>
-                  </div>
-                )}
-
                 <div class="flex flex-col gap-3 pt-1">
                   <a
                     href={wa ?? '#promo-form'}
@@ -199,11 +180,5 @@ const models = Astro.props.models ?? HOMES;
   modal.querySelector('[data-quickview-panels]')?.addEventListener('click', (e) => {
     const wa = (e.target as HTMLElement).closest('[data-qv-wa]');
     if (wa) trackEvent('model_whatsapp_click', { model: currentSlug });
-
-    const planBtn = (e.target as HTMLElement).closest<HTMLElement>('[data-qv-plan]');
-    if (planBtn) {
-      const slug = planBtn.dataset.qvPlan ?? currentSlug;
-      window.dispatchEvent(new CustomEvent('morcat:floorplan-open', { detail: { slug } }));
-    }
   });
 </script>

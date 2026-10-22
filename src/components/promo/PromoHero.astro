@@ -5,7 +5,6 @@
  * modulares en Tierra del Fuego. Sin precios ni plazos.
  */
 import Icon from '../Icon.astro';
-import DemoBadge from '../DemoBadge.astro';
 import MediaImage from '../MediaImage.astro';
 import { promoWhatsAppLink } from '../../lib/promo/whatsapp';
 import type { Promo } from '../../data/promos';
@@ -20,14 +19,10 @@ const { hero } = promo;
 ---
 
 <section class="relative flex min-h-[100svh] items-end overflow-hidden bg-navy-950" data-promo-hero>
-  <!-- Imagen: asset real de MORCAT cuando exista; hoy placeholder DEMO -->
   <div class="absolute inset-0">
     <MediaImage src={hero.image} alt="Vivienda modular MORCAT en Tierra del Fuego" class="h-full w-full object-cover" eager />
   </div>
   <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/55 to-navy-950/40" aria-hidden="true" />
-  <div class="absolute inset-x-0 top-24 flex justify-center sm:top-28" data-reveal="fade">
-    <DemoBadge demo label="IMAGEN DEMO" />
-  </div>
 
   <div class="wrap relative z-10 pb-24 pt-40 sm:pb-28">
     <p class="eyebrow intro-item" style="animation-delay: .05s">{hero.eyebrow}</p>

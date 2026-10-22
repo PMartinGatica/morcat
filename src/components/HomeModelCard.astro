@@ -6,7 +6,6 @@
  */
 import type { HomeModel } from '../data/homes';
 import MediaImage from './MediaImage.astro';
-import DemoBadge from './DemoBadge.astro';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -28,10 +27,6 @@ const { model, delay = 0, class: className = '' } = Astro.props;
     <div class="card-media aspect-[4/3]">
       <MediaImage src={model.coverImage} alt={`Vivienda modular ${model.name} — ${model.shortDescription}`} class="h-full w-full object-cover" />
       <div class="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-transparent to-transparent" aria-hidden="true" />
-
-      <div class="absolute left-4 top-4 flex flex-wrap items-center gap-2">
-        <DemoBadge demo={model.demo} />
-      </div>
 
       <div class="absolute bottom-4 left-4 right-4">
         <h3 class="display text-2xl text-warm-50 sm:text-3xl">{model.name}</h3>
