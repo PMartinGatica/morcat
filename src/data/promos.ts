@@ -182,7 +182,7 @@ export const PROMOS: Promo[] = [
         'Modelos compactos y funcionales pensados para vivir, ampliar o desarrollar proyectos en Tierra del Fuego.',
       cta: 'VER MODELOS',
       secondaryCta: 'CONSULTAR POR WHATSAPP',
-      image: 'modulares/cabana-andina',
+      image: 'modelos/nordica-austral/nordica-alpina',
       note: 'Modelos desde 18 m²',
       footnote: '*Superficies y configuraciones sujetas al modelo seleccionado.',
     },
@@ -229,18 +229,13 @@ export const PROMOS: Promo[] = [
         'Un recorrido rápido por el interior y el exterior de las viviendas. Videos e imágenes de referencia de MORCAT.',
       videos: [
         {
-          video: 'interior-hogar',
-          poster: 'posters/interior-hogar',
-          alt: 'Interior de una vivienda modular MORCAT',
-        },
-        {
           video: 'orbital-nordicas',
           poster: 'posters/orbital-nordicas',
-          alt: 'Vista orbital del exterior de una vivienda nórdica',
+          alt: 'Vista orbital del exterior de una vivienda modular',
         },
       ],
       images: [
-        'modelos/nordica-austral/nordica-alpina',
+        'modelos/homero/homero-28-noche',
         'modelos/nexa-austral/nexa-interior',
         'modelos/modulo-kuar/kuar-deck',
       ],

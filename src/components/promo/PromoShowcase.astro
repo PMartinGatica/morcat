@@ -35,7 +35,7 @@ const { showcase } = Astro.props;
     <!-- Videos -->
     <div class="mt-12 grid gap-6 lg:grid-cols-2">
       {showcase.videos.map((v, i) => (
-        <div data-reveal style={`--reveal-delay: ${i * 100}ms`}>
+        <div class={showcase.videos.length === 1 ? 'lg:col-span-2 lg:max-w-xl' : ''} data-reveal style={`--reveal-delay: ${i * 100}ms`}>
           <VideoPlayer
             video={v.video}
             poster={v.poster}
