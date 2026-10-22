@@ -85,7 +85,7 @@ export interface Promo {
     title: string;
     accentLine: string;
     subtitle: string;
-    videos: { video: string; poster: string; alt: string; caption: string }[];
+    videos: { video: string; poster: string; alt: string }[];
     images: string[];
   };
 
@@ -208,7 +208,16 @@ export const PROMOS: Promo[] = [
       subtitle:
         'Explorá los modelos disponibles y encontrá la superficie que mejor se adapte a tu proyecto.',
     },
-    featuredHomeSlugs: ['homero', 'nexa-austral', 'duplex-austral', 'nordica-austral', 'duplex-beagle'],
+    featuredHomeSlugs: [
+      'homero',
+      'nordica-austral',
+      'nexa-austral',
+      'american-small-family',
+      'cabana-del-bosque',
+      'modulo-scandinavian',
+      'modulo-yamanas',
+      'modulo-kuar',
+    ],
     modelsCta: 'VER MODELO',
     modelsSecondaryCta: 'CONSULTAR',
 
@@ -223,16 +232,18 @@ export const PROMOS: Promo[] = [
           video: 'interior-hogar',
           poster: 'posters/interior-hogar',
           alt: 'Interior de una vivienda modular MORCAT',
-          caption: 'Interior · recorrido de referencia',
         },
         {
           video: 'orbital-nordicas',
           poster: 'posters/orbital-nordicas',
           alt: 'Vista orbital del exterior de una vivienda nórdica',
-          caption: 'Exterior · vista orbital',
         },
       ],
-      images: ['modulares/atardecer', 'nordicas/otono', 'modulares/exterior-02'],
+      images: [
+        'modelos/nordica-austral/nordica-alpina',
+        'modelos/nexa-austral/nexa-interior',
+        'modelos/modulo-kuar/kuar-deck',
+      ],
     },
 
     useCases: {

@@ -17,9 +17,14 @@ import type { Promo } from '../../data/promos';
 interface Props {
   form: Promo['form'];
   source: string;
+  featuredHomeSlugs?: Promo['featuredHomeSlugs'];
 }
 
-const { form, source } = Astro.props;
+const { form, source, featuredHomeSlugs } = Astro.props;
+const modelOptions =
+  featuredHomeSlugs && featuredHomeSlugs.length > 0
+    ? HOMES.filter((m) => featuredHomeSlugs.includes(m.slug))
+    : HOMES;
 
 const USOS = ['Vivienda', 'Ampliación', 'Proyecto turístico', 'Inversión', 'Otro'];
 const TERRENO_OPTIONS = ['Sí', 'No', 'Estoy buscando'];
@@ -95,7 +100,7 @@ const TERRENO_OPTIONS = ['Sí', 'No', 'Estoy buscando'];
           <label for="plf-modelo" class="field-label">Modelo de interés</label>
           <select id="plf-modelo" name="modeloInteres" class="field appearance-none">
             <option value="">No sé todavía</option>
-            {HOMES.map((m) => (
+            {modelOptions.map((m) => (
               <option value={m.slug}>{m.name}</option>
             ))}
             <option value="otro">Otro</option>

@@ -14,11 +14,13 @@ import type { Promo } from '../../data/promos';
 
 interface Props {
   modelsHeading: Promo['modelsHeading'];
+  featuredHomeSlugs: Promo['featuredHomeSlugs'];
   modelsCta: string;
   modelsSecondaryCta: string;
 }
 
-const { modelsHeading, modelsCta, modelsSecondaryCta } = Astro.props;
+const { modelsHeading, featuredHomeSlugs, modelsCta, modelsSecondaryCta } = Astro.props;
+const models = featuredHomeSlugs.length > 0 ? HOMES.filter((m) => featuredHomeSlugs.includes(m.slug)) : HOMES;
 ---
 
 <section id="promo-modelos" class="relative bg-warm-100 py-24 text-navy-950 sm:py-32" aria-labelledby="promo-modelos-title">
@@ -37,7 +39,7 @@ const { modelsHeading, modelsCta, modelsSecondaryCta } = Astro.props;
     </div>
 
     <div class="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3" data-promo-models>
-      {HOMES.map((m, i) => {
+      {models.map((m, i) => {
         const wa = modelWhatsAppLink(m.name);
         return (
           <article class="group" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
@@ -105,7 +107,7 @@ const { modelsHeading, modelsCta, modelsSecondaryCta } = Astro.props;
     </p>
   </div>
 
-  <ModelQuickView models={HOMES} />
+  <ModelQuickView models={models} />
 </section>
 
 <script>
