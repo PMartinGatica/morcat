@@ -6,15 +6,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import ConstructionProcess from '../components/ConstructionProcess.astro';
-import ProjectCard from '../components/ProjectCard.astro';
 import Icon from '../components/Icon.astro';
 import MediaImage from '../components/MediaImage.astro';
 import { CONSTRUCTION_LINES, CONSTRUCTION_SYSTEMS, CONSTRUCTION_MEDIA } from '../data/construction';
-import { PROJECTS } from '../data/projects';
-
-const relatedProjects = PROJECTS.filter((p) =>
-  ['Casa', 'Dúplex', 'Ampliación'].includes(p.type),
-).slice(0, 3);
 
 const TITLE = 'Construcción de Casas y Dúplex en Tierra del Fuego | Proyectos a medida — MORCAT';
 const DESCRIPTION =
@@ -163,28 +157,23 @@ const DESCRIPTION =
     </div>
   </section>
 
-  <!-- PORTFOLIO RELACIONADO -->
+  <!-- VIVIENDAS -->
   <section class="border-t border-warm-50/10 bg-navy-950 py-20 sm:py-28">
-    <div class="wrap">
-      <div class="flex flex-wrap items-end justify-between gap-6">
-        <SectionHeader
-          index="05"
-          eyebrow="Portfolio"
-          title="Obras"
-          accent="relacionadas."
-          class="max-w-2xl"
-        />
-        <a href="/proyectos" class="btn btn-ghost mb-1" data-reveal>
-          Ver todos los proyectos
-          <Icon name="arrow-right" class="btn-arrow h-4 w-4" />
-        </a>
-      </div>
-
-      <div class="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2">
-        {relatedProjects.map((project, i) => (
-          <ProjectCard project={project} delay={i * 100} class="sm:max-w-md" />
-        ))}
-      </div>
+    <div class="wrap flex flex-col items-center gap-6 text-center">
+      <SectionHeader
+        index="05"
+        eyebrow="Catálogo"
+        title="Conocé nuestras"
+        accent="viviendas."
+        align="center"
+      />
+      <p class="max-w-xl text-[15px] leading-relaxed text-mist-300 sm:text-base">
+        Todos los proyectos realizados por MORCAT están en el catálogo de viviendas.
+      </p>
+      <a href="/viviendas-modulares" class="btn btn-gold" data-reveal>
+        Ver viviendas
+        <Icon name="arrow-up-right" class="h-4 w-4" />
+      </a>
     </div>
   </section>
 

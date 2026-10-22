@@ -7,10 +7,8 @@
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
 import Icon from '../../components/Icon.astro';
 import MediaImage from '../../components/MediaImage.astro';
-import { PROJECTS } from '../../data/projects';
 
 const TITLE = 'Proyectos de Construcción en Tierra del Fuego | MORCAT Constructora';
 const DESCRIPTION =
@@ -83,21 +81,24 @@ const DESCRIPTION =
     </div>
   </section>
 
-  <!-- OBRAS -->
+  <!-- VIVIENDAS -->
   <section class="bg-navy-950 py-20 sm:py-28">
-    <div class="wrap">
+    <div class="wrap flex flex-col items-center gap-6 text-center">
       <SectionHeader
         index="02"
-        eyebrow="Obras"
-        title="Dos proyectos"
-        accent="en marcha."
-        description="Ejemplos puntuales de lo que estamos haciendo hoy."
+        eyebrow="Catálogo"
+        title="Nuestras"
+        accent="viviendas."
+        align="center"
       />
-      <div class="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2">
-        {PROJECTS.map((project, i) => (
-          <ProjectCard project={project} delay={i * 80} class="sm:max-w-md" />
-        ))}
-      </div>
+      <p class="max-w-xl text-[15px] leading-relaxed text-mist-300 sm:text-base">
+        Todos los modelos y proyectos de MORCAT están en el catálogo de viviendas, con
+        superficie, dormitorios y baños de cada uno.
+      </p>
+      <a href="/viviendas-modulares" class="btn btn-gold" data-reveal>
+        Ver viviendas
+        <Icon name="arrow-up-right" class="h-4 w-4" />
+      </a>
     </div>
   </section>
 
