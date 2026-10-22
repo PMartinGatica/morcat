@@ -8,9 +8,7 @@ import SectionHeader from '../components/SectionHeader.astro';
 import ConstructionProcess from '../components/ConstructionProcess.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Icon from '../components/Icon.astro';
-import DemoBadge from '../components/DemoBadge.astro';
 import MediaImage from '../components/MediaImage.astro';
-import VideoPlayer from '../components/VideoPlayer.astro';
 import { CONSTRUCTION_LINES, CONSTRUCTION_SYSTEMS, CONSTRUCTION_MEDIA } from '../data/construction';
 import { PROJECTS } from '../data/projects';
 
@@ -142,81 +140,30 @@ const DESCRIPTION =
     </div>
   </section>
 
-  <!-- DETALLES CONSTRUCTIVOS + VIDEO -->
+  <!-- DETALLE CONSTRUCTIVO -->
   <section class="border-t border-warm-50/10 bg-navy-950 py-20 sm:py-28">
-    <div class="wrap">
-      <SectionHeader
-        index="04"
-        eyebrow="Obra y detalles"
-        title="Cómo se ve"
-        accent="una obra adentro."
-        description="Material de referencia de MORCAT: montaje de módulos, detalle de platea flotante y planos de la propuesta del dúplex."
-      />
-
-      <div class="mt-14 grid gap-6 lg:grid-cols-2">
-        <div data-reveal>
-          <VideoPlayer
-            video={CONSTRUCTION_MEDIA.videoMontaje}
-            poster="posters/construccion-timelapse"
-            alt="Montaje de un módulo de vivienda"
-            caption="Montaje de módulo · referencia"
-            aspect="aspect-[9/16] sm:aspect-video"
-          />
-        </div>
-        <div data-reveal style="--reveal-delay: 80ms">
-          <VideoPlayer
-            video={CONSTRUCTION_MEDIA.videoDuplex}
-            poster="posters/exterior-duplex"
-            alt="Exterior del dúplex: recorrido de cámara"
-            caption="Dúplex · recorrido exterior"
-            aspect="aspect-[9/16] sm:aspect-video"
-          />
-        </div>
+    <div class="wrap grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <div data-reveal>
+        <SectionHeader
+          index="04"
+          eyebrow="Obra y detalles"
+          title="La base importa"
+          accent="tanto como la vivienda."
+        />
+        <p class="mt-6 max-w-xl text-[15px] leading-relaxed text-mist-300 sm:text-base">
+          En el sistema industrializado, la fundación se resuelve con una platea flotante:
+          apoya la estructura sobre el terreno sin necesidad de una excavación profunda,
+          algo clave en suelos con permafrost o napa alta como los de Tierra del Fuego.
+        </p>
       </div>
 
-      <div class="mt-6 grid gap-6 md:grid-cols-3">
-        <figure class="border border-warm-50/12 bg-navy-900 p-4" data-reveal>
-          <MediaImage
-            src={CONSTRUCTION_MEDIA.plateaFlotante}
-            alt="Detalle constructivo de platea flotante"
-            class="w-full"
-            sizes="(min-width: 768px) 33vw, 100vw"
-          />
-          <figcaption class="mt-3 flex items-center justify-between gap-3 px-1">
-            <span class="text-[11px] uppercase tracking-[0.2em] text-mist-400">
-              Detalle · platea flotante
-            </span>
-            <DemoBadge demo label="REFERENCIA" />
-          </figcaption>
-        </figure>
-        <figure class="border border-warm-50/12 bg-navy-900 p-4" data-reveal style="--reveal-delay: 80ms">
-          <MediaImage
-            src={CONSTRUCTION_MEDIA.planoDuplex}
-            alt="Plano y alzado de la propuesta de dúplex"
-            class="w-full bg-warm-50"
-            sizes="(min-width: 768px) 33vw, 100vw"
-          />
-          <figcaption class="mt-3 flex items-center justify-between gap-3 px-1">
-            <span class="text-[11px] uppercase tracking-[0.2em] text-mist-400">
-              Plano y alzado · dúplex
-            </span>
-            <DemoBadge demo label="REFERENCIA" />
-          </figcaption>
-        </figure>
-        <figure class="border border-warm-50/12 bg-navy-900 p-4" data-reveal style="--reveal-delay: 160ms">
-          <MediaImage
-            src="modulares/plano-referencia"
-            alt="Plano original de una vivienda MORCAT"
-            class="w-full bg-warm-50"
-            sizes="(min-width: 768px) 33vw, 100vw"
-          />
-          <figcaption class="mt-3 flex items-center justify-between gap-3 px-1">
-            <span class="text-[11px] uppercase tracking-[0.2em] text-mist-400">
-              Plano original · MORCAT
-            </span>
-            <DemoBadge demo label="REFERENCIA" />
-          </figcaption>
-        </figure>
+      <div class="card-media aspect-[4/3]" data-reveal="left">
+        <MediaImage
+          src={CONSTRUCTION_MEDIA.plateaFlotante}
+          alt="Detalle constructivo de platea flotante"
+          class="h-full w-full object-cover"
+          sizes="(min-width: 1024px) 45vw, 100vw"
+        />
       </div>
     </div>
   </section>
@@ -238,9 +185,9 @@ const DESCRIPTION =
         </a>
       </div>
 
-      <div class="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2">
         {relatedProjects.map((project, i) => (
-          <ProjectCard project={project} delay={i * 100} />
+          <ProjectCard project={project} delay={i * 100} class="sm:max-w-md" />
         ))}
       </div>
     </div>

@@ -1,15 +1,20 @@
 ---
 /**
  * MORCAT — /proyectos
- * Portfolio de obras terminadas, en ejecución y futuras.
+ * Solo se muestran los dos proyectos puntuales confirmados
+ * (Línea Homero, Dúplex Austral) + una sección sobre cómo MORCAT
+ * encara un proyecto en general. No se inventan obras de relleno.
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
+import Icon from '../../components/Icon.astro';
+import MediaImage from '../../components/MediaImage.astro';
 import { PROJECTS } from '../../data/projects';
 
-const TITLE = 'Proyectos de Construcción en Tierra del Fuego | Obras de MORCAT Constructora';
+const TITLE = 'Proyectos de Construcción en Tierra del Fuego | MORCAT Constructora';
 const DESCRIPTION =
-  'Portfolio de MORCAT Constructora: obras terminadas, en ejecución y proyectos futuros en Tierra del Fuego.';
+  'Cómo trabaja MORCAT Constructora en Tierra del Fuego: viviendas modulares, casas a medida y dúplex, del plano a la obra.';
 ---
 
 <BaseLayout
@@ -34,21 +39,81 @@ const DESCRIPTION =
         </span>
       </h1>
       <p class="intro-item mt-6 max-w-xl text-[15px] leading-relaxed text-mist-300" style="animation-delay: .4s">
-        Obras terminadas, en ejecución y proyectos futuros en Tierra del Fuego.
+        Cómo trabajamos en Tierra del Fuego, con dos obras puntuales como ejemplo.
       </p>
     </div>
   </section>
 
-  <!-- GRID -->
-  <!-- Sin filtro por estado: no tenemos confirmado qué obras están en
-       curso, terminadas o en proyecto (ver nota en data/projects.ts). -->
-  <section class="bg-navy-950 pb-24 pt-4 sm:pb-32">
+  <!-- CÓMO ENCARAMOS UN PROYECTO -->
+  <section class="relative bg-navy-900 py-20 sm:py-28">
+    <div class="wrap grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <div data-reveal>
+        <SectionHeader
+          index="01"
+          eyebrow="Cómo trabajamos"
+          title="Mismo proceso,"
+          accent="distinta escala."
+        />
+        <div class="mt-6 space-y-4 text-[15px] leading-relaxed text-mist-300 sm:text-base">
+          <p>
+            Sea una vivienda modular, una casa a medida o un edificio en altura, el punto de
+            partida es siempre el mismo: entender el terreno, el clima y el uso que le vas a dar
+            antes de definir el sistema constructivo.
+          </p>
+          <p>
+            Trabajamos con viviendas industrializadas —producidas en fábrica y montadas en el
+            terreno— y con sistemas tradicionales para casas, dúplex y desarrollos de mayor
+            escala.
+          </p>
+          <p>
+            Un único equipo acompaña el proyecto de punta a punta, desde la primera consulta
+            hasta la entrega de la obra.
+          </p>
+        </div>
+      </div>
+
+      <div class="card-media aspect-[4/3]" data-reveal="left">
+        <MediaImage
+          src="desarrollo/volumetria"
+          alt="Obra en construcción con estructura de hormigón"
+          class="h-full w-full object-cover"
+          sizes="(min-width: 1024px) 45vw, 100vw"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- OBRAS -->
+  <section class="bg-navy-950 py-20 sm:py-28">
     <div class="wrap">
-      <div class="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      <SectionHeader
+        index="02"
+        eyebrow="Obras"
+        title="Dos proyectos"
+        accent="en marcha."
+        description="Ejemplos puntuales de lo que estamos haciendo hoy."
+      />
+      <div class="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2">
         {PROJECTS.map((project, i) => (
-          <ProjectCard project={project} delay={i * 80} />
+          <ProjectCard project={project} delay={i * 80} class="sm:max-w-md" />
         ))}
       </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="border-t border-warm-50/10 bg-navy-900 py-16">
+    <div class="wrap flex flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-left">
+      <div data-reveal>
+        <h2 class="display text-2xl text-warm-50 sm:text-3xl">¿Tenés un proyecto en mente?</h2>
+        <p class="mt-2 text-[14px] text-mist-400">
+          Contanos qué querés construir y evaluamos juntos la mejor alternativa.
+        </p>
+      </div>
+      <a href="/contacto" class="btn btn-gold shrink-0" data-reveal>
+        Cotizar proyecto
+        <Icon name="arrow-up-right" class="h-4 w-4" />
+      </a>
     </div>
   </section>
 </BaseLayout>

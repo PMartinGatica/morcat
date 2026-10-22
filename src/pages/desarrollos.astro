@@ -1,24 +1,28 @@
 ---
 /**
  * MORCAT — /desarrollos
- * Desarrollos inmobiliarios. Sin afirmaciones financieras hasta
- * que exista información legal y comercial validada.
+ * Una sola sección: a qué tipo de desarrollo se dedica MORCAT, sin
+ * nombres de proyectos inventados (no hay desarrollos confirmados
+ * para mostrar como obras puntuales todavía). Orientada a quien
+ * está evaluando desarrollar un edificio o un conjunto de viviendas,
+ * no a quien busca comprar una unidad.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeader from '../components/SectionHeader.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import DemoBadge from '../components/DemoBadge.astro';
 import Icon from '../components/Icon.astro';
 import MediaImage from '../components/MediaImage.astro';
 import VideoPlayer from '../components/VideoPlayer.astro';
-import { PROJECTS } from '../data/projects';
 import { FEATURES } from '../config/features';
 
-const developments = PROJECTS.filter((p) => p.type === 'Desarrollo inmobiliario');
+const BUILDING_TYPES = [
+  { label: 'Edificios residenciales', image: 'desarrollo/render-01' },
+  { label: 'Edificios en altura', image: 'desarrollo/render-02' },
+  { label: 'Conjuntos de baja densidad', image: 'desarrollo/render-03' },
+] as const;
 
-const TITLE = 'Desarrollos Inmobiliarios en Tierra del Fuego | Proyectos inmobiliarios — MORCAT';
+const TITLE = 'Desarrollos Inmobiliarios en Tierra del Fuego | MORCAT Constructora';
 const DESCRIPTION =
-  'Desarrollos inmobiliarios en Tierra del Fuego: proyectos actuales, futuros y terminados. Conocé los desarrollos de MORCAT Constructora.';
+  'MORCAT desarrolla edificios y conjuntos de viviendas en Tierra del Fuego, de la definición del proyecto a la obra terminada.';
 ---
 
 <BaseLayout
@@ -33,100 +37,74 @@ const DESCRIPTION =
   <section class="relative flex min-h-[72svh] items-end overflow-hidden bg-navy-950 pt-36">
     <div class="absolute inset-0">
       <MediaImage
-        src="desarrollo/plano-alem"
-        alt="Plano de un edificio de desarrollo inmobiliario MORCAT"
+        src="desarrollo/render-01"
+        alt="Edificio residencial, desarrollo inmobiliario"
         class="h-full w-full object-cover"
         eager
         sizes="100vw"
         widths={[768, 1200, 1600, 2400]}
       />
     </div>
-    <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/55 to-navy-950/40" aria-hidden="true" />
+    <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/60 to-navy-950/40" aria-hidden="true" />
 
     <div class="wrap relative z-10 pb-20">
       <p class="eyebrow intro-item" style="animation-delay: .1s">Desarrollos inmobiliarios</p>
       <h1 class="display-xl mt-6 text-warm-50">
-        <span class="block intro-item" style="animation-delay: .2s">Desarrollos</span>
+        <span class="block intro-item" style="animation-delay: .2s">Edificios pensados</span>
         <span class="block intro-item" style="animation-delay: .3s">
-          <span class="serif-accent text-gold-500">inmobiliarios.</span>
+          <span class="serif-accent text-gold-500">para crecer en escala.</span>
         </span>
       </h1>
       <p class="intro-item mt-6 max-w-xl text-[15px] leading-relaxed text-mist-300 sm:text-base" style="animation-delay: .5s">
-        Proyectos inmobiliarios en Tierra del Fuego: actuales, futuros y
-        terminados.
+        Para quienes quieren desarrollar un edificio, un conjunto de viviendas o un proyecto
+        de mayor escala en Tierra del Fuego.
       </p>
       <div class="intro-item mt-9 flex flex-wrap gap-4" style="animation-delay: .6s">
-        <a href="#desarrollos" class="btn btn-gold">
-          Conocer desarrollos
-          <Icon name="arrow-down" class="btn-arrow h-4 w-4" />
-        </a>
-        <a href="/contacto" class="btn btn-ghost">
-          Contactar
+        <a href="/contacto" class="btn btn-gold">
+          Hablar de un desarrollo
           <Icon name="arrow-up-right" class="h-4 w-4" />
+        </a>
+        <a href="#tipos" class="btn btn-ghost">
+          Ver tipos de desarrollo
+          <Icon name="arrow-down" class="h-4 w-4" />
         </a>
       </div>
     </div>
   </section>
 
-  <!-- INTRO -->
-  <section class="relative bg-navy-900 py-20 sm:py-24">
+  <!-- TODO EN UNA SECCIÓN: QUÉ HACEMOS + TIPOS + VIDEOS -->
+  <section id="tipos" class="relative bg-navy-900 py-20 sm:py-28">
     <div class="wrap">
       <div class="max-w-3xl" data-reveal>
         <SectionHeader
           index="01"
-          eyebrow="La mirada"
+          eyebrow="Qué hacemos"
           title="Pensar la ciudad"
           accent="más austral del mundo."
-          description="Un desarrollo inmobiliario es mucho más que construir unidades: es pensar el barrio, los espacios comunes, la relación con el paisaje y cómo se va a vivir ahí."
+          description="Un desarrollo inmobiliario es más que levantar unidades: es pensar el edificio, los espacios comunes y la relación con el entorno fueguino. Trabajamos la definición del proyecto, la factibilidad y la obra con el mismo equipo de punta a punta."
         />
       </div>
-    </div>
-  </section>
 
-  <!-- PROYECTOS DE DESARROLLO -->
-  <section id="desarrollos" class="border-t border-warm-50/10 bg-navy-950 py-20 sm:py-28">
-    <div class="wrap">
-      <SectionHeader
-        index="02"
-        eyebrow="Proyectos"
-        title="En etapas de"
-        accent="definición."
-        description="Los desarrollos de MORCAT se publican a medida que avanzan: diseño, fundación, obra y entrega."
-      />
-
-      <div class="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-        {developments.map((project, i) => (
-          <ProjectCard project={project} delay={i * 100} />
+      <!-- Tipos de edificio -->
+      <div class="mt-14 grid gap-6 sm:grid-cols-3">
+        {BUILDING_TYPES.map((t, i) => (
+          <figure class="relative aspect-[4/3] overflow-hidden bg-navy-800" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
+            <MediaImage src={t.image} alt={t.label} class="h-full w-full object-cover" sizes="(min-width: 640px) 33vw, 100vw" />
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-transparent to-transparent" aria-hidden="true" />
+            <figcaption class="absolute bottom-4 left-4 right-4 text-[13px] font-bold uppercase tracking-[0.14em] text-warm-50">
+              {t.label}
+            </figcaption>
+          </figure>
         ))}
       </div>
 
-      <div class="mt-10 flex items-center gap-3" data-reveal>
-        <DemoBadge demo label="DESARROLLOS EN DEMO" />
-        <span class="text-[13px] text-mist-500">
-          Nombres, ubicaciones y estados provisorios hasta confirmar el portfolio real.
-        </span>
-      </div>
-    </div>
-  </section>
-
-  <!-- MATERIAL DEL PROYECTO (video + imágenes) -->
-  <section class="border-t border-warm-50/10 bg-navy-900 py-20 sm:py-28">
-    <div class="wrap">
-      <SectionHeader
-        index="03"
-        eyebrow="Material del proyecto"
-        title="El desarrollo"
-        accent="en imágenes."
-        description="Video e imágenes de referencia del proyecto en desarrollo. Material provisto por MORCAT."
-      />
-
-      <div class="grid gap-6 sm:grid-cols-2">
+      <!-- Obra en video -->
+      <div class="mt-14 grid gap-6 sm:grid-cols-2">
         <div data-reveal>
           <VideoPlayer
             video="desarrollo-obra"
             poster="posters/desarrollo-obra"
-            alt="Video del desarrollo inmobiliario en Tierra del Fuego"
-            caption="Desarrollo · video de referencia"
+            alt="Obra de un desarrollo inmobiliario en ejecución"
             aspect="aspect-[9/16]"
           />
         </div>
@@ -134,36 +112,11 @@ const DESCRIPTION =
           <VideoPlayer
             video="desarrollo-estructura"
             poster="posters/desarrollo-estructura"
-            alt="Detalle de estructura industrializada, video de referencia"
-            caption="Estructura · video de referencia"
+            alt="Estructura industrializada de un desarrollo en ejecución"
             aspect="aspect-[9/16]"
           />
         </div>
       </div>
-
-      <div class="mt-6 grid gap-4 sm:grid-cols-4">
-        {['desarrollo/render-02', 'desarrollo/render-03', 'desarrollo/volumetria', 'desarrollo/render-01'].map(
-          (src, i) => (
-            <figure
-              class="relative aspect-[4/3] overflow-hidden bg-navy-800"
-              data-reveal
-              style={`--reveal-delay: ${i * 80}ms`}
-            >
-              <MediaImage
-                src={src}
-                alt="Desarrollo inmobiliario MORCAT"
-                class="h-full w-full object-cover"
-                sizes="(min-width: 1024px) 22vw, (min-width: 640px) 25vw, 50vw"
-              />
-            </figure>
-          ),
-        )}
-      </div>
-
-      <p class="mt-8 flex items-center gap-3 text-[12px] text-mist-500" data-reveal>
-        <DemoBadge demo label="MATERIAL DE REFERENCIA" />
-        Imágenes y videos ilustrativos. No representan obras entregadas.
-      </p>
     </div>
   </section>
 
@@ -197,9 +150,9 @@ const DESCRIPTION =
   <section class="border-t border-warm-50/10 bg-navy-900 py-16">
     <div class="wrap flex flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-left">
       <div data-reveal>
-        <h2 class="display text-2xl text-warm-50 sm:text-3xl">¿Querés conocer un desarrollo?</h2>
+        <h2 class="display text-2xl text-warm-50 sm:text-3xl">¿Estás evaluando un desarrollo?</h2>
         <p class="mt-2 text-[14px] text-mist-400">
-          Consultanos por los proyectos vigentes y sus etapas.
+          Contanos la escala y el terreno, y lo evaluamos juntos.
         </p>
       </div>
       <a href="/contacto" class="btn btn-gold shrink-0" data-reveal>

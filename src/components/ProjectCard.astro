@@ -4,7 +4,6 @@
  */
 import type { Project } from '../data/projects';
 import MediaImage from './MediaImage.astro';
-import DemoBadge from './DemoBadge.astro';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -21,10 +20,6 @@ const { project, delay = 0, class: className = '' } = Astro.props;
     <div class="card-media aspect-[16/11]">
       <MediaImage src={project.gallery[0] ?? 'front'} alt={`Proyecto ${project.name} — ${project.location}`} class="h-full w-full object-cover" />
       <div class="absolute inset-0 bg-gradient-to-t from-navy-950/75 via-transparent to-transparent" aria-hidden="true" />
-
-      <div class="absolute left-4 top-4 flex flex-wrap items-center gap-2">
-        <DemoBadge demo={project.demo} />
-      </div>
 
       <div class="absolute bottom-4 left-4 right-4">
         <h3 class="display text-2xl text-warm-50">{project.name}</h3>

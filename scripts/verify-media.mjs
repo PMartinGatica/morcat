@@ -49,17 +49,17 @@ async function main() {
     console.log(`${pass ? 'OK  ' : 'FAIL'} asset ${a} → ${res.status}`);
   }
 
-  // La landing promo debe incluir los videos del showcase
+  // La landing promo: carrusel con al menos 1 video real, sin planos.
   const promo = await (await fetch(base + '/promo/viviendas-modulares')).text();
   const posters = (promo.match(/poster="/g) ?? []).length;
   const preloadNone = (promo.match(/preload="none"/g) ?? []).length;
   const checks = {
-    'promo: videos del showcase': (promo.match(/data-video-figure/g) ?? []).length >= 2,
-    'promo: hero con imagen real': promo.includes('cabana-andina'),
-    'promo: planos reales': promo.includes('plano-21') && promo.includes('plano-35'),
+    'promo: video del showcase': (promo.match(/data-video-figure/g) ?? []).length >= 1,
+    'promo: hero con imagen real': promo.includes('nordica-alpina'),
+    'promo: sin planos (se sacaron)': !promo.includes('plano-21') && !promo.includes('plano-35'),
     'promo: sin ilustraciones viejas': !promo.includes('ArchIllustration'),
-    'videos: poster optimizado': posters >= 2,
-    'videos: preload=none (no descargan solos)': preloadNone >= 2,
+    'videos: poster optimizado': posters >= 1,
+    'videos: preload=none (no descargan solos)': preloadNone >= 1,
   };
   for (const [k, v] of Object.entries(checks)) {
     console.log(`${v ? 'OK  ' : 'FAIL'} ${k}`);
