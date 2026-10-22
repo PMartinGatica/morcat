@@ -1,9 +1,11 @@
 ---
 /**
  * MORCAT — Showcase de la landing (video + fotos reales).
- * Videos silenciosos que se cargan solo al entrar en viewport,
- * con póster optimizado. Sin librerías externas.
+ * Carrusel de una sola vista: avanza solo y tiene flechas +
+ * puntos para pasar manual. Mezcla video(s) y fotos en el mismo
+ * orden en que vienen en la data. Sin librerías externas.
  */
+import Icon from '../Icon.astro';
 import VideoPlayer from '../VideoPlayer.astro';
 import MediaImage from '../MediaImage.astro';
 import type { Promo } from '../../data/promos';
@@ -13,6 +15,15 @@ interface Props {
 }
 
 const { showcase } = Astro.props;
+
+type Slide =
+  | { kind: 'video'; video: string; poster: string; alt: string }
+  | { kind: 'image'; src: string; alt: string };
+
+const slides: Slide[] = [
+  ...showcase.videos.map((v) => ({ kind: 'video' as const, ...v })),
+  ...showcase.images.map((src) => ({ kind: 'image' as const, src, alt: 'Vivienda modular MORCAT' })),
+];
 ---
 
 <section class="relative bg-navy-900 py-24 sm:py-32" aria-labelledby="showcase-title">
@@ -32,31 +43,117 @@ const { showcase } = Astro.props;
       </p>
     </div>
 
-    <!-- Videos -->
-    <div class="mt-12 grid gap-6 lg:grid-cols-2">
-      {showcase.videos.map((v, i) => (
-        <div class={showcase.videos.length === 1 ? 'lg:col-span-2 lg:max-w-xl' : ''} data-reveal style={`--reveal-delay: ${i * 100}ms`}>
-          <VideoPlayer
-            video={v.video}
-            poster={v.poster}
-            alt={v.alt}
-            aspect="aspect-video"
-          />
-        </div>
-      ))}
-    </div>
+    <!-- Carrusel -->
+    <div class="relative mt-12" data-carousel data-reveal>
+      <div class="relative aspect-[4/3] overflow-hidden bg-navy-800 sm:aspect-video" data-carousel-track>
+        {slides.map((s, i) => (
+          <div
+            class={`absolute inset-0 transition-opacity duration-700 ease-out ${i === 0 ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+            data-carousel-slide
+            aria-hidden={i === 0 ? 'false' : 'true'}
+          >
+            {s.kind === 'video' ? (
+              <VideoPlayer video={s.video} poster={s.poster} alt={s.alt} aspect="h-full" class="h-full" autoplayInView={false} />
+            ) : (
+              <MediaImage src={s.src} alt={s.alt} class="h-full w-full object-cover" sizes="(min-width: 640px) 80vw, 100vw" />
+            )}
+          </div>
+        ))}
+      </div>
 
-    <!-- Fotos -->
-    <div class="mt-6 grid gap-4 sm:grid-cols-3">
-      {showcase.images.map((src, i) => (
-        <figure
-          class={`relative overflow-hidden bg-navy-800 ${i === 0 ? 'sm:col-span-2 sm:row-span-2 aspect-[16/10]' : 'aspect-[4/3]'}`}
-          data-reveal
-          style={`--reveal-delay: ${i * 80}ms`}
-        >
-          <MediaImage src={src} alt="Vivienda modular MORCAT" class="h-full w-full object-cover" sizes="(min-width: 640px) 33vw, 100vw" />
-        </figure>
-      ))}
+      {slides.length > 1 && (
+        <>
+          <button
+            type="button"
+            data-carousel-prev
+            aria-label="Anterior"
+            class="absolute left-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-warm-50/20 bg-navy-950/60 text-warm-50 backdrop-blur-sm transition-colors hover:border-gold-500 hover:text-gold-400"
+          >
+            <Icon name="chevron-left" class="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            data-carousel-next
+            aria-label="Siguiente"
+            class="absolute right-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center border border-warm-50/20 bg-navy-950/60 text-warm-50 backdrop-blur-sm transition-colors hover:border-gold-500 hover:text-gold-400"
+          >
+            <Icon name="chevron-right" class="h-5 w-5" />
+          </button>
+
+          <div class="mt-5 flex items-center justify-center gap-2" data-carousel-dots>
+            {slides.map((_, i) => (
+              <button
+                type="button"
+                data-carousel-dot
+                aria-label={`Ir a la imagen ${i + 1}`}
+                class={`h-1.5 rounded-full transition-all duration-300 ${i === 0 ? 'w-6 bg-gold-500' : 'w-2 bg-warm-50/25'}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   </div>
 </section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-carousel]');
+  if (root) {
+    const slides = Array.from(root.querySelectorAll<HTMLElement>('[data-carousel-slide]'));
+    const dots = Array.from(root.querySelectorAll<HTMLElement>('[data-carousel-dot]'));
+    const prevBtn = root.querySelector<HTMLButtonElement>('[data-carousel-prev]');
+    const nextBtn = root.querySelector<HTMLButtonElement>('[data-carousel-next]');
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let index = 0;
+    let timer: number | undefined;
+
+    const show = (i: number) => {
+      index = (i + slides.length) % slides.length;
+      slides.forEach((slide, si) => {
+        const active = si === index;
+        slide.classList.toggle('opacity-100', active);
+        slide.classList.toggle('opacity-0', !active);
+        slide.classList.toggle('pointer-events-none', !active);
+        slide.setAttribute('aria-hidden', String(!active));
+        if (!active) slide.querySelector('video')?.pause();
+      });
+      dots.forEach((dot, di) => {
+        const active = di === index;
+        dot.classList.toggle('bg-gold-500', active);
+        dot.classList.toggle('w-6', active);
+        dot.classList.toggle('bg-warm-50/25', !active);
+        dot.classList.toggle('w-2', !active);
+      });
+    };
+
+    const restart = () => {
+      if (timer) window.clearInterval(timer);
+      if (!prefersReduced && slides.length > 1) {
+        timer = window.setInterval(() => show(index + 1), 6000);
+      }
+    };
+
+    prevBtn?.addEventListener('click', () => {
+      show(index - 1);
+      restart();
+    });
+    nextBtn?.addEventListener('click', () => {
+      show(index + 1);
+      restart();
+    });
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        show(i);
+        restart();
+      });
+    });
+
+    root.addEventListener('mouseenter', () => {
+      if (timer) window.clearInterval(timer);
+    });
+    root.addEventListener('mouseleave', () => restart());
+
+    restart();
+  }
+</script>
