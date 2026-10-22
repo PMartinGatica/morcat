@@ -114,18 +114,6 @@ export const CONSTRUCTION_MEDIA = {
   videoDuplex: 'exterior-duplex',
 } as const;
 
-/**
- * Detalles técnicos por sistema — PARA CARGAR CUANDO MORCAT
- * provea la información real (aislación, estructura,
- * revestimientos, fundaciones, eficiencia térmica, materiales).
- */
-export const SYSTEM_TECHNICAL_PLACEHOLDER: Record<string, string[]> = {
-  tradicional: ['Pendiente de carga técnica.'],
-  'steel-frame': ['Pendiente de carga técnica.'],
-  'wood-frame': ['Pendiente de carga técnica.'],
-  industrializado: ['Pendiente de carga técnica.'],
-};
-
 /** Líneas de negocio que se muestran en /construccion. */
 export interface ConstructionLine {
   title: string;
