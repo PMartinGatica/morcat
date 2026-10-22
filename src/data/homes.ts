@@ -6,13 +6,12 @@
  *  opciones de superficie. La página /viviendas-modulares y
  *  /viviendas-modulares/[slug] se generan desde esta lista.
  *
- *  ⚠️  ESTADO ACTUAL: FOTOS REALES DEL CLIENTE + DATOS PARCIALES.
+ *  ⚠️  ESTADO ACTUAL: FOTOS REALES DEL CLIENTE + PLANILLA DE MORCAT.
  *  - Las fotos salen de las carpetas del Drive de MORCAT
  *    (procesadas a src/assets/media/modelos/<slug>/).
- *  - Superficies, dormitorios y baños: solo se cargan los datos
- *    confirmados (nombres de archivo del cliente, planos y la
- *    reunión). Lo que falta queda sin definir y se muestra como
- *    "Consultar" hasta recibir la planilla de MORCAT.
+ *  - Códigos, superficies, dormitorios y baños salen de la planilla
+ *    "planilla-datos" de MORCAT (pestaña Modelos, 2026-10-21).
+ *    Un dato sin definir se muestra como "Consultar".
  *  - No hay precios. `demo: true` activa el indicador DEMO.
  * ============================================================
  */
@@ -21,6 +20,8 @@ export type HomeStatus = 'disponible' | 'nuevo' | 'consultar' | 'desarrollo';
 
 /** Una opción de superficie dentro de un modelo. */
 export interface HomeVariant {
+  /** Código de la planilla de MORCAT (A00, A01, B00…). */
+  code?: string;
   /** Superficie cubierta aproximada, en m². */
   surface: number;
   /** 0 = monoambiente. Sin definir = a confirmar. */
@@ -37,12 +38,8 @@ export interface HomeModel {
   name: string;
   /** Línea / serie comercial del modelo. */
   line: string;
-  /** Opciones de superficie confirmadas (vacío = a confirmar). */
+  /** Opciones de superficie (vacío = a confirmar). */
   variants: HomeVariant[];
-  /** Rango de superficie cuando todavía no hay opciones confirmadas. */
-  surfaceNote?: string;
-  /** Cantidad total de opciones según la planilla de MORCAT, si hay más que las confirmadas. */
-  optionsCount?: number;
   description: string;
   shortDescription: string;
   /** Clave de ilustración (demo) o ruta '/images/...' (foto real). */
@@ -71,11 +68,9 @@ export const HOMES: HomeModel[] = [
     name: 'Homero',
     line: 'Modular compacto',
     variants: [
-      { surface: 18, bedrooms: 0, bathrooms: 1, image: 'modelos/homero/homero-18' },
-      { surface: 21, bedrooms: 1, bathrooms: 1, image: 'modelos/homero/homero-21' },
-      { surface: 25, image: 'modelos/homero/homero-25' },
-      { surface: 28, image: 'modelos/homero/homero-28-noche' },
-      { surface: 30, image: 'modelos/homero/homero-30' },
+      { code: 'A00', surface: 18, bedrooms: 0, bathrooms: 1, image: 'modelos/homero/homero-18' },
+      { code: 'A01', surface: 21, bedrooms: 0, bathrooms: 1, image: 'modelos/homero/homero-21' },
+      { code: 'A02', surface: 28, bedrooms: 1, bathrooms: 1, image: 'modelos/homero/homero-28-noche' },
     ],
     description:
       'La línea modular compacta de MORCAT. Pensada para terrenos chicos, refugios de fin de semana, primera vivienda o alquiler. Todas las medidas comparten el mismo sistema industrializado: elegís el tamaño según tu terreno y el uso que le quieras dar.',
@@ -108,11 +103,11 @@ export const HOMES: HomeModel[] = [
     name: 'Nexa Austral',
     line: 'Línea Austral',
     variants: [
-      { surface: 33 },
-      { surface: 35, bedrooms: 1, bathrooms: 1 },
-      { surface: 49, bedrooms: 2 },
+      { code: 'A00', surface: 30, bedrooms: 1, bathrooms: 1 },
+      { code: 'A01', surface: 35, bedrooms: 1, bathrooms: 1 },
+      { code: 'A02', surface: 49, bedrooms: 2, bathrooms: 1 },
+      { code: 'A03', surface: 60, bedrooms: 3, bathrooms: 1 },
     ],
-    optionsCount: 4,
     description:
       'Vivienda modular de líneas simples con alero y deck de madera, disponible en distintas terminaciones: negra, blanca o roja. Pensada como vivienda principal, con opciones de superficie según lo que necesites.',
     shortDescription: 'Vivienda modular con deck y terminaciones a elección.',
@@ -140,9 +135,12 @@ export const HOMES: HomeModel[] = [
     slug: 'nordica-austral',
     name: 'Nórdica Austral',
     line: 'Línea Austral',
-    variants: [],
-    surfaceNote: 'De 30 a 49 m²',
-    optionsCount: 4,
+    variants: [
+      { code: 'A00', surface: 30, bedrooms: 1, bathrooms: 1 },
+      { code: 'A01', surface: 35, bedrooms: 1, bathrooms: 1 },
+      { code: 'A02', surface: 49, bedrooms: 2, bathrooms: 1 },
+      { code: 'A03', surface: 60, bedrooms: 3, bathrooms: 1 },
+    ],
     description:
       'Diseño de inspiración nórdica con grandes ventanales para aprovechar la luz y el paisaje del sur. La línea crece en superficie manteniendo el mismo diseño.',
     shortDescription: 'Inspiración nórdica, grandes ventanales y mucha luz.',
@@ -170,8 +168,12 @@ export const HOMES: HomeModel[] = [
     slug: 'duplex-austral',
     name: 'Dúplex Austral',
     line: 'Dúplex industrializado',
-    variants: [],
-    optionsCount: 4,
+    variants: [
+      { code: 'A01', surface: 53, bedrooms: 2, bathrooms: 1 },
+      { code: 'A02', surface: 57.7, bedrooms: 2, bathrooms: 1 },
+      { code: 'A03', surface: 67, bedrooms: 2, bathrooms: 2 },
+      { code: 'A04', surface: 76, bedrooms: 3, bathrooms: 2 },
+    ],
     description:
       'Vivienda en dos plantas con sistema industrializado: más superficie en el mismo lote. Ideal para familias o para quienes quieren separar las áreas sociales de los dormitorios.',
     shortDescription: 'Dúplex industrializado en dos plantas.',
@@ -200,10 +202,12 @@ export const HOMES: HomeModel[] = [
     slug: 'duplex-beagle',
     name: 'Dúplex Beagle',
     line: 'Dúplex industrializado',
-    variants: [{ surface: 86.3, bedrooms: 2, bathrooms: 2 }],
-    optionsCount: 2,
+    variants: [
+      { code: 'A00', surface: 66, bedrooms: 2, bathrooms: 1 },
+      { code: 'A01', surface: 80, bedrooms: 3, bathrooms: 2 },
+    ],
     description:
-      'Dúplex industrializado de líneas contemporáneas, con volúmenes en chapa negra y madera. La distribución de referencia incluye dos dormitorios —uno en suite—, dos baños, estar y cocina.',
+      'Dúplex industrializado de líneas contemporáneas, con volúmenes en chapa negra y madera. Pensado para familias que necesitan más dormitorios sin ocupar todo el lote.',
     shortDescription: 'Dúplex contemporáneo en chapa negra y madera.',
     coverImage: 'modelos/duplex-beagle/beagle-negra',
     gallery: photos('duplex-beagle', [
@@ -220,8 +224,8 @@ export const HOMES: HomeModel[] = [
       'beagle-corte',
       'beagle-corte-02',
     ]),
-    floorPlans: ['modulares/plano-referencia'],
-    features: [...BASE_FEATURES, 'Dormitorio en suite', 'Dos baños'],
+    floorPlans: [],
+    features: [...BASE_FEATURES, 'Dos plantas', 'Hasta 3 dormitorios'],
     status: 'consultar',
     featured: false,
     demo: true,
@@ -231,8 +235,11 @@ export const HOMES: HomeModel[] = [
     slug: 'american-small-family',
     name: 'American Small Family',
     line: 'Modular',
-    variants: [],
-    optionsCount: 3,
+    variants: [
+      { code: 'B00', surface: 35, bedrooms: 1, bathrooms: 1 },
+      { code: 'B01', surface: 49, bedrooms: 2, bathrooms: 1 },
+      { code: 'B02', surface: 65, bedrooms: 3, bathrooms: 1 },
+    ],
     description:
       'Vivienda modular de estilo americano pensada para familias chicas, con techo a dos aguas y estructura industrializada.',
     shortDescription: 'Vivienda modular para familias chicas.',
@@ -254,7 +261,7 @@ export const HOMES: HomeModel[] = [
     slug: 'cabana-del-bosque',
     name: 'Cabaña del Bosque',
     line: 'Modular',
-    variants: [],
+    variants: [{ surface: 30, bedrooms: 1, bathrooms: 1 }],
     description:
       'Cabañas modulares pensadas para el bosque: desde volúmenes simples con deck hasta diseños a dos aguas. Una opción para refugio, turismo o complejos de cabañas.',
     shortDescription: 'Cabañas modulares para el bosque y el turismo.',
@@ -280,7 +287,7 @@ export const HOMES: HomeModel[] = [
     slug: 'modulo-scandinavian',
     name: 'Módulo Scandinavian',
     line: 'Modular',
-    variants: [],
+    variants: [{ surface: 31, bedrooms: 1, bathrooms: 1 }],
     description:
       'Módulo de estilo escandinavo que combina chapa negra con revestimiento claro. Líneas simples y volumen compacto.',
     shortDescription: 'Módulo de estilo escandinavo.',
@@ -297,7 +304,7 @@ export const HOMES: HomeModel[] = [
     slug: 'modulo-yamanas',
     name: 'Módulo Yámanas',
     line: 'Modular',
-    variants: [],
+    variants: [{ surface: 28, bedrooms: 1, bathrooms: 1 }],
     description:
       'Módulo de líneas simples con galería de madera, pensado para vivienda o refugio.',
     shortDescription: 'Módulo con galería de madera.',
@@ -314,7 +321,7 @@ export const HOMES: HomeModel[] = [
     slug: 'modulo-kuar',
     name: 'Módulo Kuar',
     line: 'Modular',
-    variants: [],
+    variants: [{ surface: 32, bedrooms: 1, bathrooms: 1 }],
     description:
       'Módulo con techo a un agua, grandes aberturas y deck de madera.',
     shortDescription: 'Módulo con techo a un agua y deck.',
@@ -338,18 +345,13 @@ export function surfaceLabel(m2: number): string {
   return `${m2.toLocaleString('es-AR')} m²`;
 }
 
-/** Rango de superficies del modelo ("18 a 30 m²"), o "Consultar". */
-export function surfacesLabel(model: Pick<HomeModel, 'variants' | 'surfaceNote'>): string {
+/** Rango de superficies del modelo ("18 a 28 m²"), o "Consultar". */
+export function surfacesLabel(model: Pick<HomeModel, 'variants'>): string {
   const surfaces = model.variants.map((v) => v.surface).sort((a, b) => a - b);
-  if (surfaces.length === 0) return model.surfaceNote ?? 'Consultar';
+  if (surfaces.length === 0) return 'Consultar';
   const min = surfaces[0];
   const max = surfaces[surfaces.length - 1];
   return min === max ? surfaceLabel(min) : `${min.toLocaleString('es-AR')} a ${surfaceLabel(max)}`;
-}
-
-/** Cantidad total de opciones del modelo (planilla o medidas confirmadas). */
-export function optionsTotal(model: Pick<HomeModel, 'variants' | 'optionsCount'>): number {
-  return Math.max(model.optionsCount ?? 0, model.variants.length);
 }
 
 /** Dormitorios para mostrar: 0 = monoambiente, sin dato = consultar. */

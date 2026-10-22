@@ -124,8 +124,10 @@ JPG de 1800 px de ancho.
 - El nombre de archivo del cliente indica el modelo (y en Homero, la medida:
   `HOMERO-18`, `HOMERO-21`…). **Ojo:** al volver a descargar del Drive, los
   sufijos `(1)`, `(2)`… pueden cambiar de foto; verificar visualmente.
-- Medidas, dormitorios y baños se cargan en `src/data/homes.ts` (`variants`).
-  Lo que no está confirmado queda vacío y la página muestra "Consultar".
+- Códigos, medidas, dormitorios y baños se cargan en `src/data/homes.ts`
+  (`variants`) desde la planilla de MORCAT (pestaña Modelos). Un dato vacío
+  se muestra como "Consultar".
 - Planos usados: `modulares/plano-21` (Homero 21 m²), `nordicas/plano-35`
-  (Nexa 35 m²), `modelos/nordica-austral/nordica-plano` y
-  `modulares/plano-referencia` (Dúplex Beagle, 86,30 m² según su PDF).
+  (Nexa 35 m²) y `modelos/nordica-austral/nordica-plano`. El plano de 86,30 m²
+  del PDF "DUPLEX BEAGLE" no coincide con las medidas de la planilla (66 y
+  80 m²), así que no se usa.
