@@ -7,18 +7,15 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import HomeModelCard from '../components/HomeModelCard.astro';
-import ProjectCard from '../components/ProjectCard.astro';
 import ConstructionProcess from '../components/ConstructionProcess.astro';
 import WhatsAppCTA from '../components/WhatsAppCTA.astro';
 import Icon from '../components/Icon.astro';
 import MediaImage from '../components/MediaImage.astro';
 import MetricsStrip from '../components/MetricsStrip.astro';
 import { HOMES } from '../data/homes';
-import { PROJECTS } from '../data/projects';
 import { CONSTRUCTION_SYSTEMS } from '../data/construction';
 
 const featuredHomes = HOMES.filter((h) => h.featured).slice(0, 3);
-const featuredProjects = PROJECTS.filter((p) => p.featured).slice(0, 3);
 
 const AREAS = [
   {
@@ -238,32 +235,6 @@ const DESCRIPTION =
             <h3 class="display mt-6 text-lg text-warm-50">{sys.name}</h3>
             <p class="mt-4 text-[13px] leading-relaxed text-mist-400">{sys.description}</p>
           </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ 06 · PROYECTOS ============ -->
-  <section class="relative bg-navy-900 py-24 sm:py-32" aria-labelledby="proyectos">
-    <div class="wrap">
-      <div class="flex flex-wrap items-end justify-between gap-6">
-        <SectionHeader
-          index="05"
-          eyebrow="Portfolio"
-          title="Proyectos que"
-          accent="toman forma."
-          description="Obras terminadas, en ejecución y proyectos futuros en Tierra del Fuego."
-          class="max-w-2xl"
-        />
-        <a href="/proyectos" class="btn btn-ghost mb-1" data-reveal>
-          Ver proyectos
-          <Icon name="arrow-right" class="btn-arrow h-4 w-4" />
-        </a>
-      </div>
-
-      <div class="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-        {featuredProjects.map((project, i) => (
-          <ProjectCard project={project} delay={i * 100} />
         ))}
       </div>
     </div>
