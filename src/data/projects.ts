@@ -47,7 +47,7 @@ export const PROJECTS: Project[] = [
     type: 'Casa',
     status: 'Proyecto',
     description:
-      'Vivienda individual de diseño propio entre árboles de lenga, pensada para integrarse al bosque con una huella mínima. El proyecto se encuentra en etapa de definición y presupuesto.',
+      'Vivienda individual de diseño propio entre árboles de lenga, pensada para integrarse al bosque con una huella mínima.',
     gallery: ['modulares/cabana-andina'],
     completion: null,
     surface: null,
@@ -62,7 +62,7 @@ export const PROJECTS: Project[] = [
     type: 'Dúplex',
     status: 'En obra',
     description:
-      'Dúplex de dos unidades en altura, con accesos independientes. Actualmente en ejecución; se publicarán fotos de avance de obra cuando estén disponibles.',
+      'Dúplex de dos unidades en altura, con accesos independientes.',
     gallery: ['duplex/duplex-austral'],
     completion: 40,
     surface: null,
