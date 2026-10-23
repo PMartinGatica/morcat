@@ -69,10 +69,9 @@ const DESCRIPTION =
         <Icon name="clock" class="h-6 w-6 text-gold-500" />
         <h2 class="display mt-5 text-lg text-warm-50">Horario</h2>
         <p class="mt-3 text-[14px] leading-relaxed text-mist-400">
-          Lunes a viernes
+          Lunes a viernes · {SITE.openingHours}
           <br />
-          {SITE.openingHours}
-          <span class="block text-[12px] text-mist-500">Horario publicado</span>
+          Sábados · {SITE.openingHoursSaturday}
         </p>
       </div>
       <div class="border border-warm-50/12 bg-navy-800/50 p-7" data-reveal style="--reveal-delay: 180ms">
@@ -88,6 +87,19 @@ const DESCRIPTION =
           >
             {SITE.instagramHandle}
           </a>
+          {SITE.facebook && (
+            <>
+              {' '}y en{' '}
+              <a
+                href={SITE.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-1 inline-block py-2 font-semibold text-gold-400 hover:text-gold-300"
+              >
+                Facebook
+              </a>
+            </>
+          )}
         </p>
       </div>
     </div>

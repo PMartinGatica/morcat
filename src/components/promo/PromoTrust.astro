@@ -42,9 +42,13 @@ const { trustSection } = Astro.props;
           <Icon name="map-pin" class="h-4 w-4 shrink-0 text-gold-500" />
           {SITE.address}
         </li>
-        <li class="flex items-center gap-3">
-          <Icon name="clock" class="h-4 w-4 shrink-0 text-gold-500" />
-          Lun a Vie · {SITE.openingHours}
+        <li class="flex items-start gap-3">
+          <Icon name="clock" class="mt-0.5 h-4 w-4 shrink-0 text-gold-500" />
+          <span>
+            Lun a Vie · {SITE.openingHours}
+            <br />
+            Sáb · {SITE.openingHoursSaturday}
+          </span>
         </li>
         <li class="flex items-center gap-3">
           <Icon name="instagram" class="h-4 w-4 shrink-0 text-gold-500" />
