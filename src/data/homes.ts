@@ -28,6 +28,8 @@ export interface HomeVariant {
   bathrooms?: number;
   /** Foto de referencia de esa medida. */
   image?: string;
+  /** Fotos adicionales de esa medida (se muestran en carrusel junto a `image`). */
+  images?: string[];
 }
 
 export interface HomeModel {
@@ -69,7 +71,14 @@ export const HOMES: HomeModel[] = [
       { code: 'A00', surface: 18, bedrooms: 0, bathrooms: 1, image: 'modelos/homero/homero-18' },
       { code: 'A01', surface: 21, bedrooms: 0, bathrooms: 1, image: 'modelos/homero/homero-21' },
       { code: 'A01B', surface: 24.5, bedrooms: 1, bathrooms: 1, image: 'modelos/homero/homero-25' },
-      { code: 'A02', surface: 28, bedrooms: 1, bathrooms: 1, image: 'modelos/homero/homero-28-noche' },
+      {
+        code: 'A02',
+        surface: 28,
+        bedrooms: 1,
+        bathrooms: 1,
+        image: 'modelos/homero/homero-28-noche',
+        images: ['modelos/homero/homero-28-noche', 'modelos/homero/homero-28-planta'],
+      },
     ],
     description:
       'La línea modular compacta de MORCAT. Pensada para terrenos chicos, refugios de fin de semana, primera vivienda o alquiler. Todas las medidas comparten el mismo sistema industrializado: elegís el tamaño según tu terreno y el uso que le quieras dar.',
