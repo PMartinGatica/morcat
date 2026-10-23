@@ -6,7 +6,7 @@
 
 @import "@fontsource-variable/archivo/standard.css";
 @import "@fontsource-variable/fraunces/standard-italic.css";
-@import "@fontsource/anton";
+@import "@fontsource-variable/orbitron";
 @import "tailwindcss";
 
 @theme {
@@ -38,7 +38,7 @@
 
   /* --- Tipografía --- */
   --font-sans: "Archivo Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Anton", "Archivo Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Orbitron Variable", "Archivo Variable", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Fraunces Variable", Georgia, "Times New Roman", serif;
 
   /* --- Easing --- */
@@ -113,27 +113,29 @@ body {
     @apply mx-auto w-full max-w-[1360px] px-5 sm:px-8 lg:px-12;
   }
 
-  /* Tipografía display */
+  /* Tipografía display — Orbitron: geométrica, de C/O cuadradas
+     (pedido puntual del cliente con referencia a mano), abierta y
+     pensada para que se lea bien a distancia y para gente mayor.
+     Nada de tracking negativo: las letras no se pegan. */
   .display {
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.005em;
-    line-height: 0.94;
+    letter-spacing: 0;
+    line-height: 1;
   }
 
   .display-xl {
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.005em;
-    line-height: 0.92;
-    /* El piso anterior (2.6rem) no bajaba lo suficiente en celulares
-       angostos: palabras largas sin espacios ("Construyendo",
-       "Desarrollos", "CONSTRUCTORA") no entraban en el ancho
-       disponible y quedaban cortadas. Medido con navegador real
-       hasta 300px de ancho — ver conversación del 2026-09-28. */
-    font-size: clamp(1.5rem, 8.2vw, 6.5rem);
+    letter-spacing: 0;
+    line-height: 1;
+    /* El título ocupa el ancho de pantalla en mobile (pedido del
+       cliente: que se vea grande y bien legible). Orbitron es más
+       ancha que Archivo Black: vw más bajo para no desbordar.
+       Medido con navegador real hasta 300px de ancho. */
+    font-size: clamp(1.6rem, 8vw, 6.2rem);
   }
 
   /* Acento editorial en serif itálica */
