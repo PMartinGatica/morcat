@@ -6,6 +6,7 @@
 
 @import "@fontsource-variable/archivo/standard.css";
 @import "@fontsource-variable/fraunces/standard-italic.css";
+@import "@fontsource/anton";
 @import "tailwindcss";
 
 @theme {
@@ -37,7 +38,7 @@
 
   /* --- Tipografía --- */
   --font-sans: "Archivo Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Archivo Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Anton", "Archivo Variable", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Fraunces Variable", Georgia, "Times New Roman", serif;
 
   /* --- Easing --- */
@@ -115,19 +116,17 @@ body {
   /* Tipografía display */
   .display {
     font-family: var(--font-display);
-    font-weight: 800;
-    font-stretch: 118%;
+    font-weight: 400;
     text-transform: uppercase;
-    letter-spacing: -0.015em;
+    letter-spacing: 0.005em;
     line-height: 0.94;
   }
 
   .display-xl {
     font-family: var(--font-display);
-    font-weight: 800;
-    font-stretch: 118%;
+    font-weight: 400;
     text-transform: uppercase;
-    letter-spacing: -0.015em;
+    letter-spacing: 0.005em;
     line-height: 0.92;
     /* El piso anterior (2.6rem) no bajaba lo suficiente en celulares
        angostos: palabras largas sin espacios ("Construyendo",
