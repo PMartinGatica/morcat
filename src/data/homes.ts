@@ -69,7 +69,14 @@ export const HOMES: HomeModel[] = [
     line: 'Modular compacto',
     variants: [
       { code: 'A00', surface: 18, bedrooms: 0, bathrooms: 1, image: 'modelos/homero/homero-18' },
-      { code: 'A01', surface: 21, bedrooms: 0, bathrooms: 1, image: 'modelos/homero/homero-21' },
+      {
+        code: 'A01',
+        surface: 21,
+        bedrooms: 0,
+        bathrooms: 1,
+        image: 'modelos/homero/homero-21-parrilla',
+        images: ['modelos/homero/homero-21-parrilla', 'modelos/homero/homero-21'],
+      },
       { code: 'A01B', surface: 24.5, bedrooms: 1, bathrooms: 1, image: 'modelos/homero/homero-25' },
       {
         code: 'A02',
@@ -88,6 +95,7 @@ export const HOMES: HomeModel[] = [
       'homero-28-noche',
       'homero-18',
       'homero-18-piedra',
+      'homero-21-parrilla',
       'homero-21',
       'homero-21-bosque',
       'homero-21-negra',
