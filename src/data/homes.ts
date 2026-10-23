@@ -349,12 +349,20 @@ export const HOMES: HomeModel[] = [
     slug: 'modulo-kuar',
     name: 'Módulo Kuar',
     line: 'Modular',
-    variants: [{ surface: 32, bedrooms: 2, bathrooms: 1 }],
+    variants: [
+      {
+        surface: 32,
+        bedrooms: 2,
+        bathrooms: 1,
+        image: 'modelos/modulo-kuar/kuar-nocturno',
+        images: ['modelos/modulo-kuar/kuar-nocturno', 'modelos/modulo-kuar/kuar-plano'],
+      },
+    ],
     description:
       'Módulo con techo a dos aguas, grandes aberturas y deck de madera. Dos dormitorios, baño, estar comedor y cocina integrados.',
     shortDescription: 'Módulo de 2 dormitorios con deck.',
     coverImage: 'modelos/modulo-kuar/kuar-exterior',
-    gallery: photos('modulo-kuar', ['kuar-exterior', 'kuar-plano']),
+    gallery: photos('modulo-kuar', ['kuar-nocturno', 'kuar-exterior', 'kuar-plano']),
     floorPlans: [],
     features: [...BASE_FEATURES, 'Grandes aberturas'],
     status: 'consultar',
