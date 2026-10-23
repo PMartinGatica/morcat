@@ -237,7 +237,7 @@ export const PROMOS: Promo[] = [
       images: [
         'modelos/homero/homero-28-noche',
         'modelos/nexa-austral/nexa-interior',
-        'modelos/modulo-kuar/kuar-deck',
+        'modelos/modulo-kuar/kuar-exterior',
       ],
     },
 
