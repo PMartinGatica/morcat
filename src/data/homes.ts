@@ -258,6 +258,10 @@ export const HOMES: HomeModel[] = [
         bedrooms: 1,
         bathrooms: 1,
         image: 'modelos/american-small-family/american-35-detalle',
+        images: [
+          'modelos/american-small-family/american-35-detalle',
+          'modelos/american-small-family/american-35-elevada',
+        ],
       },
       { code: 'B01', surface: 49, bedrooms: 2, bathrooms: 1 },
       { code: 'B02', surface: 65, bedrooms: 3, bathrooms: 1 },
@@ -272,6 +276,7 @@ export const HOMES: HomeModel[] = [
       'american-pilotes',
       'american-estructura',
       'american-35-detalle',
+      'american-35-elevada',
     ]),
     floorPlans: [],
     features: [...BASE_FEATURES, 'Techo a dos aguas'],
