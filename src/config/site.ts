@@ -24,7 +24,7 @@ export const SITE = {
   /** Redes sociales. */
   instagram: 'https://www.instagram.com/_morcat',
   instagramHandle: '@_morcat',
-  facebook: 'https://www.facebook.com/morcatt?locale=es_LA' as string | null,
+  facebook: 'https://www.facebook.com/morcatt/?locale=es_LA' as string | null,
 
   /**
    * WhatsApp — número oficial de MORCAT. Formato internacional sin

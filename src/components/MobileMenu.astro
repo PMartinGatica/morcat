@@ -58,6 +58,17 @@ const { items } = Astro.props;
         <Icon name="instagram" class="h-4 w-4" />
         {SITE.instagramHandle}
       </a>
+      {SITE.facebook && (
+        <a
+          href={SITE.facebook}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="-my-2 inline-flex items-center gap-2 py-2 text-[13px] font-medium text-warm-50 transition-colors hover:text-gold-400"
+        >
+          <Icon name="facebook" class="h-4 w-4" />
+          Facebook
+        </a>
+      )}
       <a
         href="/contacto"
         class="-my-2 inline-flex items-center gap-2 py-2 text-[13px] font-medium text-warm-50 transition-colors hover:text-gold-400"
